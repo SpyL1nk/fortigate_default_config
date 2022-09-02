@@ -1,0 +1,1266 @@
+config system interface
+    edit "dmz"
+        set vdom "root"
+        set ip 10.10.10.1 255.255.255.0
+        set allowaccess ping https http fgfm fabric
+        set type physical
+        set role dmz
+        set snmp-index 1
+    next
+    edit "mgmt"
+        set vdom "root"
+        set ip 192.168.1.99 255.255.255.0
+        set allowaccess ping https ssh http fgfm
+        set type physical
+        set dedicated-to management
+        set role lan
+        set snmp-index 2
+    next
+    edit "wan1"
+        set vdom "root"
+        set mode dhcp
+        set allowaccess ping fgfm
+        set type physical
+        set role wan
+        set snmp-index 3
+    next
+    edit "wan2"
+        set vdom "root"
+        set mode dhcp
+        set allowaccess ping fgfm
+        set type physical
+        set role wan
+        set snmp-index 4
+    next
+    edit "ha1"
+        set vdom "root"
+        set type physical
+        set snmp-index 5
+    next
+    edit "ha2"
+        set vdom "root"
+        set type physical
+        set snmp-index 6
+    next
+    edit "modem"
+        set vdom "root"
+        set mode pppoe
+        set type physical
+        set snmp-index 7
+    next
+    edit "ssl.root"
+        set vdom "root"
+        set type tunnel
+        set alias "SSL VPN interface"
+        set snmp-index 8
+    next
+    edit "lan"
+        set vdom "root"
+        set ip 192.168.100.99 255.255.255.0
+        set allowaccess ping https http fgfm fabric
+        set type hard-switch
+        set stp enable
+        set role lan
+        set snmp-index 9
+    next
+    edit "fortilink"
+        set vdom "root"
+        set ip 169.254.1.1 255.255.255.0
+        set allowaccess ping fabric
+        set type aggregate
+        set lldp-reception enable
+        set lldp-transmission enable
+        set snmp-index 10
+    next
+end
+config system admin
+    edit "admin"
+        set accprofile "super_admin"
+        set vdom "root"
+    next
+end
+config system object-tagging
+    edit "default"
+    next
+end
+config system settings
+end
+config system replacemsg-group
+    edit "default"
+        set comment "Default replacement message group."
+    next
+end
+config system dhcp server
+    edit 1
+        set dns-service default
+        set default-gateway 192.168.100.99
+        set netmask 255.255.255.0
+        set interface "lan"
+        config ip-range
+            edit 1
+                set start-ip 192.168.100.110
+                set end-ip 192.168.100.210
+            next
+        end
+    next
+    edit 2
+        set dns-service default
+        set default-gateway 192.168.1.99
+        set netmask 255.255.255.0
+        set interface "mgmt"
+        config ip-range
+            edit 1
+                set start-ip 192.168.1.110
+                set end-ip 192.168.1.210
+            next
+        end
+    next
+    edit 3
+        set ntp-service local
+        set default-gateway 169.254.1.1
+        set netmask 255.255.255.0
+        set interface "fortilink"
+        config ip-range
+            edit 1
+                set start-ip 169.254.1.2
+                set end-ip 169.254.1.254
+            next
+        end
+        set vci-match enable
+        set vci-string "FortiSwitch" "FortiExtender"
+    next
+end
+config firewall address
+    edit "none"
+        set uuid 1efa5e00-1d57-51ea-53cc-9d558aeb1f32
+        set subnet 0.0.0.0 255.255.255.255
+    next
+    edit "login.microsoftonline.com"
+        set uuid 1efa8af6-1d57-51ea-92aa-a31c735c35e7
+        set type fqdn
+        set fqdn "login.microsoftonline.com"
+    next
+    edit "login.microsoft.com"
+        set uuid 1efab882-1d57-51ea-c43e-736d137ad0d1
+        set type fqdn
+        set fqdn "login.microsoft.com"
+    next
+    edit "login.windows.net"
+        set uuid 1efae000-1d57-51ea-c3d5-f3beb834ce2e
+        set type fqdn
+        set fqdn "login.windows.net"
+    next
+    edit "gmail.com"
+        set uuid 1efb06e8-1d57-51ea-e635-db1abba06782
+        set type fqdn
+        set fqdn "gmail.com"
+    next
+    edit "wildcard.google.com"
+        set uuid 1efb2f92-1d57-51ea-8666-176b3df81eb7
+        set type fqdn
+        set fqdn "*.google.com"
+    next
+    edit "wildcard.dropbox.com"
+        set uuid 1efb7d44-1d57-51ea-70a0-1ee8fb2a3912
+        set type fqdn
+        set fqdn "*.dropbox.com"
+    next
+    edit "all"
+        set uuid 1f54e640-1d57-51ea-ab96-a166d225af25
+    next
+    edit "FIREWALL_AUTH_PORTAL_ADDRESS"
+        set uuid 1f54f752-1d57-51ea-c2f6-81ae3a575a6b
+        set visibility disable
+    next
+    edit "FABRIC_DEVICE"
+        set uuid 1f550616-1d57-51ea-a15e-bfd9e78d1435
+        set comment "IPv4 addresses of Fabric Devices."
+    next
+    edit "SSLVPN_TUNNEL_ADDR1"
+        set uuid 1f5a5f6c-1d57-51ea-c368-aeb6ac8428b9
+        set type iprange
+        set associated-interface "ssl.root"
+        set start-ip 10.212.134.200
+        set end-ip 10.212.134.210
+    next
+    edit "dmz"
+        set uuid 306267e6-1d57-51ea-cbb8-ebe874350546
+        set type interface-subnet
+        set subnet 10.10.10.1 255.255.255.0
+        set interface "dmz"
+    next
+    edit "lan"
+        set uuid 3063288e-1d57-51ea-fd23-1aaa53468eb2
+        set type interface-subnet
+        set subnet 192.168.100.99 255.255.255.0
+        set interface "lan"
+    next
+end
+config firewall address6
+    edit "SSLVPN_TUNNEL_IPv6_ADDR1"
+        set uuid 1f5a7ae2-1d57-51ea-10d9-7dbc81ea4657
+        set ip6 fdff:ffff::/120
+    next
+    edit "all"
+        set uuid 1efc40ee-1d57-51ea-a851-5f225e1ab938
+    next
+    edit "none"
+        set uuid 1efc616e-1d57-51ea-3611-74b16fa956a0
+        set ip6 ::/128
+    next
+end
+config firewall addrgrp
+    edit "G Suite"
+        set uuid 1efbbb92-1d57-51ea-2e0f-8d6b860a02b2
+        set member "gmail.com" "wildcard.google.com"
+    next
+    edit "Microsoft Office 365"
+        set uuid 1efbf5bc-1d57-51ea-0bf6-fd0717931cd9
+        set member "login.microsoftonline.com" "login.microsoft.com" "login.windows.net"
+    next
+end
+config firewall service category
+    edit "General"
+        set comment "General services."
+    next
+    edit "Web Access"
+        set comment "Web access."
+    next
+    edit "File Access"
+        set comment "File access."
+    next
+    edit "Email"
+        set comment "Email services."
+    next
+    edit "Network Services"
+        set comment "Network services."
+    next
+    edit "Authentication"
+        set comment "Authentication service."
+    next
+    edit "Remote Access"
+        set comment "Remote access."
+    next
+    edit "Tunneling"
+        set comment "Tunneling service."
+    next
+    edit "VoIP, Messaging & Other Applications"
+        set comment "VoIP, messaging, and other applications."
+    next
+    edit "Web Proxy"
+        set comment "Explicit web proxy."
+    next
+end
+config firewall service custom
+    edit "DNS"
+        set category "Network Services"
+        set tcp-portrange 53
+        set udp-portrange 53
+    next
+    edit "HTTP"
+        set category "Web Access"
+        set tcp-portrange 80
+    next
+    edit "HTTPS"
+        set category "Web Access"
+        set tcp-portrange 443
+    next
+    edit "IMAP"
+        set category "Email"
+        set tcp-portrange 143
+    next
+    edit "IMAPS"
+        set category "Email"
+        set tcp-portrange 993
+    next
+    edit "LDAP"
+        set category "Authentication"
+        set tcp-portrange 389
+    next
+    edit "DCE-RPC"
+        set category "Remote Access"
+        set tcp-portrange 135
+        set udp-portrange 135
+    next
+    edit "POP3"
+        set category "Email"
+        set tcp-portrange 110
+    next
+    edit "POP3S"
+        set category "Email"
+        set tcp-portrange 995
+    next
+    edit "SAMBA"
+        set category "File Access"
+        set tcp-portrange 139
+    next
+    edit "SMTP"
+        set category "Email"
+        set tcp-portrange 25
+    next
+    edit "SMTPS"
+        set category "Email"
+        set tcp-portrange 465
+    next
+    edit "KERBEROS"
+        set category "Authentication"
+        set tcp-portrange 88 464
+        set udp-portrange 88 464
+    next
+    edit "LDAP_UDP"
+        set category "Authentication"
+        set udp-portrange 389
+    next
+    edit "SMB"
+        set category "File Access"
+        set tcp-portrange 445
+    next
+    edit "ALL"
+        set category "General"
+        set protocol IP
+    next
+    edit "ALL_TCP"
+        set category "General"
+        set tcp-portrange 1-65535
+    next
+    edit "ALL_UDP"
+        set category "General"
+        set udp-portrange 1-65535
+    next
+    edit "ALL_ICMP"
+        set category "General"
+        set protocol ICMP
+        unset icmptype
+    next
+    edit "ALL_ICMP6"
+        set category "General"
+        set protocol ICMP6
+        unset icmptype
+    next
+    edit "GRE"
+        set category "Tunneling"
+        set protocol IP
+        set protocol-number 47
+    next
+    edit "AH"
+        set category "Tunneling"
+        set protocol IP
+        set protocol-number 51
+    next
+    edit "ESP"
+        set category "Tunneling"
+        set protocol IP
+        set protocol-number 50
+    next
+    edit "AOL"
+        set visibility disable
+        set tcp-portrange 5190-5194
+    next
+    edit "BGP"
+        set category "Network Services"
+        set tcp-portrange 179
+    next
+    edit "DHCP"
+        set category "Network Services"
+        set udp-portrange 67-68
+    next
+    edit "FINGER"
+        set visibility disable
+        set tcp-portrange 79
+    next
+    edit "FTP"
+        set category "File Access"
+        set tcp-portrange 21
+    next
+    edit "FTP_GET"
+        set category "File Access"
+        set tcp-portrange 21
+    next
+    edit "FTP_PUT"
+        set category "File Access"
+        set tcp-portrange 21
+    next
+    edit "GOPHER"
+        set visibility disable
+        set tcp-portrange 70
+    next
+    edit "H323"
+        set category "VoIP, Messaging & Other Applications"
+        set tcp-portrange 1720 1503
+        set udp-portrange 1719
+    next
+    edit "IKE"
+        set category "Tunneling"
+        set udp-portrange 500 4500
+    next
+    edit "Internet-Locator-Service"
+        set visibility disable
+        set tcp-portrange 389
+    next
+    edit "IRC"
+        set category "VoIP, Messaging & Other Applications"
+        set tcp-portrange 6660-6669
+    next
+    edit "L2TP"
+        set category "Tunneling"
+        set tcp-portrange 1701
+        set udp-portrange 1701
+    next
+    edit "NetMeeting"
+        set visibility disable
+        set tcp-portrange 1720
+    next
+    edit "NFS"
+        set category "File Access"
+        set tcp-portrange 111 2049
+        set udp-portrange 111 2049
+    next
+    edit "NNTP"
+        set visibility disable
+        set tcp-portrange 119
+    next
+    edit "NTP"
+        set category "Network Services"
+        set tcp-portrange 123
+        set udp-portrange 123
+    next
+    edit "OSPF"
+        set category "Network Services"
+        set protocol IP
+        set protocol-number 89
+    next
+    edit "PC-Anywhere"
+        set category "Remote Access"
+        set tcp-portrange 5631
+        set udp-portrange 5632
+    next
+    edit "PING"
+        set category "Network Services"
+        set protocol ICMP
+        set icmptype 8
+        unset icmpcode
+    next
+    edit "TIMESTAMP"
+        set protocol ICMP
+        set visibility disable
+        set icmptype 13
+        unset icmpcode
+    next
+    edit "INFO_REQUEST"
+        set protocol ICMP
+        set visibility disable
+        set icmptype 15
+        unset icmpcode
+    next
+    edit "INFO_ADDRESS"
+        set protocol ICMP
+        set visibility disable
+        set icmptype 17
+        unset icmpcode
+    next
+    edit "ONC-RPC"
+        set category "Remote Access"
+        set tcp-portrange 111
+        set udp-portrange 111
+    next
+    edit "PPTP"
+        set category "Tunneling"
+        set tcp-portrange 1723
+    next
+    edit "QUAKE"
+        set visibility disable
+        set udp-portrange 26000 27000 27910 27960
+    next
+    edit "RAUDIO"
+        set visibility disable
+        set udp-portrange 7070
+    next
+    edit "REXEC"
+        set visibility disable
+        set tcp-portrange 512
+    next
+    edit "RIP"
+        set category "Network Services"
+        set udp-portrange 520
+    next
+    edit "RLOGIN"
+        set visibility disable
+        set tcp-portrange 513:512-1023
+    next
+    edit "RSH"
+        set visibility disable
+        set tcp-portrange 514:512-1023
+    next
+    edit "SCCP"
+        set category "VoIP, Messaging & Other Applications"
+        set tcp-portrange 2000
+    next
+    edit "SIP"
+        set category "VoIP, Messaging & Other Applications"
+        set tcp-portrange 5060
+        set udp-portrange 5060
+    next
+    edit "SIP-MSNmessenger"
+        set category "VoIP, Messaging & Other Applications"
+        set tcp-portrange 1863
+    next
+    edit "SNMP"
+        set category "Network Services"
+        set tcp-portrange 161-162
+        set udp-portrange 161-162
+    next
+    edit "SSH"
+        set category "Remote Access"
+        set tcp-portrange 22
+    next
+    edit "SYSLOG"
+        set category "Network Services"
+        set udp-portrange 514
+    next
+    edit "TALK"
+        set visibility disable
+        set udp-portrange 517-518
+    next
+    edit "TELNET"
+        set category "Remote Access"
+        set tcp-portrange 23
+    next
+    edit "TFTP"
+        set category "File Access"
+        set udp-portrange 69
+    next
+    edit "MGCP"
+        set visibility disable
+        set udp-portrange 2427 2727
+    next
+    edit "UUCP"
+        set visibility disable
+        set tcp-portrange 540
+    next
+    edit "VDOLIVE"
+        set visibility disable
+        set tcp-portrange 7000-7010
+    next
+    edit "WAIS"
+        set visibility disable
+        set tcp-portrange 210
+    next
+    edit "WINFRAME"
+        set visibility disable
+        set tcp-portrange 1494 2598
+    next
+    edit "X-WINDOWS"
+        set category "Remote Access"
+        set tcp-portrange 6000-6063
+    next
+    edit "PING6"
+        set protocol ICMP6
+        set visibility disable
+        set icmptype 128
+        unset icmpcode
+    next
+    edit "MS-SQL"
+        set category "VoIP, Messaging & Other Applications"
+        set tcp-portrange 1433 1434
+    next
+    edit "MYSQL"
+        set category "VoIP, Messaging & Other Applications"
+        set tcp-portrange 3306
+    next
+    edit "RDP"
+        set category "Remote Access"
+        set tcp-portrange 3389
+    next
+    edit "VNC"
+        set category "Remote Access"
+        set tcp-portrange 5900
+    next
+    edit "DHCP6"
+        set category "Network Services"
+        set udp-portrange 546 547
+    next
+    edit "SQUID"
+        set category "Tunneling"
+        set tcp-portrange 3128
+    next
+    edit "SOCKS"
+        set category "Tunneling"
+        set tcp-portrange 1080
+        set udp-portrange 1080
+    next
+    edit "WINS"
+        set category "Remote Access"
+        set tcp-portrange 1512
+        set udp-portrange 1512
+    next
+    edit "RADIUS"
+        set category "Authentication"
+        set udp-portrange 1812 1813
+    next
+    edit "RADIUS-OLD"
+        set visibility disable
+        set udp-portrange 1645 1646
+    next
+    edit "CVSPSERVER"
+        set visibility disable
+        set tcp-portrange 2401
+        set udp-portrange 2401
+    next
+    edit "AFS3"
+        set category "File Access"
+        set tcp-portrange 7000-7009
+        set udp-portrange 7000-7009
+    next
+    edit "TRACEROUTE"
+        set category "Network Services"
+        set udp-portrange 33434-33535
+    next
+    edit "RTSP"
+        set category "VoIP, Messaging & Other Applications"
+        set tcp-portrange 554 7070 8554
+        set udp-portrange 554
+    next
+    edit "MMS"
+        set visibility disable
+        set tcp-portrange 1755
+        set udp-portrange 1024-5000
+    next
+    edit "NONE"
+        set visibility disable
+        set tcp-portrange 0
+    next
+    edit "webproxy"
+        set proxy enable
+        set category "Web Proxy"
+        set protocol ALL
+        set tcp-portrange 0-65535:0-65535
+    next
+end
+config firewall service group
+    edit "Email Access"
+        set member "DNS" "IMAP" "IMAPS" "POP3" "POP3S" "SMTP" "SMTPS"
+    next
+    edit "Web Access"
+        set member "DNS" "HTTP" "HTTPS"
+    next
+    edit "Windows AD"
+        set member "DCE-RPC" "DNS" "KERBEROS" "LDAP" "LDAP_UDP" "SAMBA" "SMB"
+    next
+    edit "Exchange Server"
+        set member "DCE-RPC" "DNS" "HTTPS"
+    next
+end
+config vpn certificate ca
+end
+config vpn certificate local
+    edit "Fortinet_CA_SSL"
+        set comments "This is the default CA certificate the SSL Inspection will use when generating new server certificates."
+        set range global
+        set source factory
+        set last-updated 1576207060
+    next
+    edit "Fortinet_CA_Untrusted"
+        set comments "This is the default CA certificate the SSL Inspection will use when generating new server certificates."
+        set range global
+        set source factory
+        set last-updated 1576207060
+    next
+    edit "Fortinet_SSL"
+        set comments "This certificate is embedded in the hardware at the factory and is unique to this unit. "
+        set range global
+        set source factory
+        set last-updated 1576207060
+    next
+    edit "Fortinet_SSL_RSA1024"
+        set comments "This certificate is embedded in the hardware at the factory and is unique to this unit. "
+        set range global
+        set source factory
+        set last-updated 1576207060
+    next
+    edit "Fortinet_SSL_RSA2048"
+        set comments "This certificate is embedded in the hardware at the factory and is unique to this unit. "
+        set range global
+        set source factory
+        set last-updated 1576207060
+    next
+    edit "Fortinet_SSL_RSA4096"
+        set comments "This certificate is embedded in the hardware at the factory and is unique to this unit. "
+        set range global
+        set source factory
+        set last-updated 1576207060
+    next
+    edit "Fortinet_SSL_DSA1024"
+        set comments "This certificate is embedded in the hardware at the factory and is unique to this unit. "
+        set range global
+        set source factory
+        set last-updated 1576207060
+    next
+    edit "Fortinet_SSL_DSA2048"
+        set comments "This certificate is embedded in the hardware at the factory and is unique to this unit. "
+        set range global
+        set source factory
+        set last-updated 1576207060
+    next
+    edit "Fortinet_SSL_ECDSA256"
+        set comments "This certificate is embedded in the hardware at the factory and is unique to this unit. "
+        set range global
+        set source factory
+        set last-updated 1576207060
+    next
+    edit "Fortinet_SSL_ECDSA384"
+        set comments "This certificate is embedded in the hardware at the factory and is unique to this unit. "
+        set range global
+        set source factory
+        set last-updated 1576207060
+    next
+    edit "Fortinet_SSL_ECDSA521"
+        set comments "This certificate is embedded in the hardware at the factory and is unique to this unit. "
+        set range global
+        set source factory
+        set last-updated 1576207060
+    next
+    edit "Fortinet_SSL_ED25519"
+        set comments "This certificate is embedded in the hardware at the factory and is unique to this unit. "
+        set range global
+        set source factory
+        set last-updated 1576207060
+    next
+    edit "Fortinet_SSL_ED448"
+        set comments "This certificate is embedded in the hardware at the factory and is unique to this unit. "
+        set range global
+        set source factory
+        set last-updated 1576207060
+    next
+end
+config log threat-weight
+    config web
+        edit 1
+            set category 26
+            set level high
+        next
+        edit 2
+            set category 61
+            set level high
+        next
+        edit 3
+            set category 86
+            set level high
+        next
+        edit 4
+            set category 1
+            set level medium
+        next
+        edit 5
+            set category 3
+            set level medium
+        next
+        edit 6
+            set category 4
+            set level medium
+        next
+        edit 7
+            set category 5
+            set level medium
+        next
+        edit 8
+            set category 6
+            set level medium
+        next
+        edit 9
+            set category 12
+            set level medium
+        next
+        edit 10
+            set category 59
+            set level medium
+        next
+        edit 11
+            set category 62
+            set level medium
+        next
+        edit 12
+            set category 83
+            set level medium
+        next
+        edit 13
+            set category 72
+        next
+        edit 14
+            set category 14
+        next
+    end
+    config application
+        edit 1
+            set category 2
+        next
+        edit 2
+            set category 6
+            set level medium
+        next
+    end
+end
+config user group
+    edit "SSO_Guest_Users"
+    next
+    edit "Guest-group"
+    next
+end
+config emailfilter profile
+    edit "sniffer-profile"
+        set comment "Malware and phishing URL monitoring."
+    next
+    edit "default"
+        set comment "Malware and phishing URL filtering."
+    next
+end
+config report layout
+    edit "default"
+        set title "FortiGate System Analysis Report"
+        set style-theme "default-report"
+        set options include-table-of-content view-chart-as-heading
+        config page
+            set paper letter
+            set page-break-before heading1
+            config header
+                config header-item
+                    edit 1
+                        set type image
+                        set style "header-image"
+                        set img-src "fortinet_logo_small.png"
+                    next
+                end
+            end
+            config footer
+                config footer-item
+                    edit 1
+                        set style "footer-text"
+                        set content "FortiGate ${schedule_type} Security Report - Host Name: ${hostname}"
+                    next
+                    edit 2
+                        set style "footer-pageno"
+                    next
+                end
+            end
+        end
+        config body-item
+            edit 101
+                set type image
+                set style "report-cover1"
+                set img-src "fortigate_log.png"
+            next
+            edit 103
+                set style "report-cover2"
+                set content "FortiGate ${schedule_type} Security Report"
+            next
+            edit 105
+                set style "report-cover3"
+                set content "Report Date: ${started_time}"
+            next
+            edit 107
+                set style "report-cover3"
+                set content "Data Range: ${report_data_range}  (${hostname})"
+            next
+            edit 109
+                set style "report-cover3"
+                set content "${vdom}"
+            next
+            edit 111
+                set type image
+                set style "report-cover4"
+                set img-src "fortinet_logo_small.png"
+            next
+            edit 121
+                set type misc
+                set misc-component page-break
+            next
+            edit 301
+                set text-component heading1
+                set content "Bandwidth and Applications"
+            next
+            edit 311
+                set type chart
+                set chart "traffic.bandwidth.history_c"
+            next
+            edit 321
+                set type chart
+                set chart "traffic.sessions.history_c"
+            next
+            edit 331
+                set type chart
+                set chart "traffic.statistics"
+            next
+            edit 411
+                set type chart
+                set chart "traffic.bandwidth.apps_c"
+            next
+            edit 421
+                set type chart
+                set chart "traffic.bandwidth.cats_c"
+            next
+            edit 511
+                set type chart
+                set chart "traffic.bandwidth.users_c"
+            next
+            edit 521
+                set type chart
+                set chart "traffic.users.history.hour_c"
+            next
+            edit 611
+                set type chart
+                set chart "traffic.bandwidth.destinations_tab"
+            next
+            edit 1001
+                set text-component heading1
+                set content "Web Usage"
+            next
+            edit 1011
+                set type chart
+                set chart "web.allowed-request.sites_c"
+            next
+            edit 1021
+                set type chart
+                set chart "web.bandwidth.sites_c"
+            next
+            edit 1031
+                set type chart
+                set chart "web.blocked-request.sites_c"
+            next
+            edit 1041
+                set type chart
+                set chart "web.blocked-request.users_c"
+            next
+            edit 1051
+                set type chart
+                set chart "web.requests.users_c"
+            next
+            edit 1061
+                set type chart
+                set chart "web.bandwidth.users_c"
+            next
+            edit 1071
+                set type chart
+                set chart "web.bandwidth.stream-sites_c"
+            next
+            edit 1301
+                set text-component heading1
+                set content "Emails"
+            next
+            edit 1311
+                set type chart
+                set chart "email.request.senders_c"
+            next
+            edit 1321
+                set type chart
+                set chart "email.bandwidth.senders_c"
+            next
+            edit 1331
+                set type chart
+                set chart "email.request.recipients_c"
+            next
+            edit 1341
+                set type chart
+                set chart "email.bandwidth.recipients_c"
+            next
+            edit 1501
+                set text-component heading1
+                set content "Threats"
+            next
+            edit 1511
+                set type chart
+                set top-n 80
+                set chart "virus.count.viruses_c"
+            next
+            edit 1531
+                set type chart
+                set top-n 80
+                set chart "virus.count.users_c"
+            next
+            edit 1541
+                set type chart
+                set top-n 80
+                set chart "virus.count.sources_c"
+            next
+            edit 1551
+                set type chart
+                set chart "virus.count.history_c"
+            next
+            edit 1561
+                set type chart
+                set top-n 80
+                set chart "botnet.count_c"
+            next
+            edit 1571
+                set type chart
+                set top-n 80
+                set chart "botnet.count.users_c"
+            next
+            edit 1581
+                set type chart
+                set top-n 80
+                set chart "botnet.count.sources_c"
+            next
+            edit 1591
+                set type chart
+                set chart "botnet.count.history_c"
+            next
+            edit 1601
+                set type chart
+                set top-n 80
+                set chart "attack.count.attacks_c"
+            next
+            edit 1611
+                set type chart
+                set top-n 80
+                set chart "attack.count.victims_c"
+            next
+            edit 1621
+                set type chart
+                set top-n 80
+                set chart "attack.count.source_bar_c"
+            next
+            edit 1631
+                set type chart
+                set chart "attack.count.blocked_attacks_c"
+            next
+            edit 1641
+                set type chart
+                set chart "attack.count.severity_c"
+            next
+            edit 1651
+                set type chart
+                set chart "attack.count.history_c"
+            next
+            edit 1701
+                set text-component heading1
+                set content "VPN Usage"
+            next
+            edit 1711
+                set type chart
+                set top-n 80
+                set chart "vpn.bandwidth.static-tunnels_c"
+            next
+            edit 1721
+                set type chart
+                set top-n 80
+                set chart "vpn.bandwidth.dynamic-tunnels_c"
+            next
+            edit 1731
+                set type chart
+                set top-n 80
+                set chart "vpn.bandwidth.ssl-tunnel.users_c"
+            next
+            edit 1741
+                set type chart
+                set top-n 80
+                set chart "vpn.bandwidth.ssl-web.users_c"
+            next
+            edit 1901
+                set text-component heading1
+                set content "Admin Login and System Events"
+            next
+            edit 1911
+                set type chart
+                set top-n 80
+                set chart "event.login.summary_c"
+            next
+            edit 1931
+                set type chart
+                set top-n 80
+                set chart "event.failed.login_c"
+            next
+            edit 1961
+                set type chart
+                set top-n 80
+                set chart "event.system.group_events_c"
+            next
+        end
+    next
+end
+config system virtual-wan-link
+    config health-check
+        edit "Default_Office_365"
+            set server "www.office.com"
+            set protocol http
+            set interval 1000
+            set recoverytime 10
+            config sla
+                edit 1
+                    set latency-threshold 250
+                    set jitter-threshold 50
+                    set packetloss-threshold 5
+                next
+            end
+            set probe-timeout 1000
+        next
+        edit "Default_Gmail"
+            set server "gmail.com"
+            set interval 1000
+            set recoverytime 10
+            config sla
+                edit 1
+                    set latency-threshold 250
+                    set jitter-threshold 50
+                    set packetloss-threshold 2
+                next
+            end
+            set probe-timeout 1000
+        next
+        edit "Default_AWS"
+            set server "aws.amazon.com"
+            set protocol http
+            set interval 1000
+            set recoverytime 10
+            config sla
+                edit 1
+                    set latency-threshold 250
+                    set jitter-threshold 50
+                    set packetloss-threshold 5
+                next
+            end
+            set probe-timeout 1000
+        next
+        edit "Default_Google Search"
+            set server "www.google.com"
+            set protocol http
+            set interval 1000
+            set recoverytime 10
+            config sla
+                edit 1
+                    set latency-threshold 250
+                    set jitter-threshold 50
+                    set packetloss-threshold 5
+                next
+            end
+            set probe-timeout 1000
+        next
+        edit "Default_FortiGuard"
+            set server "fortiguard.com"
+            set protocol http
+            set interval 1000
+            set recoverytime 10
+            config sla
+                edit 1
+                    set latency-threshold 250
+                    set jitter-threshold 50
+                    set packetloss-threshold 5
+                next
+            end
+            set probe-timeout 1000
+        next
+    end
+end
+config firewall schedule recurring
+    edit "always"
+        set day sunday monday tuesday wednesday thursday friday saturday
+    next
+    edit "none"
+    next
+    edit "default-darrp-optimize"
+        set start 01:00
+        set end 01:30
+        set day sunday monday tuesday wednesday thursday friday saturday
+    next
+end
+config log memory setting
+    set status disable
+end
+config log disk setting
+    set status enable
+end
+config log null-device setting
+    set status disable
+end
+config router rip
+    config redistribute "connected"
+    end
+    config redistribute "static"
+    end
+    config redistribute "ospf"
+    end
+    config redistribute "bgp"
+    end
+    config redistribute "isis"
+    end
+end
+config router ripng
+    config redistribute "connected"
+    end
+    config redistribute "static"
+    end
+    config redistribute "ospf"
+    end
+    config redistribute "bgp"
+    end
+    config redistribute "isis"
+    end
+end
+config router ospf
+    config redistribute "connected"
+    end
+    config redistribute "static"
+    end
+    config redistribute "rip"
+    end
+    config redistribute "bgp"
+    end
+    config redistribute "isis"
+    end
+end
+config router ospf6
+    config redistribute "connected"
+    end
+    config redistribute "static"
+    end
+    config redistribute "rip"
+    end
+    config redistribute "bgp"
+    end
+    config redistribute "isis"
+    end
+end
+config router bgp
+    config redistribute "connected"
+    end
+    config redistribute "rip"
+    end
+    config redistribute "ospf"
+    end
+    config redistribute "static"
+    end
+    config redistribute "isis"
+    end
+    config redistribute6 "connected"
+    end
+    config redistribute6 "rip"
+    end
+    config redistribute6 "ospf"
+    end
+    config redistribute6 "static"
+    end
+    config redistribute6 "isis"
+    end
+end
+config router isis
+    config redistribute "connected"
+    end
+    config redistribute "rip"
+    end
+    config redistribute "ospf"
+    end
+    config redistribute "bgp"
+    end
+    config redistribute "static"
+    end
+    config redistribute6 "connected"
+    end
+    config redistribute6 "rip"
+    end
+    config redistribute6 "ospf"
+    end
+    config redistribute6 "bgp"
+    end
+    config redistribute6 "static"
+    end
+end
+config router multicast
+end

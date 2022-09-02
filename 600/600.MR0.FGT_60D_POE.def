@@ -1,0 +1,4849 @@
+#config-version=FG60DP-6.0.13-FW-build0443-210722:opmode=0:vdom=0:user=admin
+#conf_file_ver=153248728124254
+#buildno=0443
+#global_vdom=1
+config system global
+    set alias "FG60DP4Q16004271"
+    set hostname "FG60DP4Q16004271"
+    set switch-controller enable
+    set timezone 04
+end
+config system accprofile
+    edit "prof_admin"
+        set secfabgrp read-write
+        set ftviewgrp read-write
+        set authgrp read-write
+        set sysgrp read-write
+        set netgrp read-write
+        set loggrp read-write
+        set fwgrp read-write
+        set vpngrp read-write
+        set utmgrp read-write
+        set wifi read-write
+    next
+end
+config system interface
+    edit "dmz"
+        set vdom "root"
+        set type physical
+        set snmp-index 1
+    next
+    edit "wan1"
+        set vdom "root"
+        set mode dhcp
+        set allowaccess ping fgfm
+        set type physical
+        set role wan
+        set snmp-index 2
+    next
+    edit "wan2"
+        set vdom "root"
+        set mode dhcp
+        set allowaccess ping fgfm
+        set type physical
+        set role wan
+        set snmp-index 3
+    next
+    edit "modem"
+        set vdom "root"
+        set mode pppoe
+        set type physical
+        set snmp-index 4
+    next
+    edit "ssl.root"
+        set vdom "root"
+        set type tunnel
+        set alias "SSL VPN interface"
+        set snmp-index 5
+    next
+    edit "internalA"
+        set vdom "root"
+        set ip 169.254.201.1 255.255.255.0
+        set allowaccess capwap
+        set type physical
+        set role lan
+        set snmp-index 6
+    next
+    edit "internalB"
+        set vdom "root"
+        set ip 169.254.202.1 255.255.255.0
+        set allowaccess capwap
+        set type physical
+        set role lan
+        set snmp-index 7
+    next
+    edit "internal"
+        set vdom "root"
+        set ip 192.168.1.99 255.255.255.0
+        set allowaccess ping https ssh http fgfm capwap
+        set type hard-switch
+        set stp enable
+        set role lan
+        set snmp-index 8
+    next
+end
+config system physical-switch
+    edit "sw0"
+        set age-val 0
+    next
+end
+config system virtual-switch
+    edit "internal"
+        set physical-switch "sw0"
+        config port
+            edit "internal1"
+            next
+            edit "internal2"
+            next
+            edit "internal3"
+            next
+            edit "internal4"
+            next
+            edit "internal5"
+            next
+        end
+    next
+end
+config system custom-language
+    edit "en"
+        set filename "en"
+    next
+    edit "fr"
+        set filename "fr"
+    next
+    edit "sp"
+        set filename "sp"
+    next
+    edit "pg"
+        set filename "pg"
+    next
+    edit "x-sjis"
+        set filename "x-sjis"
+    next
+    edit "big5"
+        set filename "big5"
+    next
+    edit "GB2312"
+        set filename "GB2312"
+    next
+    edit "euc-kr"
+        set filename "euc-kr"
+    next
+end
+config system admin
+    edit "admin"
+        set accprofile "super_admin"
+        set vdom "root"
+    next
+end
+config system ha
+    set override disable
+end
+config system dns
+    set primary 208.91.112.53
+    set secondary 208.91.112.52
+end
+config system replacemsg-image
+    edit "logo_fnet"
+        set image-type gif
+        set image-base64 ''
+    next
+    edit "logo_fguard_wf"
+        set image-type gif
+        set image-base64 ''
+    next
+    edit "logo_fw_auth"
+        set image-base64 ''
+    next
+    edit "logo_v2_fnet"
+        set image-base64 ''
+    next
+    edit "logo_v2_fguard_wf"
+        set image-base64 ''
+    next
+    edit "logo_v2_fguard_app"
+        set image-base64 ''
+    next
+end
+config system replacemsg mail "email-av-fail"
+end
+config system replacemsg mail "email-block"
+end
+config system replacemsg mail "email-dlp-subject"
+end
+config system replacemsg mail "email-dlp-ban"
+end
+config system replacemsg mail "email-filesize"
+end
+config system replacemsg mail "partial"
+end
+config system replacemsg mail "smtp-block"
+end
+config system replacemsg mail "smtp-filesize"
+end
+config system replacemsg mail "email-decompress-limit"
+end
+config system replacemsg mail "smtp-decompress-limit"
+end
+config system replacemsg http "bannedword"
+end
+config system replacemsg http "url-block"
+end
+config system replacemsg http "urlfilter-err"
+end
+config system replacemsg http "infcache-block"
+end
+config system replacemsg http "http-block"
+end
+config system replacemsg http "http-filesize"
+end
+config system replacemsg http "http-dlp-ban"
+end
+config system replacemsg http "http-archive-block"
+end
+config system replacemsg http "http-contenttypeblock"
+end
+config system replacemsg http "https-invalid-cert-block"
+end
+config system replacemsg http "http-client-block"
+end
+config system replacemsg http "http-client-filesize"
+end
+config system replacemsg http "http-client-bannedword"
+end
+config system replacemsg http "http-post-block"
+end
+config system replacemsg http "http-client-archive-block"
+end
+config system replacemsg http "switching-protocols-block"
+end
+config system replacemsg webproxy "deny"
+end
+config system replacemsg webproxy "user-limit"
+end
+config system replacemsg webproxy "auth-challenge"
+end
+config system replacemsg webproxy "auth-login-fail"
+end
+config system replacemsg webproxy "auth-group-info-fail"
+end
+config system replacemsg webproxy "http-err"
+end
+config system replacemsg webproxy "auth-ip-blackout"
+end
+config system replacemsg ftp "ftp-av-fail"
+end
+config system replacemsg ftp "ftp-dl-blocked"
+end
+config system replacemsg ftp "ftp-dl-filesize"
+end
+config system replacemsg ftp "ftp-dl-dlp-ban"
+end
+config system replacemsg ftp "ftp-explicit-banner"
+end
+config system replacemsg ftp "ftp-dl-archive-block"
+end
+config system replacemsg nntp "nntp-av-fail"
+end
+config system replacemsg nntp "nntp-dl-blocked"
+end
+config system replacemsg nntp "nntp-dl-filesize"
+end
+config system replacemsg nntp "nntp-dlp-subject"
+end
+config system replacemsg nntp "nntp-dlp-ban"
+end
+config system replacemsg nntp "email-decompress-limit"
+end
+config system replacemsg fortiguard-wf "ftgd-block"
+end
+config system replacemsg fortiguard-wf "http-err"
+end
+config system replacemsg fortiguard-wf "ftgd-ovrd"
+end
+config system replacemsg fortiguard-wf "ftgd-quota"
+end
+config system replacemsg fortiguard-wf "ftgd-warning"
+end
+config system replacemsg spam "ipblocklist"
+end
+config system replacemsg spam "smtp-spam-dnsbl"
+end
+config system replacemsg spam "smtp-spam-feip"
+end
+config system replacemsg spam "smtp-spam-helo"
+end
+config system replacemsg spam "smtp-spam-emailblack"
+end
+config system replacemsg spam "smtp-spam-mimeheader"
+end
+config system replacemsg spam "reversedns"
+end
+config system replacemsg spam "smtp-spam-bannedword"
+end
+config system replacemsg spam "smtp-spam-ase"
+end
+config system replacemsg spam "submit"
+end
+config system replacemsg alertmail "alertmail-virus"
+end
+config system replacemsg alertmail "alertmail-block"
+end
+config system replacemsg alertmail "alertmail-nids-event"
+end
+config system replacemsg alertmail "alertmail-crit-event"
+end
+config system replacemsg alertmail "alertmail-disk-full"
+end
+config system replacemsg admin "pre_admin-disclaimer-text"
+end
+config system replacemsg admin "post_admin-disclaimer-text"
+end
+config system replacemsg auth "auth-disclaimer-page-1"
+end
+config system replacemsg auth "auth-disclaimer-page-2"
+end
+config system replacemsg auth "auth-disclaimer-page-3"
+end
+config system replacemsg auth "auth-reject-page"
+end
+config system replacemsg auth "auth-login-page"
+end
+config system replacemsg auth "auth-login-failed-page"
+end
+config system replacemsg auth "auth-token-login-page"
+end
+config system replacemsg auth "auth-token-login-failed-page"
+end
+config system replacemsg auth "auth-success-msg"
+end
+config system replacemsg auth "auth-challenge-page"
+end
+config system replacemsg auth "auth-keepalive-page"
+end
+config system replacemsg auth "auth-portal-page"
+end
+config system replacemsg auth "auth-password-page"
+end
+config system replacemsg auth "auth-fortitoken-page"
+end
+config system replacemsg auth "auth-next-fortitoken-page"
+end
+config system replacemsg auth "auth-email-token-page"
+end
+config system replacemsg auth "auth-sms-token-page"
+end
+config system replacemsg auth "auth-email-harvesting-page"
+end
+config system replacemsg auth "auth-email-failed-page"
+end
+config system replacemsg auth "auth-cert-passwd-page"
+end
+config system replacemsg auth "auth-guest-print-page"
+end
+config system replacemsg auth "auth-guest-email-page"
+end
+config system replacemsg auth "auth-success-page"
+end
+config system replacemsg auth "auth-block-notification-page"
+end
+config system replacemsg auth "auth-quarantine-page"
+end
+config system replacemsg auth "auth-qtn-reject-page"
+end
+config system replacemsg sslvpn "sslvpn-login"
+end
+config system replacemsg sslvpn "sslvpn-header"
+end
+config system replacemsg sslvpn "sslvpn-limit"
+end
+config system replacemsg sslvpn "hostcheck-error"
+end
+config system replacemsg ec "endpt-download-portal"
+end
+config system replacemsg ec "endpt-download-portal-mac"
+end
+config system replacemsg ec "endpt-download-portal-linux"
+end
+config system replacemsg ec "endpt-download-portal-ios"
+end
+config system replacemsg ec "endpt-download-portal-aos"
+end
+config system replacemsg ec "endpt-download-portal-other"
+end
+config system replacemsg ec "endpt-warning-portal"
+end
+config system replacemsg ec "endpt-warning-portal-mac"
+end
+config system replacemsg ec "endpt-warning-portal-linux"
+end
+config system replacemsg ec "endpt-remedy-inst"
+end
+config system replacemsg ec "endpt-remedy-reg"
+end
+config system replacemsg ec "endpt-remedy-ftcl-autofix"
+end
+config system replacemsg ec "endpt-remedy-av-3rdp"
+end
+config system replacemsg ec "endpt-remedy-ver"
+end
+config system replacemsg ec "endpt-remedy-os-ver"
+end
+config system replacemsg ec "endpt-remedy-vuln"
+end
+config system replacemsg ec "endpt-remedy-sig-ids"
+end
+config system replacemsg ec "endpt-remedy-ems-online"
+end
+config system replacemsg ec "endpt-ftcl-incompat"
+end
+config system replacemsg ec "endpt-download-ftcl"
+end
+config system replacemsg ec "endpt-quarantine-portal"
+end
+config system replacemsg device-detection-portal "device-detection-failure"
+end
+config system replacemsg nac-quar "nac-quar-virus"
+end
+config system replacemsg nac-quar "nac-quar-dos"
+end
+config system replacemsg nac-quar "nac-quar-ips"
+end
+config system replacemsg nac-quar "nac-quar-dlp"
+end
+config system replacemsg nac-quar "nac-quar-admin"
+end
+config system replacemsg nac-quar "nac-quar-app"
+end
+config system replacemsg traffic-quota "per-ip-shaper-block"
+end
+config system replacemsg utm "virus-html"
+end
+config system replacemsg utm "client-virus-html"
+end
+config system replacemsg utm "virus-text"
+end
+config system replacemsg utm "dlp-html"
+end
+config system replacemsg utm "dlp-text"
+end
+config system replacemsg utm "appblk-html"
+end
+config system replacemsg utm "ipsblk-html"
+end
+config system replacemsg utm "ipsfail-html"
+end
+config system replacemsg utm "exe-text"
+end
+config system replacemsg utm "waf-html"
+end
+config system replacemsg utm "outbreak-prevention-html"
+end
+config system replacemsg utm "outbreak-prevention-text"
+end
+config system replacemsg icap "icap-req-resp"
+end
+config system snmp sysinfo
+end
+config system central-management
+    set type fortiguard
+end
+config user device-category
+    edit "android-phone"
+    next
+    edit "android-tablet"
+    next
+    edit "blackberry-phone"
+    next
+    edit "blackberry-playbook"
+    next
+    edit "forticam"
+    next
+    edit "fortifone"
+    next
+    edit "fortinet"
+    next
+    edit "gaming-console"
+    next
+    edit "ip-phone"
+    next
+    edit "ipad"
+    next
+    edit "iphone"
+    next
+    edit "linux-pc"
+    next
+    edit "mac"
+    next
+    edit "media-streaming"
+    next
+    edit "printer"
+    next
+    edit "router-nat-device"
+    next
+    edit "windows-pc"
+    next
+    edit "windows-phone"
+    next
+    edit "windows-tablet"
+    next
+    edit "other-network-device"
+    next
+    edit "collected-emails"
+    next
+    edit "amazon-device"
+    next
+    edit "android-device"
+    next
+    edit "blackberry-device"
+    next
+    edit "fortinet-device"
+    next
+    edit "ios-device"
+    next
+    edit "windows-device"
+    next
+    edit "all"
+    next
+end
+config system cluster-sync
+end
+config system fortiguard
+    set sdns-server-ip "208.91.112.220"
+end
+config ips global
+end
+config system email-server
+    set server "notification.fortinet.net"
+    set port 465
+    set security smtps
+end
+config system session-helper
+    edit 1
+        set name pptp
+        set protocol 6
+        set port 1723
+    next
+    edit 2
+        set name h323
+        set protocol 6
+        set port 1720
+    next
+    edit 3
+        set name ras
+        set protocol 17
+        set port 1719
+    next
+    edit 4
+        set name tns
+        set protocol 6
+        set port 1521
+    next
+    edit 5
+        set name tftp
+        set protocol 17
+        set port 69
+    next
+    edit 6
+        set name rtsp
+        set protocol 6
+        set port 554
+    next
+    edit 7
+        set name rtsp
+        set protocol 6
+        set port 7070
+    next
+    edit 8
+        set name rtsp
+        set protocol 6
+        set port 8554
+    next
+    edit 9
+        set name ftp
+        set protocol 6
+        set port 21
+    next
+    edit 10
+        set name mms
+        set protocol 6
+        set port 1863
+    next
+    edit 11
+        set name pmap
+        set protocol 6
+        set port 111
+    next
+    edit 12
+        set name pmap
+        set protocol 17
+        set port 111
+    next
+    edit 13
+        set name sip
+        set protocol 17
+        set port 5060
+    next
+    edit 14
+        set name dns-udp
+        set protocol 17
+        set port 53
+    next
+    edit 15
+        set name rsh
+        set protocol 6
+        set port 514
+    next
+    edit 16
+        set name rsh
+        set protocol 6
+        set port 512
+    next
+    edit 17
+        set name dcerpc
+        set protocol 6
+        set port 135
+    next
+    edit 18
+        set name dcerpc
+        set protocol 17
+        set port 135
+    next
+    edit 19
+        set name mgcp
+        set protocol 17
+        set port 2427
+    next
+    edit 20
+        set name mgcp
+        set protocol 17
+        set port 2727
+    next
+end
+config system auto-install
+    set auto-install-config enable
+    set auto-install-image enable
+end
+config system ntp
+    set ntpsync enable
+end
+config system object-tagging
+    edit "default"
+    next
+end
+config system settings
+    set inspection-mode flow
+end
+config system dhcp server
+    edit 1
+        set dns-service default
+        set default-gateway 192.168.1.99
+        set netmask 255.255.255.0
+        set interface "internal"
+        config ip-range
+            edit 1
+                set start-ip 192.168.1.110
+                set end-ip 192.168.1.210
+            next
+        end
+    next
+    edit 2
+        set forticlient-on-net-status disable
+        set dns-service default
+        set default-gateway 169.254.201.1
+        set netmask 255.255.255.0
+        set interface "internalA"
+        config ip-range
+            edit 1
+                set start-ip 169.254.201.2
+                set end-ip 169.254.201.254
+            next
+        end
+        set vci-match enable
+        set vci-string "FortiAP" "FortiExtender"
+    next
+    edit 3
+        set forticlient-on-net-status disable
+        set dns-service default
+        set default-gateway 169.254.202.1
+        set netmask 255.255.255.0
+        set interface "internalB"
+        config ip-range
+            edit 1
+                set start-ip 169.254.202.2
+                set end-ip 169.254.202.254
+            next
+        end
+        set vci-match enable
+        set vci-string "FortiAP" "FortiExtender"
+    next
+end
+config firewall address
+    edit "none"
+        set uuid 487fbc0e-e6d2-51e9-a9b1-87b071170d06
+        set subnet 0.0.0.0 255.255.255.255
+    next
+    edit "all"
+        set uuid 4af04de6-e6d2-51e9-03ab-74c7ff1a3dca
+    next
+    edit "FIREWALL_AUTH_PORTAL_ADDRESS"
+        set uuid 4af06d4e-e6d2-51e9-a991-10f1c82f2c86
+        set visibility disable
+    next
+    edit "SSLVPN_TUNNEL_ADDR1"
+        set uuid 4afa9bca-e6d2-51e9-c0e2-77581a82643d
+        set type iprange
+        set associated-interface "ssl.root"
+        set start-ip 10.212.134.200
+        set end-ip 10.212.134.210
+    next
+end
+config firewall multicast-address
+    edit "all"
+        set start-ip 224.0.0.0
+        set end-ip 239.255.255.255
+    next
+    edit "all_hosts"
+        set start-ip 224.0.0.1
+        set end-ip 224.0.0.1
+    next
+    edit "all_routers"
+        set start-ip 224.0.0.2
+        set end-ip 224.0.0.2
+    next
+    edit "Bonjour"
+        set start-ip 224.0.0.251
+        set end-ip 224.0.0.251
+    next
+    edit "EIGRP"
+        set start-ip 224.0.0.10
+        set end-ip 224.0.0.10
+    next
+    edit "OSPF"
+        set start-ip 224.0.0.5
+        set end-ip 224.0.0.6
+    next
+end
+config firewall address6
+    edit "SSLVPN_TUNNEL_IPv6_ADDR1"
+        set uuid 4afada9a-e6d2-51e9-2dc8-b1e99fbf9cc7
+        set ip6 fdff:ffff::/120
+    next
+    edit "all"
+        set uuid 622316d8-e6d2-51e9-95dd-ec879e5d89ce
+    next
+    edit "none"
+        set uuid 6223fa8a-e6d2-51e9-8a5b-0a093af06d36
+        set ip6 ::/128
+    next
+end
+config firewall multicast-address6
+    edit "all"
+        set ip6 ff00::/8
+    next
+end
+config firewall wildcard-fqdn custom
+    edit "adobe"
+        set uuid 4b162426-e6d2-51e9-abb1-310f8c13b5ad
+        set wildcard-fqdn "*.adobe.com"
+    next
+    edit "Adobe Login"
+        set uuid 4b163d44-e6d2-51e9-c511-770a3a9d9e14
+        set wildcard-fqdn "*.adobelogin.com"
+    next
+    edit "android"
+        set uuid 4b1653ba-e6d2-51e9-9cc8-0bcdf4a6625e
+        set wildcard-fqdn "*.android.com"
+    next
+    edit "apple"
+        set uuid 4b1669a4-e6d2-51e9-e834-e71afd17eee3
+        set wildcard-fqdn "*.apple.com"
+    next
+    edit "appstore"
+        set uuid 4b167f2a-e6d2-51e9-8bb4-cfa8412cf987
+        set wildcard-fqdn "*.appstore.com"
+    next
+    edit "auth.gfx.ms"
+        set uuid 4b1694c4-e6d2-51e9-800b-119ada285f00
+        set wildcard-fqdn "*.auth.gfx.ms"
+    next
+    edit "citrix"
+        set uuid 4b169c6c-e6d2-51e9-2734-29627e27dd59
+        set wildcard-fqdn "*.citrixonline.com"
+    next
+    edit "dropbox.com"
+        set uuid 4b16b24c-e6d2-51e9-62a7-a641403eb6ee
+        set wildcard-fqdn "*.dropbox.com"
+    next
+    edit "eease"
+        set uuid 4b16c7fa-e6d2-51e9-e697-547e9c022b20
+        set wildcard-fqdn "*.eease.com"
+    next
+    edit "firefox update server"
+        set uuid 4b16dd8a-e6d2-51e9-5d1d-2be1acd90940
+        set wildcard-fqdn "aus*.mozilla.org"
+    next
+    edit "fortinet"
+        set uuid 4b16f32e-e6d2-51e9-a114-b73183eef648
+        set wildcard-fqdn "*.fortinet.com"
+    next
+    edit "googleapis.com"
+        set uuid 4b170b70-e6d2-51e9-137f-a01c8d0ed3ed
+        set wildcard-fqdn "*.googleapis.com"
+    next
+    edit "google-drive"
+        set uuid 4b1721d2-e6d2-51e9-096d-514596d4a954
+        set wildcard-fqdn "*drive.google.com"
+    next
+    edit "google-play2"
+        set uuid 4b1737a8-e6d2-51e9-c364-498da0bd4440
+        set wildcard-fqdn "*.ggpht.com"
+    next
+    edit "google-play3"
+        set uuid 4b174d74-e6d2-51e9-042d-8328cc1579cc
+        set wildcard-fqdn "*.books.google.com"
+    next
+    edit "Gotomeeting"
+        set uuid 4b176354-e6d2-51e9-265b-c826f01521f8
+        set wildcard-fqdn "*.gotomeeting.com"
+    next
+    edit "icloud"
+        set uuid 4b1785c8-e6d2-51e9-43b6-139eb8826c37
+        set wildcard-fqdn "*.icloud.com"
+    next
+    edit "itunes"
+        set uuid 4b179f5e-e6d2-51e9-17ea-807011e336fb
+        set wildcard-fqdn "*itunes.apple.com"
+    next
+    edit "microsoft"
+        set uuid 4b17b642-e6d2-51e9-af6a-67838c41c4c6
+        set wildcard-fqdn "*.microsoft.com"
+    next
+    edit "skype"
+        set uuid 4b17cc54-e6d2-51e9-d84c-5ea7031ced23
+        set wildcard-fqdn "*.messenger.live.com"
+    next
+    edit "softwareupdate.vmware.com"
+        set uuid 4b17e1ee-e6d2-51e9-ac73-3261220edad9
+        set wildcard-fqdn "*.softwareupdate.vmware.com"
+    next
+    edit "verisign"
+        set uuid 4b17f792-e6d2-51e9-4d91-91838d41c729
+        set wildcard-fqdn "*.verisign.com"
+    next
+    edit "Windows update 2"
+        set uuid 4b180d36-e6d2-51e9-d343-c7e659b56cb4
+        set wildcard-fqdn "*.windowsupdate.com"
+    next
+    edit "live.com"
+        set uuid 4b18142a-e6d2-51e9-4cb2-43d1e149b62d
+        set wildcard-fqdn "*.live.com"
+    next
+    edit "google-play"
+        set uuid 4b182a8c-e6d2-51e9-c956-7f620cfd9e33
+        set wildcard-fqdn "*play.google.com"
+    next
+    edit "update.microsoft.com"
+        set uuid 4b184080-e6d2-51e9-d78e-0fb48f3190b3
+        set wildcard-fqdn "*update.microsoft.com"
+    next
+    edit "swscan.apple.com"
+        set uuid 4b18566a-e6d2-51e9-7b76-a50f5524b88f
+        set wildcard-fqdn "*swscan.apple.com"
+    next
+    edit "autoupdate.opera.com"
+        set uuid 4b186c54-e6d2-51e9-559c-3acea18fcd16
+        set wildcard-fqdn "*autoupdate.opera.com"
+    next
+end
+config firewall service category
+    edit "General"
+        set comment "General services."
+    next
+    edit "Web Access"
+        set comment "Web access."
+    next
+    edit "File Access"
+        set comment "File access."
+    next
+    edit "Email"
+        set comment "Email services."
+    next
+    edit "Network Services"
+        set comment "Network services."
+    next
+    edit "Authentication"
+        set comment "Authentication service."
+    next
+    edit "Remote Access"
+        set comment "Remote access."
+    next
+    edit "Tunneling"
+        set comment "Tunneling service."
+    next
+    edit "VoIP, Messaging & Other Applications"
+        set comment "VoIP, messaging, and other applications."
+    next
+    edit "Web Proxy"
+        set comment "Explicit web proxy."
+    next
+end
+config firewall service custom
+    edit "ALL"
+        set category "General"
+        set protocol IP
+    next
+    edit "ALL_TCP"
+        set category "General"
+        set tcp-portrange 1-65535
+    next
+    edit "ALL_UDP"
+        set category "General"
+        set udp-portrange 1-65535
+    next
+    edit "ALL_ICMP"
+        set category "General"
+        set protocol ICMP
+        unset icmptype
+    next
+    edit "ALL_ICMP6"
+        set category "General"
+        set protocol ICMP6
+        unset icmptype
+    next
+    edit "GRE"
+        set category "Tunneling"
+        set protocol IP
+        set protocol-number 47
+    next
+    edit "AH"
+        set category "Tunneling"
+        set protocol IP
+        set protocol-number 51
+    next
+    edit "ESP"
+        set category "Tunneling"
+        set protocol IP
+        set protocol-number 50
+    next
+    edit "AOL"
+        set visibility disable
+        set tcp-portrange 5190-5194
+    next
+    edit "BGP"
+        set category "Network Services"
+        set tcp-portrange 179
+    next
+    edit "DHCP"
+        set category "Network Services"
+        set udp-portrange 67-68
+    next
+    edit "DNS"
+        set category "Network Services"
+        set tcp-portrange 53
+        set udp-portrange 53
+    next
+    edit "FINGER"
+        set visibility disable
+        set tcp-portrange 79
+    next
+    edit "FTP"
+        set category "File Access"
+        set tcp-portrange 21
+    next
+    edit "FTP_GET"
+        set category "File Access"
+        set tcp-portrange 21
+    next
+    edit "FTP_PUT"
+        set category "File Access"
+        set tcp-portrange 21
+    next
+    edit "GOPHER"
+        set visibility disable
+        set tcp-portrange 70
+    next
+    edit "H323"
+        set category "VoIP, Messaging & Other Applications"
+        set tcp-portrange 1720 1503
+        set udp-portrange 1719
+    next
+    edit "HTTP"
+        set category "Web Access"
+        set tcp-portrange 80
+    next
+    edit "HTTPS"
+        set category "Web Access"
+        set tcp-portrange 443
+    next
+    edit "IKE"
+        set category "Tunneling"
+        set udp-portrange 500 4500
+    next
+    edit "IMAP"
+        set category "Email"
+        set tcp-portrange 143
+    next
+    edit "IMAPS"
+        set category "Email"
+        set tcp-portrange 993
+    next
+    edit "Internet-Locator-Service"
+        set visibility disable
+        set tcp-portrange 389
+    next
+    edit "IRC"
+        set category "VoIP, Messaging & Other Applications"
+        set tcp-portrange 6660-6669
+    next
+    edit "L2TP"
+        set category "Tunneling"
+        set tcp-portrange 1701
+        set udp-portrange 1701
+    next
+    edit "LDAP"
+        set category "Authentication"
+        set tcp-portrange 389
+    next
+    edit "NetMeeting"
+        set visibility disable
+        set tcp-portrange 1720
+    next
+    edit "NFS"
+        set category "File Access"
+        set tcp-portrange 111 2049
+        set udp-portrange 111 2049
+    next
+    edit "NNTP"
+        set visibility disable
+        set tcp-portrange 119
+    next
+    edit "NTP"
+        set category "Network Services"
+        set tcp-portrange 123
+        set udp-portrange 123
+    next
+    edit "OSPF"
+        set category "Network Services"
+        set protocol IP
+        set protocol-number 89
+    next
+    edit "PC-Anywhere"
+        set category "Remote Access"
+        set tcp-portrange 5631
+        set udp-portrange 5632
+    next
+    edit "PING"
+        set category "Network Services"
+        set protocol ICMP
+        set icmptype 8
+        unset icmpcode
+    next
+    edit "TIMESTAMP"
+        set protocol ICMP
+        set visibility disable
+        set icmptype 13
+        unset icmpcode
+    next
+    edit "INFO_REQUEST"
+        set protocol ICMP
+        set visibility disable
+        set icmptype 15
+        unset icmpcode
+    next
+    edit "INFO_ADDRESS"
+        set protocol ICMP
+        set visibility disable
+        set icmptype 17
+        unset icmpcode
+    next
+    edit "ONC-RPC"
+        set category "Remote Access"
+        set tcp-portrange 111
+        set udp-portrange 111
+    next
+    edit "DCE-RPC"
+        set category "Remote Access"
+        set tcp-portrange 135
+        set udp-portrange 135
+    next
+    edit "POP3"
+        set category "Email"
+        set tcp-portrange 110
+    next
+    edit "POP3S"
+        set category "Email"
+        set tcp-portrange 995
+    next
+    edit "PPTP"
+        set category "Tunneling"
+        set tcp-portrange 1723
+    next
+    edit "QUAKE"
+        set visibility disable
+        set udp-portrange 26000 27000 27910 27960
+    next
+    edit "RAUDIO"
+        set visibility disable
+        set udp-portrange 7070
+    next
+    edit "REXEC"
+        set visibility disable
+        set tcp-portrange 512
+    next
+    edit "RIP"
+        set category "Network Services"
+        set udp-portrange 520
+    next
+    edit "RLOGIN"
+        set visibility disable
+        set tcp-portrange 513:512-1023
+    next
+    edit "RSH"
+        set visibility disable
+        set tcp-portrange 514:512-1023
+    next
+    edit "SCCP"
+        set category "VoIP, Messaging & Other Applications"
+        set tcp-portrange 2000
+    next
+    edit "SIP"
+        set category "VoIP, Messaging & Other Applications"
+        set tcp-portrange 5060
+        set udp-portrange 5060
+    next
+    edit "SIP-MSNmessenger"
+        set category "VoIP, Messaging & Other Applications"
+        set tcp-portrange 1863
+    next
+    edit "SAMBA"
+        set category "File Access"
+        set tcp-portrange 139
+    next
+    edit "SMTP"
+        set category "Email"
+        set tcp-portrange 25
+    next
+    edit "SMTPS"
+        set category "Email"
+        set tcp-portrange 465
+    next
+    edit "SNMP"
+        set category "Network Services"
+        set tcp-portrange 161-162
+        set udp-portrange 161-162
+    next
+    edit "SSH"
+        set category "Remote Access"
+        set tcp-portrange 22
+    next
+    edit "SYSLOG"
+        set category "Network Services"
+        set udp-portrange 514
+    next
+    edit "TALK"
+        set visibility disable
+        set udp-portrange 517-518
+    next
+    edit "TELNET"
+        set category "Remote Access"
+        set tcp-portrange 23
+    next
+    edit "TFTP"
+        set category "File Access"
+        set udp-portrange 69
+    next
+    edit "MGCP"
+        set visibility disable
+        set udp-portrange 2427 2727
+    next
+    edit "UUCP"
+        set visibility disable
+        set tcp-portrange 540
+    next
+    edit "VDOLIVE"
+        set visibility disable
+        set tcp-portrange 7000-7010
+    next
+    edit "WAIS"
+        set visibility disable
+        set tcp-portrange 210
+    next
+    edit "WINFRAME"
+        set visibility disable
+        set tcp-portrange 1494 2598
+    next
+    edit "X-WINDOWS"
+        set category "Remote Access"
+        set tcp-portrange 6000-6063
+    next
+    edit "PING6"
+        set protocol ICMP6
+        set visibility disable
+        set icmptype 128
+        unset icmpcode
+    next
+    edit "MS-SQL"
+        set category "VoIP, Messaging & Other Applications"
+        set tcp-portrange 1433 1434
+    next
+    edit "MYSQL"
+        set category "VoIP, Messaging & Other Applications"
+        set tcp-portrange 3306
+    next
+    edit "RDP"
+        set category "Remote Access"
+        set tcp-portrange 3389
+    next
+    edit "VNC"
+        set category "Remote Access"
+        set tcp-portrange 5900
+    next
+    edit "DHCP6"
+        set category "Network Services"
+        set udp-portrange 546 547
+    next
+    edit "SQUID"
+        set category "Tunneling"
+        set tcp-portrange 3128
+    next
+    edit "SOCKS"
+        set category "Tunneling"
+        set tcp-portrange 1080
+        set udp-portrange 1080
+    next
+    edit "WINS"
+        set category "Remote Access"
+        set tcp-portrange 1512
+        set udp-portrange 1512
+    next
+    edit "RADIUS"
+        set category "Authentication"
+        set udp-portrange 1812 1813
+    next
+    edit "RADIUS-OLD"
+        set visibility disable
+        set udp-portrange 1645 1646
+    next
+    edit "CVSPSERVER"
+        set visibility disable
+        set tcp-portrange 2401
+        set udp-portrange 2401
+    next
+    edit "AFS3"
+        set category "File Access"
+        set tcp-portrange 7000-7009
+        set udp-portrange 7000-7009
+    next
+    edit "TRACEROUTE"
+        set category "Network Services"
+        set udp-portrange 33434-33535
+    next
+    edit "RTSP"
+        set category "VoIP, Messaging & Other Applications"
+        set tcp-portrange 554 7070 8554
+        set udp-portrange 554
+    next
+    edit "MMS"
+        set visibility disable
+        set tcp-portrange 1755
+        set udp-portrange 1024-5000
+    next
+    edit "KERBEROS"
+        set category "Authentication"
+        set tcp-portrange 88 464
+        set udp-portrange 88 464
+    next
+    edit "LDAP_UDP"
+        set category "Authentication"
+        set udp-portrange 389
+    next
+    edit "SMB"
+        set category "File Access"
+        set tcp-portrange 445
+    next
+    edit "NONE"
+        set visibility disable
+        set tcp-portrange 0
+    next
+    edit "webproxy"
+        set proxy enable
+        set category "Web Proxy"
+        set protocol ALL
+        set tcp-portrange 0-65535:0-65535
+    next
+end
+config firewall service group
+    edit "Email Access"
+        set member "DNS" "IMAP" "IMAPS" "POP3" "POP3S" "SMTP" "SMTPS"
+    next
+    edit "Web Access"
+        set member "DNS" "HTTP" "HTTPS"
+    next
+    edit "Windows AD"
+        set member "DCE-RPC" "DNS" "KERBEROS" "LDAP" "LDAP_UDP" "SAMBA" "SMB"
+    next
+    edit "Exchange Server"
+        set member "DCE-RPC" "DNS" "HTTPS"
+    next
+end
+config webfilter ftgd-local-cat
+    edit "custom1"
+        set id 140
+    next
+    edit "custom2"
+        set id 141
+    next
+end
+config ips sensor
+    edit "default"
+        set comment "Prevent critical attacks."
+        config entries
+            edit 1
+                set severity medium high critical
+            next
+        end
+    next
+    edit "sniffer-profile"
+        set comment "Monitor IPS attacks."
+        config entries
+            edit 1
+                set severity medium high critical
+            next
+        end
+    next
+    edit "wifi-default"
+        set comment "Default configuration for offloading WiFi traffic."
+        config entries
+            edit 1
+                set severity medium high critical
+            next
+        end
+    next
+    edit "all_default"
+        set comment "All predefined signatures with default setting."
+        config entries
+            edit 1
+            next
+        end
+    next
+    edit "all_default_pass"
+        set comment "All predefined signatures with PASS action."
+        config entries
+            edit 1
+                set action pass
+            next
+        end
+    next
+    edit "protect_http_server"
+        set comment "Protect against HTTP server-side vulnerabilities."
+        config entries
+            edit 1
+                set location server
+                set protocol HTTP
+            next
+        end
+    next
+    edit "protect_email_server"
+        set comment "Protect against email server-side vulnerabilities."
+        config entries
+            edit 1
+                set location server
+                set protocol SMTP POP3 IMAP
+            next
+        end
+    next
+    edit "protect_client"
+        set comment "Protect against client-side vulnerabilities."
+        config entries
+            edit 1
+                set location client
+            next
+        end
+    next
+    edit "high_security"
+        set comment "Blocks all Critical/High/Medium and some Low severity vulnerabilities"
+        set block-malicious-url enable
+        config entries
+            edit 1
+                set severity medium high critical
+                set status enable
+                set action block
+            next
+            edit 2
+                set severity low
+            next
+        end
+    next
+end
+config firewall shaper traffic-shaper
+    edit "high-priority"
+        set maximum-bandwidth 1048576
+        set per-policy enable
+    next
+    edit "medium-priority"
+        set maximum-bandwidth 1048576
+        set priority medium
+        set per-policy enable
+    next
+    edit "low-priority"
+        set maximum-bandwidth 1048576
+        set priority low
+        set per-policy enable
+    next
+    edit "guarantee-100kbps"
+        set guaranteed-bandwidth 100
+        set maximum-bandwidth 1048576
+        set per-policy enable
+    next
+    edit "shared-1M-pipe"
+        set maximum-bandwidth 1024
+    next
+end
+config web-proxy global
+    set proxy-fqdn "default.fqdn"
+end
+config application list
+    edit "default"
+        set comment "Monitor all applications."
+        config entries
+            edit 1
+                set action pass
+            next
+        end
+    next
+    edit "sniffer-profile"
+        set comment "Monitor all applications."
+        unset options
+        config entries
+            edit 1
+                set action pass
+            next
+        end
+    next
+    edit "wifi-default"
+        set comment "Default configuration for offloading WiFi traffic."
+        set deep-app-inspection disable
+        config entries
+            edit 1
+                set action pass
+                set log disable
+            next
+        end
+    next
+    edit "block-high-risk"
+        config entries
+            edit 1
+                set category 2 6
+            next
+            edit 2
+                set action pass
+            next
+        end
+    next
+end
+config dlp filepattern
+    edit 1
+        set name "builtin-patterns"
+        config entries
+            edit "*.bat"
+            next
+            edit "*.com"
+            next
+            edit "*.dll"
+            next
+            edit "*.doc"
+            next
+            edit "*.exe"
+            next
+            edit "*.gz"
+            next
+            edit "*.hta"
+            next
+            edit "*.ppt"
+            next
+            edit "*.rar"
+            next
+            edit "*.scr"
+            next
+            edit "*.tar"
+            next
+            edit "*.tgz"
+            next
+            edit "*.vb?"
+            next
+            edit "*.wps"
+            next
+            edit "*.xl?"
+            next
+            edit "*.zip"
+            next
+            edit "*.pif"
+            next
+            edit "*.cpl"
+            next
+        end
+    next
+    edit 2
+        set name "all_executables"
+        config entries
+            edit "bat"
+                set filter-type type
+                set file-type bat
+            next
+            edit "exe"
+                set filter-type type
+                set file-type exe
+            next
+            edit "elf"
+                set filter-type type
+                set file-type elf
+            next
+            edit "hta"
+                set filter-type type
+                set file-type hta
+            next
+        end
+    next
+end
+config dlp fp-sensitivity
+    edit "Private"
+    next
+    edit "Critical"
+    next
+    edit "Warning"
+    next
+end
+config dlp sensor
+    edit "default"
+        set comment "Default sensor."
+    next
+    edit "sniffer-profile"
+        set comment "Log a summary of email and web traffic."
+        set flow-based enable
+        set summary-proto smtp pop3 imap http-get http-post
+    next
+    edit "Content_Summary"
+        set summary-proto smtp pop3 imap http-get http-post ftp nntp mapi
+    next
+    edit "Content_Archive"
+        set full-archive-proto smtp pop3 imap http-get http-post ftp nntp mapi
+        set summary-proto smtp pop3 imap http-get http-post ftp nntp mapi
+    next
+    edit "Large-File"
+        config filter
+            edit 1
+                set name "Large-File-Filter"
+                set proto smtp pop3 imap http-get http-post mapi
+                set filter-by file-size
+                set file-size 5120
+                set action log-only
+            next
+        end
+    next
+    edit "Credit-Card"
+        config filter
+            edit 1
+                set name "Credit-Card-Filter"
+                set severity high
+                set proto smtp pop3 imap http-get http-post mapi
+                set action log-only
+            next
+            edit 2
+                set name "Credit-Card-Filter"
+                set severity high
+                set type message
+                set proto smtp pop3 imap http-post mapi
+                set action log-only
+            next
+        end
+    next
+    edit "SSN-Sensor"
+        set comment "Match SSN numbers but NOT WebEx invite emails."
+        config filter
+            edit 1
+                set name "SSN-Sensor-Filter"
+                set severity high
+                set type message
+                set proto smtp pop3 imap mapi
+                set filter-by regexp
+                set regexp "WebEx"
+            next
+            edit 2
+                set name "SSN-Sensor-Filter"
+                set severity high
+                set type message
+                set proto smtp pop3 imap mapi
+                set filter-by ssn
+                set action log-only
+            next
+            edit 3
+                set name "SSN-Sensor-Filter"
+                set severity high
+                set proto smtp pop3 imap http-get http-post ftp mapi
+                set filter-by ssn
+                set action log-only
+            next
+        end
+    next
+end
+config webfilter ips-urlfilter-setting
+end
+config webfilter ips-urlfilter-setting6
+end
+config log threat-weight
+    config web
+        edit 1
+            set category 26
+            set level high
+        next
+        edit 2
+            set category 61
+            set level high
+        next
+        edit 3
+            set category 86
+            set level high
+        next
+        edit 4
+            set category 1
+            set level medium
+        next
+        edit 5
+            set category 3
+            set level medium
+        next
+        edit 6
+            set category 4
+            set level medium
+        next
+        edit 7
+            set category 5
+            set level medium
+        next
+        edit 8
+            set category 6
+            set level medium
+        next
+        edit 9
+            set category 12
+            set level medium
+        next
+        edit 10
+            set category 59
+            set level medium
+        next
+        edit 11
+            set category 62
+            set level medium
+        next
+        edit 12
+            set category 83
+            set level medium
+        next
+        edit 13
+            set category 72
+        next
+        edit 14
+            set category 14
+        next
+    end
+    config application
+        edit 1
+            set category 2
+        next
+        edit 2
+            set category 6
+            set level medium
+        next
+    end
+end
+config icap profile
+    edit "default"
+    next
+end
+config vpn certificate ca
+end
+config vpn certificate local
+    edit "Fortinet_CA_SSL"
+        set password ENC ddB5VkPvf/hlr/53lMO9EQusjbOzP6SKkOoxfZUxOt/KEgG8jRfRZLuvxpVZF4EdAs5uzNV9MJ7guxI9c3r0CIG/e2MoPVTt2Xh+42TUKdcV2ZJpnktTbvwUuz2qZ+EKi1J4aLg+29DTJl1aFr0BQ+pbs3qzESnNvQvrQsFqU4AKROYCydHk4QAU1mDjTdM41Ym4rQ==
+        set comments "This is the default CA certificate the SSL Inspection will use when generating new server certificates."
+        set private-key "-----BEGIN ENCRYPTED PRIVATE KEY-----
+MIIFHDBOBgkqhkiG9w0BBQ0wQTApBgkqhkiG9w0BBQwwHAQIo/s01HjcT2kCAggA
+MAwGCCqGSIb3DQIJBQAwFAYIKoZIhvcNAwcECOfLLx6bPjKrBIIEyKuThmhhrYFf
+HBRO2zqGMmLxiQKPAbOnniSfJGtLeq1LBIDcTWyDPwcqpWU/7Cl5yzn9rWWL4xFS
+CkWJqxdwKnnjTpSBYF5N4kDgPisQ4QSpfG0KhAq0aVoQBi4GapqZKeY2Dc8zSKa+
+oTBmrUWBljK8fvLObkiZvFiOD+7OunZdXdin3wNEbOSWip+VB935xKuuMVkj0CJF
+jk7VF9SHoubv8i6vZBPOLfShpNeXPOIPrZ+x/uoXbnra7EXjrTQykxOzImRXr4oe
+yT2pXcFko43XkFv7gqEAVrI+N6aka6qUdHLdkbiuhJUhyVxLXpAwqGpma2W0F6LB
+OaP0Ks0ZK8dVpcBlTBIGPOtX0b6tEd4k9AQdpZLELX2qEIjEGvoivtf9XvbyIxEg
+X8yXZSEsyO4PmMgo+zh/pypts/EbvsFoOjt8fOFksTyVremmMHGYk4nU+sYaZPAF
+KXy2+PYVJsZRoVKZc3JRrOSKmPwt4xJB9twojqEyCOQ1vIga5l9u4hrICDMdIzL0
+25blK8H/MIru2uuyCE3SKBiJ7w5TaEVakw4X8039IETB6wtDPQgY8bSMGNwwP2iq
+7FfeDox31yir3a1F+7UMIlVb9qfS/iLJTn+ZoujFthuDtMY7c0Up5eP5JYyyNr3w
+Do12RiFi/TiTYboj1xVe+a7n9LKvCN4JZLm4lX+JA0vq8Qzm3EM1oLy0+VMa56JI
+GAY1E1j675mr97hTddzFpzxj+6EwKDsf99y8ZE3AkjVnJroeCedCGBORbPfRPQBV
+XHD7RCFBnwKSFIGLJKSeFWQ2H0K3ncwSWq9QEnmX0FJS7Vlw9JAfWnXnRVvfFeta
+I6nO5u5DNFtQYom3K/QwK11lg97r2HF9/Avg9/RGMpH4n0c0SUlEgyC7icAVloTE
+hQGpDZ1CiUPFbLmVMmaY0wru73xoeDoRWHJE6UtMFU2IAqZQ+aHlbTwOOPRHE8sk
+Rj/3j1+rNgN2SclDMR22kSPNUzhz0fDUMrmAUx3gdEYjzuRz1/0halQKs1uFi8sW
+WT1CkN7YC/jA2/DoUaAPoe6vFAUqNbRtsmm1zWzwvAKksvUMHAmKPqSyuYpvdp04
+MYtKuMgUBoJCzdGixhul0Jb+xvL5W8Tjodja4C1WaGgoUVKK80DSBn0DbpWS1UYo
+SkYtntJb+puW7RHqUzhkH2aPxNtbHM19M4dLiOykaRBlW/k+yvHg+jU2e7jbje5N
+s2lB+Ypf2xljVEOLwFyApPQ31xLvy6/fMRo2vrpppbskvWZsWNFUSZ7tnuptRpGO
+mGJk+n4AR8oFVQ1y84eZUELMS/x3Ekt9KLJwbZRfjxqvMRxzWa4/mawEKAESlrb2
+jHfGUe4IVReIHOkpk4K2JWGL/ZfY1iC02hRcG6KkZIL9bQ1z2/+PjfJoDsFxda7L
+MRDl+G+aZvSpBjfqIWukh/9pJkzAN0hMovvndoDkWGYIvu8h5VrmLCbCtFNsCpdw
+5s461giYvjt5UFABrcU5ige0c/OXXLecm+cp0OxNcdgaGFjgyouaHfeVpENTieQ0
+uQcSNusOwdKL4aUvel/dOMD1OPvXevS76kXHzgVETv1ogUDm7KPCA9oyUr4N8Q9d
+Ma+adgvE2eVnNjHr8B+9sA==
+-----END ENCRYPTED PRIVATE KEY-----"
+        set certificate "-----BEGIN CERTIFICATE-----
+MIID4jCCAsqgAwIBAgIEbsHndTANBgkqhkiG9w0BAQsFADCBqTELMAkGA1UEBhMC
+VVMxEzARBgNVBAgMCkNhbGlmb3JuaWExEjAQBgNVBAcMCVN1bm55dmFsZTERMA8G
+A1UECgwIRm9ydGluZXQxHjAcBgNVBAsMFUNlcnRpZmljYXRlIEF1dGhvcml0eTEZ
+MBcGA1UEAwwQRkc2MERQNFExNjAwNDI3MTEjMCEGCSqGSIb3DQEJARYUc3VwcG9y
+dEBmb3J0aW5ldC5jb20wHhcNMTkxMDA0MTgwOTMwWhcNMjkxMDA0MTgwOTMwWjCB
+qTELMAkGA1UEBhMCVVMxEzARBgNVBAgMCkNhbGlmb3JuaWExEjAQBgNVBAcMCVN1
+bm55dmFsZTERMA8GA1UECgwIRm9ydGluZXQxHjAcBgNVBAsMFUNlcnRpZmljYXRl
+IEF1dGhvcml0eTEZMBcGA1UEAwwQRkc2MERQNFExNjAwNDI3MTEjMCEGCSqGSIb3
+DQEJARYUc3VwcG9ydEBmb3J0aW5ldC5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IB
+DwAwggEKAoIBAQCcq/DtG81nNYyNY4Xz8pXJpot9hzY2jC1Jt/ecTApgnhMv7ecW
+YNhmwtVZun8ygXOAC/QmQfp3RslXZzyf/lmwei2MGBU4so6jdxcBYn7Mc25obMjI
+xxFXLm0+K5bBC+hdOL0IxR4z+W9lNqGW9rAzUsIuogFVdnxz98lcxhP0JU5wSEfK
+9EEMyYnBPUpWiVL9cBTe7UwUzrZdzBsOJxwF6vmiC0RB9aNNu94M4XYXwr/QSF4o
+a4F6n/Fpx6141jHt5or7YB9EdUZfx1kUG7v0AfFcVZp33FlfK0dgpzeJJ18fwtep
+Ltb6W8Gp8NhuJCPdNczYr6d3PV/BY/mlZlEdAgMBAAGjEDAOMAwGA1UdEwQFMAMB
+Af8wDQYJKoZIhvcNAQELBQADggEBADPkQavC4ik+WMfkBBcF5kx0UEAKakIX78Lb
+eU+UfTJkyC8cCNQYisXwUMhNFvBt53WOaZqCzGCIZ2JYpOF4J8C91Oz46+1k3VKE
+6mRGsZpB+j3wSjy/HQ8JnigDn1rqIAgbZ6JhvadnqyeQ1J2zv8i2TFYhiSzUPIMt
+SDwOc9vn7y7o7cnb0lhaT6qG4VpeFQX+c4DcFXGtReP8356nxTPsG2uzWCgmK2SD
+HHG8D9lMGOa3j0g5TOFhtpmjyGdePloXie7p3SLnTNNWUd8LxKPMslWddrMqFnh4
+KDLDYOAIUVjb9u61uvRNCyeVeamwXugozPcvZu2VJpv1pcxG63k=
+-----END CERTIFICATE-----"
+        set range global
+        set source factory
+        set last-updated 1570212644
+    next
+    edit "Fortinet_CA_Untrusted"
+        set password ENC Oui8RQTX3zaFFRcToWDurnNJ9UrfVmF39+yms6cp1III1S9OYwyJ8/6K4kJeqQ9yyaK4dRc/6tuZ8BIEr2BLutj48qihc6mAZ9xBLOJTssG3WyFL0YDeg2ForDM/Egs4GbXoECxoYltgqwYTnHeYMXh7GDGfTcpcF5lkh7DNyPP/lcm5l3kL9oBb8dKvm8/UOTmKNg==
+        set comments "This is the default CA certificate the SSL Inspection will use when generating new server certificates."
+        set private-key "-----BEGIN ENCRYPTED PRIVATE KEY-----
+MIIFHDBOBgkqhkiG9w0BBQ0wQTApBgkqhkiG9w0BBQwwHAQIZRmb4O16IZwCAggA
+MAwGCCqGSIb3DQIJBQAwFAYIKoZIhvcNAwcECNPfxwCwEHaDBIIEyKmIMuFxPnQC
+jEB7eowy3Kgdx2SUJGRn6uxHlAfzhii7QWPCMAhNC50p1YsyJeJ5y/izI7IskKpm
+MHuJn0xtJhmy5O4h8A8KVfGXH0aWLBi8MFS1NFA7fcrHDNt8bcTTLT/Trl7EOcDm
+/oeCz6KvN02EiGNuiJaycuV4NTHK/A3jRFuH/rNqftFHsE6jfZcmoarhz4cuCl1/
+Qp7LXmAm/Aw6T5p1WTdXAdsgPlcOSxrDGSBFkN/jHt9o2Adf9LTRamHtyY2VLZyb
+nOtJUqNV3Xumzc57zYxs4xqxXUpcvfYf/GNRT/35B4h9AUH3Hp8NLpHWTD47sgnv
+xZGuwPUcrO7J2zDgj4/F+8DJussvsLl7WWG6u02LBtuaB5eoW/GiP7xHT8+fZNa5
+4SxAmTEGZ62zqFjWWrox05MLynfmyCNshdvWJKxUn5izfug7CA1CYJPZfvMHSoz8
+oO7przLHn8vZYN2owByyKik/CK3yOs9szEMT/rYsP2+W2Ni94MnybzrHrnNDf7qh
+GFITFoEyHqOF7aMXEW5VkQ3Q94yzImfgU1XBFieTdK7N6EIe6Q1NkTuCPfJ6qC/V
+lM7Q59H9WogWdoeWUUpvoRCAmaxyx6+N5MJE1ENIv7DW8eceOwDWKZL421QYjW4A
+4ZZrO4delfrYU4JI614wlhz7KLuu+eBhSL9YP6dh9D186frEvSHeDZJr5wSSsOQo
+17mMeUB5sAe/HdhYG8X1ZWlgyVra0xacr2TuzIgTItG5p1QTc7FrqGi+ae2EHz5Q
+cR2+apE3DbsERrSv8fBTzlhYguSGDJp+R595M1pPDHvP+ciOtgfuK7VKhgQcIyxc
+QWEmxFImrZqQUb1xnM8ekzC3d+nXlf8C5YvT/oXENnDEplLRGBS52x9tgt96NG4J
+QW6UbdzvfXvrq9Gmwq7qdeGwMR5M/oVETtwAPZ7OGftEuCIIThx4mRhkhasgvVeQ
+Pn/ksLUY/RQHmThyDWoN9MHzFzdNs429PSXabC19hNnfRCg1l8+Y06dCDv+ssZB3
+lB3ZQYZ/UQ/8N18JR6RMKANDKScx0oT3ymHs4MSGkaWugfHslhnYnJXuIBXAsDNP
+D0gp5hw5COw7N2vIvAmJWqzrn6nb/8Juuu1VrhciQA8LTM8sm8zdIRns4tBYYxjd
+dcP0BVoY7aNXRgqXf+EPHHl+Qk2Ep05te88jnoh0X33JZs9dJjDCI4e5mlq7LHbG
+9QY25TYdT51x6VqE0hkY1ubc7xnx7CheBprl6Q/clxy3HOhJRvO05gdRFSJyKG4U
+pR8GlYXGerCaEG1yjDmOtldcdecdEenhrpFzVYLKOcdIqKWx6nsJTts8x9jidgi8
+h7caujDQGsF6alNjJfowhw/jnmIUWvQhIuhKbQqFoHxbAwXc0q9Vc9xxcNsixbEP
+fjTX06uo7YK7T0qAr1hphbd6HhCd7+IVWmhxiVTfWFymCcLOG42veSm6R9J36bHw
+/f/THwqlOo1bIns3u2O7NdAATpYOA8ZG4ApnE397MLViqQJOFwUBuFVxsKvZBCE4
+QhYXHtKYSZrP61pH8VCURpVQns85nEhf1Ttp1wtJwaNmiEESgojDQKuuheqfCAJF
+amWJWjQZ5K2JBZzaENXjPQ==
+-----END ENCRYPTED PRIVATE KEY-----"
+        set certificate "-----BEGIN CERTIFICATE-----
+MIID7DCCAtSgAwIBAgIEWtS4aTANBgkqhkiG9w0BAQsFADCBrjELMAkGA1UEBhMC
+VVMxEzARBgNVBAgMCkNhbGlmb3JuaWExEjAQBgNVBAcMCVN1bm55dmFsZTERMA8G
+A1UECgwIRm9ydGluZXQxHjAcBgNVBAsMFUNlcnRpZmljYXRlIEF1dGhvcml0eTEe
+MBwGA1UEAwwVRm9ydGluZXQgVW50cnVzdGVkIENBMSMwIQYJKoZIhvcNAQkBFhRz
+dXBwb3J0QGZvcnRpbmV0LmNvbTAeFw0xOTEwMDQxODA5MzNaFw0yOTEwMDQxODA5
+MzNaMIGuMQswCQYDVQQGEwJVUzETMBEGA1UECAwKQ2FsaWZvcm5pYTESMBAGA1UE
+BwwJU3Vubnl2YWxlMREwDwYDVQQKDAhGb3J0aW5ldDEeMBwGA1UECwwVQ2VydGlm
+aWNhdGUgQXV0aG9yaXR5MR4wHAYDVQQDDBVGb3J0aW5ldCBVbnRydXN0ZWQgQ0Ex
+IzAhBgkqhkiG9w0BCQEWFHN1cHBvcnRAZm9ydGluZXQuY29tMIIBIjANBgkqhkiG
+9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsIs2ipJ1hXdW2/zA9Wz4RMtPZlu5mQ++OVyK
+xq8wOpk7N5uEAouz6M7xlQP1g2iJgKoxzRWGtStQEo7jIvOYVd7NLT0Xe8Spdruv
+gj1XG0gRs7JCxOfJIMostXUHEV6PaMeCUfVWE0t+5RKJrJdIO9ZR7+FXAIkRmIXM
+XXaSWw7kHqWxWsUr1NOmCBLejikaVb6VaTljvwgUugTG9NcbRdZr0usTdOtRwJh/
+RVvXFd0x/gaqIAfqYryxXBnqAMy/FQbvMasXrtPNEOHJPd+Q723EK+jmsI80IkYh
+wjkWGyfqATJLYdjQqSCsJN26oZOCpU5jNAMLsqRI83keky1vuwIDAQABoxAwDjAM
+BgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQBQA5Pv3SA+pDIy7woauDD/
+J0QPl60p3vokXft7qK4dkU8EVo5mUbmk9t5NWoPIw5biLmRH3LSdM0dRqmvMs0l1
+gTPmgO6ClUbdUsA9IwybGsU9ZX3iYkDYMCNLEoEck9ryruAxwZ2XpEpq4qGcCpNt
+lLWjy2EvM6D0n04H37G7V0Q6MHzy+gPes35ZjOmD73a4cxTjxfzBZOT3XniHk/zm
+96ve4iT4n/W54ODxarZfKaRFfsbXC4PKFoij0M1dq6v/IdB3bHg5dvCeqcWp6yOJ
+iczIUMLl+XOTCKCQcxvI8eZ+NfVBg4i79hhGswB8952nCHU/AZL4GCjieUDKWPgR
+-----END CERTIFICATE-----"
+        set range global
+        set source factory
+        set last-updated 1570212644
+    next
+    edit "Fortinet_SSL"
+        set password ENC sxzsoKUW6IWpT93KUCCDdppwL/zlEQMfuBx6jpGjEi3OKPYgxrm9GZ5hytrs+0cPX8KPKhWAxnM0xQ6XH+M+S37DbQyeUJEO9d6C3xe0GE/6r1m7lLnJyA8iU5fKXcyVhekl/LSIfHG7orGKmHiaXTWZ9PjdCaUqNSqRbIY4VH01SGl19LfECnEVW20vYiWtRTEi+g==
+        set comments "This certificate is embedded in the hardware at the factory and is unique to this unit. "
+        set private-key "-----BEGIN ENCRYPTED PRIVATE KEY-----
+MIIFHDBOBgkqhkiG9w0BBQ0wQTApBgkqhkiG9w0BBQwwHAQIcrYfoGJz9UcCAggA
+MAwGCCqGSIb3DQIJBQAwFAYIKoZIhvcNAwcECI1AldClOWADBIIEyO1TGBfvagjh
+YLyVLkFYOg80GBnFFjz6tCM9YFZ3Lyo986gPPnsQwsiDV3X+gH2zBsUgCMbnx2hc
+TYob3OOFjUl0sv/Wv9xcqXE2zDj0LmRzGRuKkEbXUTaolM/cEVy/x8AotYu+Oq37
+Qm5mNv5nWoyNZoXaKFplujD03YTr2sM8zmEC7gLbkyj4/vs8hoSwNhTpJSz4U6xZ
+LXy9NAVohnBoCRjlMskmu71+/teEOcuhjA+ZF8DHzfLo74Tdaa2izUs/p8qSM7Ik
+FS9q98x8s0Vk2is8Zm+j2qSjcaEG96TZY2JhU34tUe+U2we2kEtahg+bLf+BcZcz
+8uPHlvMBO1Hq2UhmTePk59DkDcoxFHqO6xKyozGX6TQ7evJBk9hjSll8fSu7qTMy
+i2qguIQkYOimx7N9QimCHwzkGjmlb6yMAx6nGo9fV7Br5Mw+NowcJSwTRrORmqO0
+qPBcTXdz1a6Q0axcmPYB15z3npcJvp3+F4+yyDBkzLLS0zWghvBeCmvYe+9xgs7z
+7//4ntbwWybnVyoWZEc4jJ3IXqTVKcj9t9G3IXtdVQxkgVXMConYWMh97pwgYRks
+wuz7AlWJKokRutb1o/XpN0rSiMFzInVpT+P2ZrecamUamJtVhd+PuyhEBrqINEfZ
+W9k169WqDwST7IXRAfde2OJ2vOCYxjiK18DiLkQqlnhhX2qfay5gN62KMfX8a2sH
+RJPQJP0n3bCqBXXIpUrbt625sYDU740VDoidQqfhfTmj/+PgSz+N5ZtUvkWV7ukS
+vhRp5OZh0zFQeLlYycdQ13KZMfxgPl6hg0QkPr7M5ag+Y4hDFALSwvGHRMft8NRC
+jvv48GFLRDxUiEadkYltjOH+vQg7XsxzI5sqXsgiDWuoc9gpkewTHJanwPhULfEB
+vGVFi69nrcEImxJYcCZvoI1iukjq6vbKTwMjhNTjILIR9yLvUFZCiekOAGe80YXk
+/8/vyYpOdQQqEyElQf7e+iESO/+QAHRMKujgu7XQs1A2Hh7NgFcRrmOHnanw4qxP
+HG3GzcorZnPnm3lOjYEfutSgrPE4m3caDCdto+1RvgK90H8jmtZnq1i+n/OQc912
+HYBiqVcAVNWoQ2v52NHrR9TrgYfneXfD2d7cR4SEKZf7CYFg3AjD0Y4MwhvJqHRo
+ye4XILpLTTX4kRj1WqQkbd2V1St53LUNljGQyxME9rya59lrMtBbgIDiiwxkzESM
+cjGhSzBHQzWTGLE9XHWKroy1heRfVGOg4DGpP4H+7doSOSLHAISQ4Spc1v7YUqPy
+P7oRefUZlqAqmwO6cFBQIFQnxnOYMmEc2F1XMb9AtGCZmtElEbf8EjptZNOUastI
+5FrJGEJraYawQapKE9QJH7c4va8/ohcqmLG2wg5Tsljfpw46O/HKkEp3cwwDgqf8
+2btf2LJuP0ChqK8KD3KB6xpdOUSDsPUR+NPrxPLWgS47tmqTrMCDPmt3KNeNPebm
+AuA8K/xYjugcRJj96aZC3ViZtEH1nzXEvmyPzOOpqX7B5J/+pxjBPdCPcgyVs8u7
+6wlb9qF18RovWxAVGJITqJ/cqK5o0s52aYwx4ljjb6Z9H0e5yfUNhhuWZLPak3IR
+MdnFNS2WqsuxobgcRiHLDw==
+-----END ENCRYPTED PRIVATE KEY-----"
+        set certificate "-----BEGIN CERTIFICATE-----
+MIIDxzCCAq+gAwIBAgIESdDSATANBgkqhkiG9w0BAQsFADCBnTELMAkGA1UEBhMC
+VVMxEzARBgNVBAgMCkNhbGlmb3JuaWExEjAQBgNVBAcMCVN1bm55dmFsZTERMA8G
+A1UECgwIRm9ydGluZXQxEjAQBgNVBAsMCUZvcnRpR2F0ZTEZMBcGA1UEAwwQRkc2
+MERQNFExNjAwNDI3MTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmb3J0aW5ldC5j
+b20wHhcNMTkxMDA0MTgwOTM4WhcNMjkxMDA0MTgwOTM4WjCBnTELMAkGA1UEBhMC
+VVMxEzARBgNVBAgMCkNhbGlmb3JuaWExEjAQBgNVBAcMCVN1bm55dmFsZTERMA8G
+A1UECgwIRm9ydGluZXQxEjAQBgNVBAsMCUZvcnRpR2F0ZTEZMBcGA1UEAwwQRkc2
+MERQNFExNjAwNDI3MTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmb3J0aW5ldC5j
+b20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCq2Ah9G8aITddJ9JJQ
+7w+ocqaNFaC+jkU/d5J7IuIH8Fkwov7deSjFH5P1ShY0X4U8rJqj6s1M9GdWWLy3
+vOfpfJjlfEZTtSSOKBx1YCBfbDjEnkeeLP/8BhHJg+j1wv5HABHXnAPK6EJ/UwoY
+TFeJeq+2ilxyXkQkvxJIGcG4iyUChAIsuOxmlQTATwQevgVqye50hzLL4PfFuV8K
+KP2PnAI+UVcizGRKDOvnYZDyw6+ucMuv1BGQLy/07Zv2AAN2sbhgfFJUsLDs+XyV
+Ig0MhvR3VVYd8bjspodK1ZvkGbgv6XogMlpWm5DHfwK00qctq3PQb+00Z+DyU5ZM
+LB1/AgMBAAGjDTALMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBABXQW95u
+O4ULyX0HqCcRWpKLf46TezkQGhugKLAhOZIhbzGNuzTSFogUolux1W9WFW21zYzm
+OKN7K7N0cIuk7AJH+hToA2yUnHleG1/wtol/Y8NbjRPrOC0HPxfhwZcMB7dLF3sK
+c52t2zRjRiWNO4WBppPVRzM1Lv5PKILZoAfThe7V1bl3bFez+RnUiUhMmOaLCCrc
+aTgYrrrOf2FTPuMhx9VBXLLP5MloUfzYR+MUS126q0VqLGTqe45YJzT4ZiI36n51
+umtXCMcf4GEss2tYT4SmlIbFjbYDLDVwEMM0tQ4bG9SPb5T7g/2FeziNSIY0A5OP
+ZgPC5KIecgaNPBg=
+-----END CERTIFICATE-----"
+        set range global
+        set source factory
+        set last-updated 1570212644
+    next
+    edit "Fortinet_SSL_RSA1024"
+        set password ENC kqf+tlvyZqhw+mGleM2UopUnwckeKUabx18bq1kUBnyEMcKvgguOfw91EwhMdVkudatoprErbMGLmmQlG6rEMg7BILWZlwzqMPZEGUtpwyHIzSo3zoub9Nk8tP9u8RISYAWhpWEBYrGKGyfTcybUAOzihtHZsM6fSbEVDc+K6d585qAAMeN6kV7dwCxfEveeZyj5qA==
+        set comments "This certificate is embedded in the hardware at the factory and is unique to this unit. "
+        set private-key "-----BEGIN ENCRYPTED PRIVATE KEY-----
+MIIC1DBOBgkqhkiG9w0BBQ0wQTApBgkqhkiG9w0BBQwwHAQIvYjbwmJ/moMCAggA
+MAwGCCqGSIb3DQIJBQAwFAYIKoZIhvcNAwcECEL2W9OlcoGKBIICgOdSeTOwCJL8
+MITv9Aj5YnHQ3jXOVOu2xWuUmEYCgtbcyJXSdNy9v+wjEJF049azF201S0gc+uOu
+M7jTdabtVn0Hs7CDpbmTfvosxCfW7Z3SXmqPSWMstWCodRaWN1mcIx+dRnqxJ1eU
+j8i5C6MYRrZuJF64tg8B5X08p0rJIzfsUbg72lJoQlThcalqtlnYOqZWUc6vkaa2
+ViwKqcZ46tAV4ZnGL3fj3yuwxrs+m1SqVtUnevh9Z3yvUQqacY6bG6yswPIgZPjc
+6OOGC/cIzMGcQptSOeQ7DGSGPfTqC5dXbXuehntjnb+S8GA4Lo3cO3FfCsEJuX3K
+RQSNAi9zADvM/A82w/bIk+2Xn+UyqcqYUzhrKy5KysFk5afnbYPnNDQIr0hKmNVf
+N7jGecrFxekowc5up5cOOTjHQ5G7nsWIfoJFm1r3EJ/Js2Romgfw/owjRUikWoTK
+c7fWKN06qGXlBo6aS2BXmUVdiBH1K6lAFXq2dhP8rTVbKEn+FTeAR8jKd1ZV3QEJ
+eYUDV8Xqa3g+QSY+maTQqcinCIJJPFtKgw16IEWpKnLPG/kvWX8AKj1pcPbfLKvQ
+pasHWKC5zBZIcStJmNoMtaykxl7Amm0GrCieV9Wc1X4fP0I/tsg0g7czM65Ccpk4
+0XPWK6ForGRi1BwHezoSz7z3b2mFEbLCQ9qie9eBM9N+w0RkhGhYtjcfqH+Hsy26
+ekWOJogkbzK8ef+X8weUVa/DW4w3+TyYPutU3+cJ4e5ez6OXCsVGoTKxigoDmgGk
+zbmOj/y+WLRD0ai0ddSCfDglHXV4jgkywv6aj1UKAMM69U87b1+xjhTB1k2VneNk
+FPCJT+PPuD0=
+-----END ENCRYPTED PRIVATE KEY-----"
+        set certificate "-----BEGIN CERTIFICATE-----
+MIICwjCCAiugAwIBAgIEcBn3azANBgkqhkiG9w0BAQsFADCBnTELMAkGA1UEBhMC
+VVMxEzARBgNVBAgMCkNhbGlmb3JuaWExEjAQBgNVBAcMCVN1bm55dmFsZTERMA8G
+A1UECgwIRm9ydGluZXQxEjAQBgNVBAsMCUZvcnRpR2F0ZTEZMBcGA1UEAwwQRkc2
+MERQNFExNjAwNDI3MTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmb3J0aW5ldC5j
+b20wHhcNMTkxMDA0MTgwOTQ0WhcNMjkxMDA0MTgwOTQ0WjCBnTELMAkGA1UEBhMC
+VVMxEzARBgNVBAgMCkNhbGlmb3JuaWExEjAQBgNVBAcMCVN1bm55dmFsZTERMA8G
+A1UECgwIRm9ydGluZXQxEjAQBgNVBAsMCUZvcnRpR2F0ZTEZMBcGA1UEAwwQRkc2
+MERQNFExNjAwNDI3MTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmb3J0aW5ldC5j
+b20wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAOT1T6hfo3D+PGeQ7gvSMJVT
+6ZIYwd/kEmrd6nPk6wMi9t6XrWK8+GLeV4hnUEajkzzUEUY6MH+vzk+9iGDG6nlc
+f1ROAVSs5MMBfp62xB7PghOBgOiPGS1udiF0YIdragz/nF9FAddGndySbCfUODHS
+LKeupQaux37F1MXfQD2RAgMBAAGjDTALMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQEL
+BQADgYEAXgWZHOHeNcmsUveZisAY7aRQaRwTBHcJ3wlk+/EAeTvgSjF2sBANZ9rx
+ffdTldx3TUtacBmY4UMjqToKFdYFtANdK8vZiAaL7eNTiVW++k8J+5y+YayBdN/y
+wmFubrOH0EGEm/kCwLqp1pkx9jbkpi4DrhPHiAze3yjfYFGHn+w=
+-----END CERTIFICATE-----"
+        set range global
+        set source factory
+        set last-updated 1570212644
+    next
+    edit "Fortinet_SSL_RSA2048"
+        set password ENC 8mcLD/eeGtm4eTg3v1PO8c6xFfVfnCjllv1M1FPyP/5WqCBOF2qPZnzIEufX82Ufn1ARkq5GOMQL7HuTUvOtFviBNElcJ0ItkEYk7RkqjPXbI5ij81qpWDTkiSd/XXBXvA/cGDsZ0cKLra8cIZy8vdKoOfqUtBi2XxyM0j2EX5fq7j3pAIYWb2NGEjr9vxKgSxdXBA==
+        set comments "This certificate is embedded in the hardware at the factory and is unique to this unit. "
+        set private-key "-----BEGIN ENCRYPTED PRIVATE KEY-----
+MIIFHDBOBgkqhkiG9w0BBQ0wQTApBgkqhkiG9w0BBQwwHAQIZQpak4eOsxwCAggA
+MAwGCCqGSIb3DQIJBQAwFAYIKoZIhvcNAwcECG9PuX6uMKuvBIIEyEgUDUPBfUsD
+3nUGTHfohRnbMZPk61QoaOeVrQ98mJpbftb4G+qYPlE9hhfxU7SXGUrvBvmKp+1I
+MpewMgCZbvFOcJYT/FEnUtYX1mGf3RrN5s2UQq5tjyVCGxFjwN3ou/1j12KBnHa0
+78NGuLghmpnES9WAykLa7tNSYy5V9qulGH54dj81aM9QXuzy2ftbxuKZecVa7cmT
+IfHgYbEhk5YY3qr8J6fKn6QlTGiVWIJkGTlkSRwjXPnaf5kAllL8DU/VAKMgkE2S
+fluIQsjf1Pq1YQhYdWVUjK5G/8AtTXqx33tkjOISOZj0VlNSUbHgkTcMuKxnAkkI
+oBGzhf5/ZFF6PUbegS0ZSj1O3yXyZISYyDSGesEFE4ZG5TZxyABQkFI7nt3Qpbh9
+7Aac+PfX3TJh8Z8NwosiRn9R2HEkgp3GDMvZuoMtWTohGKgbAxOdaB4QKfPyTjpi
+SQVACINkU9HepEvx48WmeOwydCLsWdgKzZZSbPdp3igzML10UxDj5eCyQOIjHF+L
+jK0+9z4a7Fwfm0DqQt9bS5znyjZNADQj0xofKhyNVaSIWK0G/0rhJ1TtaJmW5D/L
+UPqpZXkd6R3HhaZkgVSWGp2wVASY7Vevrv+WZonYgWClzqUE02HLw/FeRmzZLp7z
+44JOuvFCN0yy6lr3UzkzUiB4GvFrGOt9bRHh3U51DIxoaKgzWIHjLrYtN7i2lcDV
+f73SPz7FkvTynYYfjdu/vg/Y+sodeaIovWbTaqhsp3Hqjo3RdA8AJNkFDulKWZFg
+huCPSFztYGznZeUPC6GEiPvvOgC2CACHBFEpWuX71g21qivnrFAvPhxMdS2gb1OI
+sQW7ITcYh6GX45Su/7RfHk8+kb85KGisS69jqjJ7Hk+eucQhjVwDye+oOavhtWHt
+n1OViwExlbmQhDfdPzAzlEfLf7RiXDMXU1SBi5doKSeTbRVMxTuFmvgNjJuN0iU7
+cHJgHbxib82X3onq5KrDLoLK/sIN+Cb0JmG34DdGzIMePd1/QPZhsCeH8Z7fizxe
+2rgHMhizAU3AhffxsLWn+ZAB7gIdhrBH8v4ap4f9EXea2bx+EZ8gLNxAPS+kUCe/
+748Y4w2ihqWh5PVoOALVKQ6LFABwxK/quPzxRelvzPyz73h5D5bZv3BvAT0WECn0
+LdRa0kldMgmolxXMqaWqk/GzXDwtJGWoweXa8WJswUPskT7ofDuTYnaA6H6w8s6T
+hAYlJ8tY25z1lfhMbJ5DujJFrc/vSN0YQBWmIFJ6N6K4LIGQHX3E6CbPlIH1Dj3f
+LMCCqQ8+FTu7h5DPRxfazzfBTiik0s83tdExstFQOV9NrCqgaNdzsn1TnuXrF+Zk
+Myo7Pcl6REqV9CgVxEnOUdDCpGy82Uh11JHAql3dTJhnJ02l/gUNEF8nSGirp8+T
+Kod0NQjzjOrG+MbIFF822mzXS7DVavoyoqXTaWhAq7+Ov4rqw/pThJxWJk+11QeL
+tJRmc4iEBg/th6WKibhvP7OxRNVq2bi089azqBoBR/MeFNTBP2P5d1zSHOAfyZn2
+cozCWqd9Qim7NmJEGNMNp1x65K9UsEt0+QJAHO+82/JLNGpguKAb2trgW4N1P+wJ
+2vZrGPNi9C06xe/wPzPBeQ==
+-----END ENCRYPTED PRIVATE KEY-----"
+        set certificate "-----BEGIN CERTIFICATE-----
+MIIDxzCCAq+gAwIBAgIEV9DY0jANBgkqhkiG9w0BAQsFADCBnTELMAkGA1UEBhMC
+VVMxEzARBgNVBAgMCkNhbGlmb3JuaWExEjAQBgNVBAcMCVN1bm55dmFsZTERMA8G
+A1UECgwIRm9ydGluZXQxEjAQBgNVBAsMCUZvcnRpR2F0ZTEZMBcGA1UEAwwQRkc2
+MERQNFExNjAwNDI3MTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmb3J0aW5ldC5j
+b20wHhcNMTkxMDA0MTgwOTUxWhcNMjkxMDA0MTgwOTUxWjCBnTELMAkGA1UEBhMC
+VVMxEzARBgNVBAgMCkNhbGlmb3JuaWExEjAQBgNVBAcMCVN1bm55dmFsZTERMA8G
+A1UECgwIRm9ydGluZXQxEjAQBgNVBAsMCUZvcnRpR2F0ZTEZMBcGA1UEAwwQRkc2
+MERQNFExNjAwNDI3MTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmb3J0aW5ldC5j
+b20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDpyHPsLH/HR5FQSvgS
+2Iwvs7s376G1SuCyFTsHrrsS+2Fn3EZbrPs2WYEYy6+AKBxJEwleWqW2FaxZlD0J
+6Q5SGwpPULw/fU41Y1siTvEwJ/jZ+3oYWBb/cr/8B8OkYwdKJsMxlmfChQLGkRl7
+2+BIOyuGZJOiyLFi90o6i/Q5iJ90bcft38a/lyzc5euwqwUfdpYtIqimlnUMHk8O
+evWRJcyAv24rhOCWJWQ3EbjGANifRmNM+DSZqYb3aXWBQdV/UJfExQlowPZUQtMi
+wl/O+rtDJTE3AjsDOKOolAhBvqPdGN9nn9fVakTiQXesfoNCMk8CqrXfCMjroP2M
+ee0nAgMBAAGjDTALMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAIA/kQnX
+mdh/SQQN5CTBhRP74bIngtdvt/9IHPi7fOZx0yLR67Gui5ROmy4x2mhyJQxK3WJu
+5UayQooZaKiZOuvkbpd5s2xN1XDS8pJsU8lydo98mZdkSHuTPeKNgKoBo7jEASnN
+mNl71VkQBdPTmG/0GiKsrHd4reJovG57coiCQ/QhARiuWeN2KLM13kZIS5/5QaIJ
++kZkIthxCKqgZzKIZxvN0XILAPrbXNFNBUGDSnxtaDYH3F6shjJAWXvVR/4vYHd2
+np/VR2ZuPULwuEAC6GrXIdG4W1L3BTgjhnv/1EQxlzJ6zAjaIvvZrt7Hv9gGm0wH
+Cnk9g/ZMtagNLos=
+-----END CERTIFICATE-----"
+        set range global
+        set source factory
+        set last-updated 1570212644
+    next
+    edit "Fortinet_SSL_DSA1024"
+        set password ENC 89lWd+pO3mfmglXxtGK0tmCIdnp6Y7AooGS+YcAfS0c3WCo8/A1iKfcLr/Gq8BC2pF1vvFjF7ROjdptPAz633uvmRQLAm18xrWrgiMc1LIPuCgL4u7BmOdkUzscy8dwiVj99xeGPgK1DF7vVxpYDw/EcJZR7oqR25pr39HPeItvsI1opbeFTnF0bSMzPLFUiLNIrsg==
+        set comments "This certificate is embedded in the hardware at the factory and is unique to this unit. "
+        set private-key "-----BEGIN ENCRYPTED PRIVATE KEY-----
+MIIBpDBOBgkqhkiG9w0BBQ0wQTApBgkqhkiG9w0BBQwwHAQITwFoT9nWhrICAggA
+MAwGCCqGSIb3DQIJBQAwFAYIKoZIhvcNAwcECIDrXEyAmVdqBIIBUBxwYiYsiehQ
+D4pCYBvYEP231m+OdSFUUR7zLsZdmpo1LnJpBLT6Qd7ta51Z0LnsMBCvq2CWvBeM
+vR7Oaigs1U+bR/pWkC/FnGPq9iFtNSjdNxDGOn4vBYyS+EZozrw01litwqXLx7w5
+2qy6B0ugJAcH6bE3zwJw1I7CDW7EVQI5+tnfpUhGuqkzcJIVpqyE9tputomBWuU+
+TxV47A6NYNOV4HpsGu+dTZl14/pMNOeGnUoxS4aIXB7UcPhlp/sn5w10DN+VGRnq
+ZHppJw3wQIZZwkIc0MYc+IDRyBwpwdqNVj3XBTUQL06gYwbmOk/eUZ5aJTx4F870
+IUsnrCXnNoBQtcg/+QKHhG8IeKvL8yMbhLsF2djPtmcuG0yLhl0oWH/+M1P7gfY/
+OTiaRaZIoMOCsaCWWZ5JBxSKUC80zPjD0iMCqSYZXcr6INocGbSy9g==
+-----END ENCRYPTED PRIVATE KEY-----"
+        set certificate "-----BEGIN CERTIFICATE-----
+MIIDgzCCA0GgAwIBAgIEYQlBpDALBglghkgBZQMEAwIwgZ0xCzAJBgNVBAYTAlVT
+MRMwEQYDVQQIDApDYWxpZm9ybmlhMRIwEAYDVQQHDAlTdW5ueXZhbGUxETAPBgNV
+BAoMCEZvcnRpbmV0MRIwEAYDVQQLDAlGb3J0aUdhdGUxGTAXBgNVBAMMEEZHNjBE
+UDRRMTYwMDQyNzExIzAhBgkqhkiG9w0BCQEWFHN1cHBvcnRAZm9ydGluZXQuY29t
+MB4XDTE5MTAwNDE4MDk1NFoXDTI5MTAwNDE4MDk1NFowgZ0xCzAJBgNVBAYTAlVT
+MRMwEQYDVQQIDApDYWxpZm9ybmlhMRIwEAYDVQQHDAlTdW5ueXZhbGUxETAPBgNV
+BAoMCEZvcnRpbmV0MRIwEAYDVQQLDAlGb3J0aUdhdGUxGTAXBgNVBAMMEEZHNjBE
+UDRRMTYwMDQyNzExIzAhBgkqhkiG9w0BCQEWFHN1cHBvcnRAZm9ydGluZXQuY29t
+MIIBtjCCASsGByqGSM44BAEwggEeAoGBALxZp3eL1CMMnTFjyJ1W4G4QJZNwyn15
+g1/geKu9ztw8EFKP0V5jK7lSCpXA83Bm1GGUC1QQb601dpyeIaBA9NkYersQ6ypw
+lTPEJRX83qCjuOHVC4UD8iKmDbS0HOL3hDsjGLfhCKeC8uZJUlULuxx8CmgHPIZc
+nM2sBtga2JkfAhUAhGV+23jyrGgkYQCm+Ljc7ky95AECgYAMbb02xq4KCUFGaZIz
+g4eRpbSC/aYD2DKSGlhI1t6mzOMuVT+REr1oyGsmvX60L4nI4HGmzguex838Yew0
+aPk3dlCPTV1to4nsqVFRx5elHM+gClr1t1gnWyXbj7bGYkhWUeJQNBdtJ32shkCC
+R5zJuvcRBnYO42BbDsRUAb75GwOBhAACgYBf2hrYL/2HmMqOsyXGkb0z6Ac+6pAP
+cB932axPjxWmGrk9rfwZc2Vlh4zfoLkpubiaeZ0sXo9erFWwiObpT9Xsh/FxGcA1
+PGlcXC8fAahikv9IVnYWG8uWZLourFYsgSVEIhgKGsDG6TB/xJi1CqxtjxKxs7FI
+Q2RmXGCaubxdFqMNMAswCQYDVR0TBAIwADALBglghkgBZQMEAwIDLwAwLAIUOLZ5
+9STvxLS1C4M0DzlmeXOKEe8CFDBmnsjxUJLZghY1V01f5RzkFrXp
+-----END CERTIFICATE-----"
+        set range global
+        set source factory
+        set last-updated 1570212644
+    next
+    edit "Fortinet_SSL_DSA2048"
+        set password ENC uMfzcKIzEYq+YFMdnbdNZG/xTbI6HTkLmX2mJhus+MIYQ/IKUjqklggSe2p47w3UqYPiVgI0ogCrKuLYB2H4KmARuA/ozP9odYRgCVzUSYZ6aHQrRTrtegiZwkPFH7WdSjJvAOd9kYZtUqjUS5LVepQIvio1OWIJ+71wV0sWV7ls8X9xWOiRXcE6QgKRmxcok3YFIQ==
+        set comments "This certificate is embedded in the hardware at the factory and is unique to this unit. "
+        set private-key "-----BEGIN ENCRYPTED PRIVATE KEY-----
+MIICxDBOBgkqhkiG9w0BBQ0wQTApBgkqhkiG9w0BBQwwHAQIQzguyJ/0bLICAggA
+MAwGCCqGSIb3DQIJBQAwFAYIKoZIhvcNAwcECBGuFS4oH7eqBIICcNDMwgHlEWMH
+xmgBAT+XVviAIQJK997oz69jcrkjwokk18wuouBP0yWBj4zvkl4Wlbw4ZzZtvGgi
+tDI4QmrTTaJ9SHPqm19eYb+dilxOZORNahOOL6siBjJPxr/DTMH0rmsU/vWj7vwp
+MybyzRBpBAnXS4vUsdNOgqjxklqe+HLHVkE2KbeDL9aj4ltF2yfC8LJ/zO/MCXfM
+fgJ7AlqR44YtxG6eb9mV4dMTw9eRnC6jYAFnV4JRJt9jrTu3BUY1/t5u3cXXx229
+tCTzZ3fIyTE2baeWORL4wJuSz4Xr4WDXFuv64BXrkMTnWoebI/65chhX01WVwZM4
+IHDHyfOOI7lFEn9T8zJ2pqO+hw4pHWc40hneNDGnTDc3WzGNf14i1X8OJBlG9GNi
+GwUR6bjXKEeMZqP6hd5w5ftxMXW/nSPsJSRrSd6BSh1JhdpObu8uPwj1PiH1euKL
+3GMGbMppiPY4jo3WOa1KUamxxGOwj1rvQhxED8BdbLhP5AP9+zfOqoOQrQg2ex4G
+dCep2Hl9RFauPOocKZWdiyWGYR5u/4fyQoX7bLCeg3b2yPEKEoBqj7I75DraJC0x
+EdFOyS26vA0pDqgg9PADcZuVWPlazA6OoUNYkpBCOheiyLpYF4E5E8QLDV71JHDA
+tOnjNfuMzLP/v/VRzn4eBcTKOpDjVW6L4ec73cSoHDEiYpwX/kfwotJUJlJTuzYN
+FLwVyqafCOdXqTUul90mS9s3y5Kl/A8g1yne+L/jOWcM5UZaHQVbdldWgZjkDsNU
+a3BiOyMHLZaMkBf2sDkIwFSYlYjXUokI+qts3RIYE+hy9bomBFm8lA==
+-----END ENCRYPTED PRIVATE KEY-----"
+        set certificate "-----BEGIN CERTIFICATE-----
+MIIFLTCCBNKgAwIBAgIEeM1/0DALBglghkgBZQMEAwIwgZ0xCzAJBgNVBAYTAlVT
+MRMwEQYDVQQIDApDYWxpZm9ybmlhMRIwEAYDVQQHDAlTdW5ueXZhbGUxETAPBgNV
+BAoMCEZvcnRpbmV0MRIwEAYDVQQLDAlGb3J0aUdhdGUxGTAXBgNVBAMMEEZHNjBE
+UDRRMTYwMDQyNzExIzAhBgkqhkiG9w0BCQEWFHN1cHBvcnRAZm9ydGluZXQuY29t
+MB4XDTE5MTAwNDE4MTAzM1oXDTI5MTAwNDE4MTAzM1owgZ0xCzAJBgNVBAYTAlVT
+MRMwEQYDVQQIDApDYWxpZm9ybmlhMRIwEAYDVQQHDAlTdW5ueXZhbGUxETAPBgNV
+BAoMCEZvcnRpbmV0MRIwEAYDVQQLDAlGb3J0aUdhdGUxGTAXBgNVBAMMEEZHNjBE
+UDRRMTYwMDQyNzExIzAhBgkqhkiG9w0BCQEWFHN1cHBvcnRAZm9ydGluZXQuY29t
+MIIDRzCCAjoGByqGSM44BAEwggItAoIBAQD+cLbv2SmYVLZsDFu0HOgZde9zxsNV
+mqvQVEIzZW2i5C0sCtQKMf1QeD/7xN8bDyOO/zqy38NwRZGlZoBS/m35bM0UfSrQ
+uBuqSiGvPoeoMc6bt6tvSS02OtCRJzarPuQGotdx/AYpxM7wBY5OtosiZH0lAe2E
+NUaApnNa0zY8Cq2/KE3NCA+MzLrdtr3EHcjcGnA0xtKV3iWkigv6TOH5xqloNGKd
+DGeNxptTDmWZesz8LzuVNj1GhrW6GZ7e/P9UWMsQUDecBNGEQqhwiKa3vc/MF58j
+Wsw73ssQ2I2ttfsqXDW//3aDm+SCbLpaaHp4fV3f986ZXVm+/tZ/UOO7AiEAr0ZE
+g9TNnu9sTiOyPNptB+599PELIRCWj8Zdigc+EJkCggEBALSOFfHlR8LPQRagcW3i
+5GLkJHMVhllQM1vzREwVuLLz3vDU2cwXDLeJN4pdOp4Vmfu+QcK27n7sMiHoOh1y
+KZejdNhlPQZrSRJQO1g63QHed/dfOfRAwRzLJ7L5YXmcBxq3dJpqG9dYLTub58qT
+8p8nuYOfe/adSlGpL5VrIx6mYoBtdJYpYUuoUCvz3qyGu0BaVy45G/3mG1X6bkxz
+meU1tHp27YU04xBg/SzOcoGk5W3P0HZxFw+kIZ7vDMr8xDYO4o6G63M3kNySZ2sZ
+ZfMNidemvJS0F5QZ+1JdD0DdOVGP44B8JMFqC3lbjFFn1e5TobYibHwptTdA4dKt
+W24DggEFAAKCAQAb2A4e2wdnpmQl9sEqGp89ETyrp3F5wY7yivBLJrwijLFbi+qp
+r+cG5/t/Hx7OyyNkcYTVaXePCrHeirWYCxRBIHQI11JrkBstMLOw1mUmdLOPxgq8
+IdLZz4tNtuqDTNLVIqp64uUfeTPvn+iYvW0oxLpyWbYRLJrNTy4G34zw2VT8UZh9
+1aIT267QCQjz8jwigMXPbEkgi13vXN/0xxTR+9D0njxPDFzs6aHKkaewff4qzmFi
+6uzyjtnK6a8WoyatYQH0O+6z7mH78Jp7chqJO9HXMOhlEKwjF7Zm3/LNBupea7bp
+LOPNL3ZU7fFJGQVKMsvCIUw3yx9biJxpkXh4ow0wCzAJBgNVHRMEAjAAMAsGCWCG
+SAFlAwQDAgNIADBFAiB42msy9yZn86IV1hrsgJuByINnd5QNA6aL+eLJT0gegwIh
+AKUXD9XVvmIVDsb1u8ZHzMPtnS99X5HEt1W9LRnCY0vB
+-----END CERTIFICATE-----"
+        set range global
+        set source factory
+        set last-updated 1570212644
+    next
+    edit "Fortinet_SSL_ECDSA256"
+        set password ENC o9P87dBIRsOZIe1QDobQr2U874o4GVvvqmXgIG/oNSz9+YzFpYfjrbg4aOtaQS3gpavO3i73Sn8Ag+CnQaOfMPsPW6TwGra0Bcee2Yftthmp6GCG9WdMYUbDxYMLyGxKtxvAiL+7IXRjllRP5/pSqq/NVehgceekRloFxHB6NCdwW3L5FnBHGO4tdCiaFQ3gnUpPSQ==
+        set comments "This certificate is embedded in the hardware at the factory and is unique to this unit. "
+        set private-key "-----BEGIN ENCRYPTED PRIVATE KEY-----
+MIHjME4GCSqGSIb3DQEFDTBBMCkGCSqGSIb3DQEFDDAcBAjflpp6z7MV5QICCAAw
+DAYIKoZIhvcNAgkFADAUBggqhkiG9w0DBwQI/R13DvWMnFgEgZBpns/hih6E7MFf
+bAy0IqKUDepIdpAOoSHInX3WqbFeYnbL24rtsHgle5vIaxXYg+2eh2zKg8ShLcMB
+uNnW8hu4blnPL/HoEtCMxh9sg869nH+KhZfVn9PuXSsK3SgE6v2xOyxBdMzJ2g2U
+zUwb+su5GQbJEvrNgurK4CAYOQH36kfgbPraCtsNYKrJuJI6Q0M=
+-----END ENCRYPTED PRIVATE KEY-----"
+        set certificate "-----BEGIN CERTIFICATE-----
+MIICOjCCAeGgAwIBAgIEX5n71DAKBggqhkjOPQQDAjCBnTELMAkGA1UEBhMCVVMx
+EzARBgNVBAgMCkNhbGlmb3JuaWExEjAQBgNVBAcMCVN1bm55dmFsZTERMA8GA1UE
+CgwIRm9ydGluZXQxEjAQBgNVBAsMCUZvcnRpR2F0ZTEZMBcGA1UEAwwQRkc2MERQ
+NFExNjAwNDI3MTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmb3J0aW5ldC5jb20w
+HhcNMTkxMDA0MTgxMDMzWhcNMjkxMDA0MTgxMDMzWjCBnTELMAkGA1UEBhMCVVMx
+EzARBgNVBAgMCkNhbGlmb3JuaWExEjAQBgNVBAcMCVN1bm55dmFsZTERMA8GA1UE
+CgwIRm9ydGluZXQxEjAQBgNVBAsMCUZvcnRpR2F0ZTEZMBcGA1UEAwwQRkc2MERQ
+NFExNjAwNDI3MTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmb3J0aW5ldC5jb20w
+WTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAASaZY3Jg9bTua+ZLuMMInZbtZeMTP0h
+BfcAOT9CLLtUu1l53EIR4oh81i3Pg5oGqONL6jK5UE6DcxzV3u/RoIrhow0wCzAJ
+BgNVHRMEAjAAMAoGCCqGSM49BAMCA0cAMEQCICHaJzq2tz5JaNZI1st/SmJhCJNf
+0mDj5o/ZG671s6kwAiBPFbR4OCcwubOs9vj89Y2wU2Vjbp1eGnFQ5kPXy0YxRQ==
+-----END CERTIFICATE-----"
+        set range global
+        set source factory
+        set last-updated 1570212644
+    next
+    edit "Fortinet_SSL_ECDSA384"
+        set password ENC lwrFn0kEHLwsgBJaW2bQGKcqsVplB9rWjaNuEVFKPqFq9VQWan/dJR93nJ8f4y+/n5xKePjcSa2gozWe6S27pJqrnDdJGlS9PD0+RFsJVW72U8ur1Qkb1MdiXZi/yLxpTjt/b6ZU5MXlmK4G3V+KtROxsAgu6JY3RFzxuAhElDOAOGxYdBNXKk/7LR9+fj7xKsOk2A==
+        set comments "This certificate is embedded in the hardware at the factory and is unique to this unit. "
+        set private-key "-----BEGIN ENCRYPTED PRIVATE KEY-----
+MIIBEzBOBgkqhkiG9w0BBQ0wQTApBgkqhkiG9w0BBQwwHAQI8h6uZp9Cd0YCAggA
+MAwGCCqGSIb3DQIJBQAwFAYIKoZIhvcNAwcECL7CYhrilcjCBIHAl9uHSJG+sCp6
+Ov5H3NTPab5kZn6MtO3iTY7bEQ9fXifQ4NXZxgBqU7g3Devut6lI5wR2f+87Fi7p
+8fvcsFuTIUSzIvARanaXtY+ptSud94sS0PKA08AozMiCC4KsRwQ9MVdXN42dkWya
+rj22YjB/AtHBzvcYz0Hd2O4UIITO1lUb5P4q1RSxsINOeoykpt4TlZQfJrYNZacT
+BGod0LccVIeGP1NWHPw22bIc4VDIYNGih5AdPe8QvJ8MVgbSUDGw
+-----END ENCRYPTED PRIVATE KEY-----"
+        set certificate "-----BEGIN CERTIFICATE-----
+MIICeDCCAf6gAwIBAgIEf5CmrTAKBggqhkjOPQQDAjCBnTELMAkGA1UEBhMCVVMx
+EzARBgNVBAgMCkNhbGlmb3JuaWExEjAQBgNVBAcMCVN1bm55dmFsZTERMA8GA1UE
+CgwIRm9ydGluZXQxEjAQBgNVBAsMCUZvcnRpR2F0ZTEZMBcGA1UEAwwQRkc2MERQ
+NFExNjAwNDI3MTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmb3J0aW5ldC5jb20w
+HhcNMTkxMDA0MTgxMDMzWhcNMjkxMDA0MTgxMDMzWjCBnTELMAkGA1UEBhMCVVMx
+EzARBgNVBAgMCkNhbGlmb3JuaWExEjAQBgNVBAcMCVN1bm55dmFsZTERMA8GA1UE
+CgwIRm9ydGluZXQxEjAQBgNVBAsMCUZvcnRpR2F0ZTEZMBcGA1UEAwwQRkc2MERQ
+NFExNjAwNDI3MTEjMCEGCSqGSIb3DQEJARYUc3VwcG9ydEBmb3J0aW5ldC5jb20w
+djAQBgcqhkjOPQIBBgUrgQQAIgNiAAQQeFHC1SBIPyqoMrAzYnyDqygBkPvaGK0r
+gDtZf6Kk//QpWpBYKEnGzsN/zFQ1TCtuxL/mSqmW5J9SWnf3Bfjm7GX5aIwtnbRy
+aHQ8KOCKhshODtvLRxbDYsJ6EczlCzOjDTALMAkGA1UdEwQCMAAwCgYIKoZIzj0E
+AwIDaAAwZQIwVBrhbVUYdeQ6osPwZNCvLQQiagIfl6mW2xpXbV8QCBErU9g4VYmC
+QiWAiRRaT6RMAjEAkRu3dvDEsVyOYTXEdASEdRCKryWv2ddbekN/NPT8eQ2kTyJN
+4HkhcfTW2uaWsVji
+-----END CERTIFICATE-----"
+        set range global
+        set source factory
+        set last-updated 1570212644
+    next
+end
+config user local
+    edit "guest"
+        set type password
+        set passwd ENC xC7wZ3A2d9RiAleg9TMmtdAX9KfOMFg0+z4dRW1TATJvGsOQ0IAZi9AS9d+HSgB3ndRhwWFR5ms6b7v84ygRTCAUJOiGyJ6aOZqU8RB9sYjC/Y1zwEzmgdbVV0LeJbYLz/JWvf7+XJgT+A4srf50bbmrtWfTXIJONg2FCSRtdJQqyR3qcc+tEKQfPMxbV5Rlz2+4rA==
+    next
+end
+config user setting
+    set auth-cert "Fortinet_Factory"
+end
+config user group
+    edit "SSO_Guest_Users"
+    next
+    edit "Guest-group"
+        set member "guest"
+    next
+end
+config user device-group
+    edit "Mobile Devices"
+        set member "android-phone" "android-tablet" "blackberry-phone" "blackberry-playbook" "ipad" "iphone" "windows-phone" "windows-tablet"
+        set comment "Phones, tablets, etc."
+    next
+    edit "Network Devices"
+        set member "fortinet-device" "other-network-device" "router-nat-device"
+        set comment "Routers, firewalls, gateways, etc."
+    next
+    edit "Others"
+        set member "gaming-console" "media-streaming"
+        set comment "Other devices."
+    next
+end
+config vpn ssl web host-check-software
+    edit "FortiClient-AV"
+        set guid "C86EC76D-5A4C-40E7-BD94-59358E544D81"
+    next
+    edit "FortiClient-FW"
+        set type fw
+        set guid "528CB157-D384-4593-AAAA-E42DFF111CED"
+    next
+    edit "FortiClient-AV-Vista"
+        set guid "385618A6-2256-708E-3FB9-7E98B93F91F9"
+    next
+    edit "FortiClient-FW-Vista"
+        set type fw
+        set guid "006D9983-6839-71D6-14E6-D7AD47ECD682"
+    next
+    edit "FortiClient-AV-Win7"
+        set guid "71629DC5-BE6F-CCD3-C5A5-014980643264"
+    next
+    edit "AVG-Internet-Security-AV"
+        set guid "17DDD097-36FF-435F-9E1B-52D74245D6BF"
+    next
+    edit "AVG-Internet-Security-FW"
+        set type fw
+        set guid "8DECF618-9569-4340-B34A-D78D28969B66"
+    next
+    edit "AVG-Internet-Security-AV-Vista-Win7"
+        set guid "0C939084-9E57-CBDB-EA61-0B0C7F62AF82"
+    next
+    edit "AVG-Internet-Security-FW-Vista-Win7"
+        set type fw
+        set guid "34A811A1-D438-CA83-C13E-A23981B1E8F9"
+    next
+    edit "CA-Anti-Virus"
+        set guid "17CFD1EA-56CF-40B5-A06B-BD3A27397C93"
+    next
+    edit "CA-Internet-Security-AV"
+        set guid "6B98D35F-BB76-41C0-876B-A50645ED099A"
+    next
+    edit "CA-Internet-Security-FW"
+        set type fw
+        set guid "38102F93-1B6E-4922-90E1-A35D8DC6DAA3"
+    next
+    edit "CA-Internet-Security-AV-Vista-Win7"
+        set guid "3EED0195-0A4B-4EF3-CC4F-4F401BDC245F"
+    next
+    edit "CA-Internet-Security-FW-Vista-Win7"
+        set type fw
+        set guid "06D680B0-4024-4FAB-E710-E675E50F6324"
+    next
+    edit "CA-Personal-Firewall"
+        set type fw
+        set guid "14CB4B80-8E52-45EA-905E-67C1267B4160"
+    next
+    edit "F-Secure-Internet-Security-AV"
+        set guid "E7512ED5-4245-4B4D-AF3A-382D3F313F15"
+    next
+    edit "F-Secure-Internet-Security-FW"
+        set type fw
+        set guid "D4747503-0346-49EB-9262-997542F79BF4"
+    next
+    edit "F-Secure-Internet-Security-AV-Vista-Win7"
+        set guid "15414183-282E-D62C-CA37-EF24860A2F17"
+    next
+    edit "F-Secure-Internet-Security-FW-Vista-Win7"
+        set type fw
+        set guid "2D7AC0A6-6241-D774-E168-461178D9686C"
+    next
+    edit "Kaspersky-AV"
+        set guid "2C4D4BC6-0793-4956-A9F9-E252435469C0"
+    next
+    edit "Kaspersky-FW"
+        set type fw
+        set guid "2C4D4BC6-0793-4956-A9F9-E252435469C0"
+    next
+    edit "Kaspersky-AV-Vista-Win7"
+        set guid "AE1D740B-8F0F-D137-211D-873D44B3F4AE"
+    next
+    edit "Kaspersky-FW-Vista-Win7"
+        set type fw
+        set guid "9626F52E-C560-D06F-0A42-2E08BA60B3D5"
+    next
+    edit "McAfee-Internet-Security-Suite-AV"
+        set guid "84B5EE75-6421-4CDE-A33A-DD43BA9FAD83"
+    next
+    edit "McAfee-Internet-Security-Suite-FW"
+        set type fw
+        set guid "94894B63-8C7F-4050-BDA4-813CA00DA3E8"
+    next
+    edit "McAfee-Internet-Security-Suite-AV-Vista-Win7"
+        set guid "86355677-4064-3EA7-ABB3-1B136EB04637"
+    next
+    edit "McAfee-Internet-Security-Suite-FW-Vista-Win7"
+        set type fw
+        set guid "BE0ED752-0A0B-3FFF-80EC-B2269063014C"
+    next
+    edit "McAfee-Virus-Scan-Enterprise"
+        set guid "918A2B0B-2C60-4016-A4AB-E868DEABF7F0"
+    next
+    edit "Norton-360-2.0-AV"
+        set guid "A5F1BC7C-EA33-4247-961C-0217208396C4"
+    next
+    edit "Norton-360-2.0-FW"
+        set type fw
+        set guid "371C0A40-5A0C-4AD2-A6E5-69C02037FBF3"
+    next
+    edit "Norton-360-3.0-AV"
+        set guid "E10A9785-9598-4754-B552-92431C1C35F8"
+    next
+    edit "Norton-360-3.0-FW"
+        set type fw
+        set guid "7C21A4C9-F61F-4AC4-B722-A6E19C16F220"
+    next
+    edit "Norton-Internet-Security-AV"
+        set guid "E10A9785-9598-4754-B552-92431C1C35F8"
+    next
+    edit "Norton-Internet-Security-FW"
+        set type fw
+        set guid "7C21A4C9-F61F-4AC4-B722-A6E19C16F220"
+    next
+    edit "Norton-Internet-Security-AV-Vista-Win7"
+        set guid "88C95A36-8C3B-2F2C-1B8B-30FCCFDC4855"
+    next
+    edit "Norton-Internet-Security-FW-Vista-Win7"
+        set type fw
+        set guid "B0F2DB13-C654-2E74-30D4-99C9310F0F2E"
+    next
+    edit "Symantec-Endpoint-Protection-AV"
+        set guid "FB06448E-52B8-493A-90F3-E43226D3305C"
+    next
+    edit "Symantec-Endpoint-Protection-FW"
+        set type fw
+        set guid "BE898FE3-CD0B-4014-85A9-03DB9923DDB6"
+    next
+    edit "Symantec-Endpoint-Protection-AV-Vista-Win7"
+        set guid "88C95A36-8C3B-2F2C-1B8B-30FCCFDC4855"
+    next
+    edit "Symantec-Endpoint-Protection-FW-Vista-Win7"
+        set type fw
+        set guid "B0F2DB13-C654-2E74-30D4-99C9310F0F2E"
+    next
+    edit "Panda-Antivirus+Firewall-2008-AV"
+        set guid "EEE2D94A-D4C1-421A-AB2C-2CE8FE51747A"
+    next
+    edit "Panda-Antivirus+Firewall-2008-FW"
+        set type fw
+        set guid "7B090DC0-8905-4BAF-8040-FD98A41C8FB8"
+    next
+    edit "Panda-Internet-Security-AV"
+        set guid "4570FB70-5C9E-47E9-B16C-A3A6A06C4BF0"
+    next
+    edit "Panda-Internet-Security-2006~2007-FW"
+        set type fw
+        set guid "4570FB70-5C9E-47E9-B16C-A3A6A06C4BF0"
+    next
+    edit "Panda-Internet-Security-2008~2009-FW"
+        set type fw
+        set guid "7B090DC0-8905-4BAF-8040-FD98A41C8FB8"
+    next
+    edit "Sophos-Anti-Virus"
+        set guid "3F13C776-3CBE-4DE9-8BF6-09E5183CA2BD"
+    next
+    edit "Sophos-Enpoint-Secuirty-and-Control-FW"
+        set type fw
+        set guid "0786E95E-326A-4524-9691-41EF88FB52EA"
+    next
+    edit "Sophos-Enpoint-Secuirty-and-Control-AV-Vista-Win7"
+        set guid "479CCF92-4960-B3E0-7373-BF453B467D2C"
+    next
+    edit "Sophos-Enpoint-Secuirty-and-Control-FW-Vista-Win7"
+        set type fw
+        set guid "7FA74EB7-030F-B2B8-582C-1670C5953A57"
+    next
+    edit "Trend-Micro-AV"
+        set guid "7D2296BC-32CC-4519-917E-52E652474AF5"
+    next
+    edit "Trend-Micro-FW"
+        set type fw
+        set guid "3E790E9E-6A5D-4303-A7F9-185EC20F3EB6"
+    next
+    edit "Trend-Micro-AV-Vista-Win7"
+        set guid "48929DFC-7A52-A34F-8351-C4DBEDBD9C50"
+    next
+    edit "Trend-Micro-FW-Vista-Win7"
+        set type fw
+        set guid "70A91CD9-303D-A217-A80E-6DEE136EDB2B"
+    next
+    edit "ZoneAlarm-AV"
+        set guid "5D467B10-818C-4CAB-9FF7-6893B5B8F3CF"
+    next
+    edit "ZoneAlarm-FW"
+        set type fw
+        set guid "829BDA32-94B3-44F4-8446-F8FCFF809F8B"
+    next
+    edit "ZoneAlarm-AV-Vista-Win7"
+        set guid "D61596DF-D219-341C-49B3-AD30538CBC5B"
+    next
+    edit "ZoneAlarm-FW-Vista-Win7"
+        set type fw
+        set guid "EE2E17FA-9876-3544-62EC-0405AD5FFB20"
+    next
+    edit "ESET-Smart-Security-AV"
+        set guid "19259FAE-8396-A113-46DB-15B0E7DFA289"
+    next
+    edit "ESET-Smart-Security-FW"
+        set type fw
+        set guid "211E1E8B-C9F9-A04B-6D84-BC85190CE5F2"
+    next
+end
+config vpn ssl web portal
+    edit "full-access"
+        set tunnel-mode enable
+        set ipv6-tunnel-mode enable
+        set web-mode enable
+        set ip-pools "SSLVPN_TUNNEL_ADDR1"
+        set ipv6-pools "SSLVPN_TUNNEL_IPv6_ADDR1"
+    next
+    edit "web-access"
+        set web-mode enable
+    next
+    edit "tunnel-access"
+        set tunnel-mode enable
+        set ipv6-tunnel-mode enable
+        set ip-pools "SSLVPN_TUNNEL_ADDR1"
+        set ipv6-pools "SSLVPN_TUNNEL_IPv6_ADDR1"
+    next
+end
+config vpn ssl settings
+    set servercert "Fortinet_Factory"
+    set port 443
+end
+config voip profile
+    edit "default"
+        set comment "Default VoIP profile."
+    next
+    edit "strict"
+        config sip
+            set malformed-request-line discard
+            set malformed-header-via discard
+            set malformed-header-from discard
+            set malformed-header-to discard
+            set malformed-header-call-id discard
+            set malformed-header-cseq discard
+            set malformed-header-rack discard
+            set malformed-header-rseq discard
+            set malformed-header-contact discard
+            set malformed-header-record-route discard
+            set malformed-header-route discard
+            set malformed-header-expires discard
+            set malformed-header-content-type discard
+            set malformed-header-content-length discard
+            set malformed-header-max-forwards discard
+            set malformed-header-allow discard
+            set malformed-header-p-asserted-identity discard
+            set malformed-header-sdp-v discard
+            set malformed-header-sdp-o discard
+            set malformed-header-sdp-s discard
+            set malformed-header-sdp-i discard
+            set malformed-header-sdp-c discard
+            set malformed-header-sdp-b discard
+            set malformed-header-sdp-z discard
+            set malformed-header-sdp-k discard
+            set malformed-header-sdp-a discard
+            set malformed-header-sdp-t discard
+            set malformed-header-sdp-r discard
+            set malformed-header-sdp-m discard
+        end
+    next
+end
+config webfilter profile
+    edit "default"
+        set comment "Default web filtering."
+        set inspection-mode flow-based
+        config ftgd-wf
+            unset options
+            config filters
+                edit 1
+                    set category 2
+                    set action block
+                next
+                edit 2
+                    set category 7
+                    set action block
+                next
+                edit 3
+                    set category 8
+                    set action block
+                next
+                edit 4
+                    set category 9
+                    set action block
+                next
+                edit 5
+                    set category 11
+                    set action block
+                next
+                edit 6
+                    set category 12
+                    set action block
+                next
+                edit 7
+                    set category 13
+                    set action block
+                next
+                edit 8
+                    set category 14
+                    set action block
+                next
+                edit 9
+                    set category 15
+                    set action block
+                next
+                edit 10
+                    set category 16
+                    set action block
+                next
+                edit 11
+                    set action block
+                next
+                edit 12
+                    set category 57
+                    set action block
+                next
+                edit 13
+                    set category 63
+                    set action block
+                next
+                edit 14
+                    set category 64
+                    set action block
+                next
+                edit 15
+                    set category 65
+                    set action block
+                next
+                edit 16
+                    set category 66
+                    set action block
+                next
+                edit 17
+                    set category 67
+                    set action block
+                next
+                edit 18
+                    set category 26
+                    set action block
+                next
+                edit 19
+                    set category 61
+                    set action block
+                next
+                edit 20
+                    set category 86
+                    set action block
+                next
+                edit 21
+                    set category 88
+                    set action block
+                next
+                edit 22
+                    set category 90
+                    set action block
+                next
+                edit 23
+                    set category 91
+                    set action block
+                next
+            end
+        end
+    next
+    edit "sniffer-profile"
+        set comment "Monitor web traffic."
+        set inspection-mode flow-based
+        config ftgd-wf
+            config filters
+                edit 1
+                next
+                edit 2
+                    set category 1
+                next
+                edit 3
+                    set category 2
+                next
+                edit 4
+                    set category 3
+                next
+                edit 5
+                    set category 4
+                next
+                edit 6
+                    set category 5
+                next
+                edit 7
+                    set category 6
+                next
+                edit 8
+                    set category 7
+                next
+                edit 9
+                    set category 8
+                next
+                edit 10
+                    set category 9
+                next
+                edit 11
+                    set category 11
+                next
+                edit 12
+                    set category 12
+                next
+                edit 13
+                    set category 13
+                next
+                edit 14
+                    set category 14
+                next
+                edit 15
+                    set category 15
+                next
+                edit 16
+                    set category 16
+                next
+                edit 17
+                    set category 17
+                next
+                edit 18
+                    set category 18
+                next
+                edit 19
+                    set category 19
+                next
+                edit 20
+                    set category 20
+                next
+                edit 21
+                    set category 23
+                next
+                edit 22
+                    set category 24
+                next
+                edit 23
+                    set category 25
+                next
+                edit 24
+                    set category 26
+                next
+                edit 25
+                    set category 28
+                next
+                edit 26
+                    set category 29
+                next
+                edit 27
+                    set category 30
+                next
+                edit 28
+                    set category 31
+                next
+                edit 29
+                    set category 33
+                next
+                edit 30
+                    set category 34
+                next
+                edit 31
+                    set category 35
+                next
+                edit 32
+                    set category 36
+                next
+                edit 33
+                    set category 37
+                next
+                edit 34
+                    set category 38
+                next
+                edit 35
+                    set category 39
+                next
+                edit 36
+                    set category 40
+                next
+                edit 37
+                    set category 41
+                next
+                edit 38
+                    set category 42
+                next
+                edit 39
+                    set category 43
+                next
+                edit 40
+                    set category 44
+                next
+                edit 41
+                    set category 46
+                next
+                edit 42
+                    set category 47
+                next
+                edit 43
+                    set category 48
+                next
+                edit 44
+                    set category 49
+                next
+                edit 45
+                    set category 50
+                next
+                edit 46
+                    set category 51
+                next
+                edit 47
+                    set category 52
+                next
+                edit 48
+                    set category 53
+                next
+                edit 49
+                    set category 54
+                next
+                edit 50
+                    set category 55
+                next
+                edit 51
+                    set category 56
+                next
+                edit 52
+                    set category 57
+                next
+                edit 53
+                    set category 58
+                next
+                edit 54
+                    set category 59
+                next
+                edit 55
+                    set category 61
+                next
+                edit 56
+                    set category 62
+                next
+                edit 57
+                    set category 63
+                next
+                edit 58
+                    set category 64
+                next
+                edit 59
+                    set category 65
+                next
+                edit 60
+                    set category 66
+                next
+                edit 61
+                    set category 67
+                next
+                edit 62
+                    set category 68
+                next
+                edit 63
+                    set category 69
+                next
+                edit 64
+                    set category 70
+                next
+                edit 65
+                    set category 71
+                next
+                edit 66
+                    set category 72
+                next
+                edit 67
+                    set category 75
+                next
+                edit 68
+                    set category 76
+                next
+                edit 69
+                    set category 77
+                next
+                edit 70
+                    set category 78
+                next
+                edit 71
+                    set category 79
+                next
+                edit 72
+                    set category 80
+                next
+                edit 73
+                    set category 81
+                next
+                edit 74
+                    set category 82
+                next
+                edit 75
+                    set category 83
+                next
+                edit 76
+                    set category 84
+                next
+                edit 77
+                    set category 85
+                next
+                edit 78
+                    set category 86
+                next
+                edit 79
+                    set category 87
+                next
+                edit 80
+                    set category 88
+                next
+                edit 81
+                    set category 89
+                next
+                edit 82
+                    set category 90
+                next
+                edit 83
+                    set category 91
+                next
+                edit 84
+                    set category 92
+                next
+                edit 85
+                    set category 93
+                next
+                edit 86
+                    set category 94
+                next
+                edit 87
+                    set category 95
+                next
+            end
+        end
+    next
+    edit "wifi-default"
+        set comment "Default configuration for offloading WiFi traffic."
+        set inspection-mode flow-based
+        set options block-invalid-url
+        config ftgd-wf
+            unset options
+            config filters
+                edit 1
+                next
+                edit 2
+                    set category 2
+                    set action block
+                next
+                edit 3
+                    set category 7
+                    set action block
+                next
+                edit 4
+                    set category 8
+                    set action block
+                next
+                edit 5
+                    set category 9
+                    set action block
+                next
+                edit 6
+                    set category 11
+                    set action block
+                next
+                edit 7
+                    set category 12
+                    set action block
+                next
+                edit 8
+                    set category 13
+                    set action block
+                next
+                edit 9
+                    set category 14
+                    set action block
+                next
+                edit 10
+                    set category 15
+                    set action block
+                next
+                edit 11
+                    set category 16
+                    set action block
+                next
+                edit 12
+                    set category 26
+                    set action block
+                next
+                edit 13
+                    set category 57
+                    set action block
+                next
+                edit 14
+                    set category 61
+                    set action block
+                next
+                edit 15
+                    set category 63
+                    set action block
+                next
+                edit 16
+                    set category 64
+                    set action block
+                next
+                edit 17
+                    set category 65
+                    set action block
+                next
+                edit 18
+                    set category 66
+                    set action block
+                next
+                edit 19
+                    set category 67
+                    set action block
+                next
+                edit 20
+                    set category 86
+                    set action block
+                next
+                edit 21
+                    set category 88
+                    set action block
+                next
+                edit 22
+                    set category 90
+                    set action block
+                next
+                edit 23
+                    set category 91
+                    set action block
+                next
+            end
+        end
+    next
+    edit "monitor-all"
+        set comment "Monitor and log all visited URLs, flow-based."
+        set inspection-mode flow-based
+        config ftgd-wf
+            unset options
+            config filters
+                edit 1
+                    set category 1
+                next
+                edit 2
+                    set category 3
+                next
+                edit 3
+                    set category 4
+                next
+                edit 4
+                    set category 5
+                next
+                edit 5
+                    set category 6
+                next
+                edit 6
+                    set category 12
+                next
+                edit 7
+                    set category 59
+                next
+                edit 8
+                    set category 62
+                next
+                edit 9
+                    set category 83
+                next
+                edit 10
+                    set category 2
+                next
+                edit 11
+                    set category 7
+                next
+                edit 12
+                    set category 8
+                next
+                edit 13
+                    set category 9
+                next
+                edit 14
+                    set category 11
+                next
+                edit 15
+                    set category 13
+                next
+                edit 16
+                    set category 14
+                next
+                edit 17
+                    set category 15
+                next
+                edit 18
+                    set category 16
+                next
+                edit 19
+                    set category 57
+                next
+                edit 20
+                    set category 63
+                next
+                edit 21
+                    set category 64
+                next
+                edit 22
+                    set category 65
+                next
+                edit 23
+                    set category 66
+                next
+                edit 24
+                    set category 67
+                next
+                edit 25
+                    set category 19
+                next
+                edit 26
+                    set category 24
+                next
+                edit 27
+                    set category 25
+                next
+                edit 28
+                    set category 72
+                next
+                edit 29
+                    set category 75
+                next
+                edit 30
+                    set category 76
+                next
+                edit 31
+                    set category 26
+                next
+                edit 32
+                    set category 61
+                next
+                edit 33
+                    set category 86
+                next
+                edit 34
+                    set category 17
+                next
+                edit 35
+                    set category 18
+                next
+                edit 36
+                    set category 20
+                next
+                edit 37
+                    set category 23
+                next
+                edit 38
+                    set category 28
+                next
+                edit 39
+                    set category 29
+                next
+                edit 40
+                    set category 30
+                next
+                edit 41
+                    set category 33
+                next
+                edit 42
+                    set category 34
+                next
+                edit 43
+                    set category 35
+                next
+                edit 44
+                    set category 36
+                next
+                edit 45
+                    set category 37
+                next
+                edit 46
+                    set category 38
+                next
+                edit 47
+                    set category 39
+                next
+                edit 48
+                    set category 40
+                next
+                edit 49
+                    set category 42
+                next
+                edit 50
+                    set category 44
+                next
+                edit 51
+                    set category 46
+                next
+                edit 52
+                    set category 47
+                next
+                edit 53
+                    set category 48
+                next
+                edit 54
+                    set category 54
+                next
+                edit 55
+                    set category 55
+                next
+                edit 56
+                    set category 58
+                next
+                edit 57
+                    set category 68
+                next
+                edit 58
+                    set category 69
+                next
+                edit 59
+                    set category 70
+                next
+                edit 60
+                    set category 71
+                next
+                edit 61
+                    set category 77
+                next
+                edit 62
+                    set category 78
+                next
+                edit 63
+                    set category 79
+                next
+                edit 64
+                    set category 80
+                next
+                edit 65
+                    set category 82
+                next
+                edit 66
+                    set category 85
+                next
+                edit 67
+                    set category 87
+                next
+                edit 68
+                    set category 31
+                next
+                edit 69
+                    set category 41
+                next
+                edit 70
+                    set category 43
+                next
+                edit 71
+                    set category 49
+                next
+                edit 72
+                    set category 50
+                next
+                edit 73
+                    set category 51
+                next
+                edit 74
+                    set category 52
+                next
+                edit 75
+                    set category 53
+                next
+                edit 76
+                    set category 56
+                next
+                edit 77
+                    set category 81
+                next
+                edit 78
+                    set category 84
+                next
+                edit 79
+                next
+                edit 80
+                    set category 88
+                next
+                edit 81
+                    set category 89
+                next
+                edit 82
+                    set category 90
+                next
+                edit 83
+                    set category 91
+                next
+                edit 84
+                    set category 92
+                next
+                edit 85
+                    set category 93
+                next
+                edit 86
+                    set category 94
+                next
+                edit 87
+                    set category 95
+                next
+            end
+        end
+        set log-all-url enable
+        set web-content-log disable
+        set web-filter-activex-log disable
+        set web-filter-command-block-log disable
+        set web-filter-cookie-log disable
+        set web-filter-applet-log disable
+        set web-filter-jscript-log disable
+        set web-filter-js-log disable
+        set web-filter-vbs-log disable
+        set web-filter-unknown-log disable
+        set web-filter-referer-log disable
+        set web-filter-cookie-removal-log disable
+        set web-url-log disable
+        set web-invalid-domain-log disable
+        set web-ftgd-err-log disable
+        set web-ftgd-quota-usage disable
+    next
+end
+config webfilter search-engine
+    edit "google"
+        set hostname ".*\\.google\\..*"
+        set url "^\\/((custom|search|images|videosearch|webhp)\\?)"
+        set query "q="
+        set safesearch url
+        set safesearch-str "&safe=active"
+    next
+    edit "yahoo"
+        set hostname ".*\\.yahoo\\..*"
+        set url "^\\/search(\\/video|\\/images){0,1}(\\?|;)"
+        set query "p="
+        set safesearch url
+        set safesearch-str "&vm=r"
+    next
+    edit "bing"
+        set hostname ".*\\.bing\\..*"
+        set url "^(\\/images|\\/videos)?(\\/search|\\/async|\\/asyncv2)\\?"
+        set query "q="
+        set safesearch header
+    next
+    edit "yandex"
+        set hostname "yandex\\..*"
+        set url "^\\/((yand|images\\/|video\\/)(search)|search\\/)\\?"
+        set query "text="
+        set safesearch url
+        set safesearch-str "&family=yes"
+    next
+    edit "youtube"
+        set hostname ".*youtube.*"
+        set safesearch header
+    next
+    edit "baidu"
+        set hostname ".*\\.baidu\\.com"
+        set url "^\\/s?\\?"
+        set query "wd="
+    next
+    edit "baidu2"
+        set hostname ".*\\.baidu\\.com"
+        set url "^\\/(ns|q|m|i|v)\\?"
+        set query "word="
+    next
+    edit "baidu3"
+        set hostname "tieba\\.baidu\\.com"
+        set url "^\\/f\\?"
+        set query "kw="
+    next
+end
+config dnsfilter profile
+    edit "default"
+        set comment "Default dns filtering."
+        config ftgd-dns
+            config filters
+                edit 1
+                    set category 2
+                next
+                edit 2
+                    set category 7
+                next
+                edit 3
+                    set category 8
+                next
+                edit 4
+                    set category 9
+                next
+                edit 5
+                    set category 11
+                next
+                edit 6
+                    set category 12
+                next
+                edit 7
+                    set category 13
+                next
+                edit 8
+                    set category 14
+                next
+                edit 9
+                    set category 15
+                next
+                edit 10
+                    set category 16
+                next
+                edit 11
+                next
+                edit 12
+                    set category 57
+                next
+                edit 13
+                    set category 63
+                next
+                edit 14
+                    set category 64
+                next
+                edit 15
+                    set category 65
+                next
+                edit 16
+                    set category 66
+                next
+                edit 17
+                    set category 67
+                next
+                edit 18
+                    set category 26
+                    set action block
+                next
+                edit 19
+                    set category 61
+                    set action block
+                next
+                edit 20
+                    set category 86
+                    set action block
+                next
+                edit 21
+                    set category 88
+                    set action block
+                next
+                edit 22
+                    set category 90
+                    set action block
+                next
+                edit 23
+                    set category 91
+                    set action block
+                next
+            end
+        end
+        set block-botnet enable
+    next
+end
+config antivirus settings
+    set grayware enable
+end
+config antivirus profile
+    edit "default"
+        set comment "Scan files and block viruses."
+        config http
+            set options scan
+        end
+        config ftp
+            set options scan
+        end
+        config imap
+            set options scan
+            set executables virus
+        end
+        config pop3
+            set options scan
+            set executables virus
+        end
+        config smtp
+            set options scan
+            set executables virus
+        end
+    next
+    edit "sniffer-profile"
+        set comment "Scan files and monitor viruses."
+        config http
+            set options scan
+        end
+        config ftp
+            set options scan
+        end
+        config imap
+            set options scan
+            set executables virus
+        end
+        config pop3
+            set options scan
+            set executables virus
+        end
+        config smtp
+            set options scan
+            set executables virus
+        end
+    next
+    edit "wifi-default"
+        set comment "Default configuration for offloading WiFi traffic."
+        config http
+            set options scan
+        end
+        config ftp
+            set options scan
+        end
+        config imap
+            set options scan
+            set executables virus
+        end
+        config pop3
+            set options scan
+            set executables virus
+        end
+        config smtp
+            set options scan
+            set executables virus
+        end
+    next
+end
+config spamfilter profile
+    edit "sniffer-profile"
+        set comment "Malware and phishing URL monitoring."
+        set flow-based enable
+    next
+    edit "default"
+        set comment "Malware and phishing URL filtering."
+    next
+end
+config firewall schedule recurring
+    edit "always"
+        set day sunday monday tuesday wednesday thursday friday saturday
+    next
+    edit "none"
+    next
+end
+config firewall profile-protocol-options
+    edit "default"
+        set comment "All default services."
+        config http
+            set ports 80
+            unset options
+            unset post-lang
+        end
+        config ftp
+            set ports 21
+            set options splice
+        end
+        config imap
+            set ports 143
+            set options fragmail
+        end
+        config mapi
+            set ports 135
+            set options fragmail
+        end
+        config pop3
+            set ports 110
+            set options fragmail
+        end
+        config smtp
+            set ports 25
+            set options fragmail splice
+        end
+        config nntp
+            set ports 119
+            set options splice
+        end
+        config dns
+            set ports 53
+        end
+    next
+end
+config firewall ssl-ssh-profile
+    edit "deep-inspection"
+        set comment "Read-only deep inspection profile."
+        config https
+            set ports 443
+        end
+        config ftps
+            set ports 990
+        end
+        config imaps
+            set ports 993
+        end
+        config pop3s
+            set ports 995
+        end
+        config smtps
+            set ports 465
+        end
+        config ssh
+            set ports 22
+        end
+        config ssl-exempt
+            edit 1
+                set fortiguard-category 31
+            next
+            edit 2
+                set fortiguard-category 33
+            next
+            edit 3
+                set type wildcard-fqdn
+                set wildcard-fqdn "adobe"
+            next
+            edit 4
+                set type wildcard-fqdn
+                set wildcard-fqdn "Adobe Login"
+            next
+            edit 5
+                set type wildcard-fqdn
+                set wildcard-fqdn "android"
+            next
+            edit 6
+                set type wildcard-fqdn
+                set wildcard-fqdn "apple"
+            next
+            edit 7
+                set type wildcard-fqdn
+                set wildcard-fqdn "appstore"
+            next
+            edit 8
+                set type wildcard-fqdn
+                set wildcard-fqdn "auth.gfx.ms"
+            next
+            edit 9
+                set type wildcard-fqdn
+                set wildcard-fqdn "citrix"
+            next
+            edit 10
+                set type wildcard-fqdn
+                set wildcard-fqdn "dropbox.com"
+            next
+            edit 11
+                set type wildcard-fqdn
+                set wildcard-fqdn "eease"
+            next
+            edit 12
+                set type wildcard-fqdn
+                set wildcard-fqdn "firefox update server"
+            next
+            edit 13
+                set type wildcard-fqdn
+                set wildcard-fqdn "fortinet"
+            next
+            edit 14
+                set type wildcard-fqdn
+                set wildcard-fqdn "googleapis.com"
+            next
+            edit 15
+                set type wildcard-fqdn
+                set wildcard-fqdn "google-drive"
+            next
+            edit 16
+                set type wildcard-fqdn
+                set wildcard-fqdn "google-play2"
+            next
+            edit 17
+                set type wildcard-fqdn
+                set wildcard-fqdn "google-play3"
+            next
+            edit 18
+                set type wildcard-fqdn
+                set wildcard-fqdn "Gotomeeting"
+            next
+            edit 19
+                set type wildcard-fqdn
+                set wildcard-fqdn "icloud"
+            next
+            edit 20
+                set type wildcard-fqdn
+                set wildcard-fqdn "itunes"
+            next
+            edit 21
+                set type wildcard-fqdn
+                set wildcard-fqdn "microsoft"
+            next
+            edit 22
+                set type wildcard-fqdn
+                set wildcard-fqdn "skype"
+            next
+            edit 23
+                set type wildcard-fqdn
+                set wildcard-fqdn "softwareupdate.vmware.com"
+            next
+            edit 24
+                set type wildcard-fqdn
+                set wildcard-fqdn "verisign"
+            next
+            edit 25
+                set type wildcard-fqdn
+                set wildcard-fqdn "Windows update 2"
+            next
+            edit 26
+                set type wildcard-fqdn
+                set wildcard-fqdn "live.com"
+            next
+            edit 27
+                set type wildcard-fqdn
+                set wildcard-fqdn "google-play"
+            next
+            edit 28
+                set type wildcard-fqdn
+                set wildcard-fqdn "update.microsoft.com"
+            next
+            edit 29
+                set type wildcard-fqdn
+                set wildcard-fqdn "swscan.apple.com"
+            next
+            edit 30
+                set type wildcard-fqdn
+                set wildcard-fqdn "autoupdate.opera.com"
+            next
+        end
+    next
+    edit "custom-deep-inspection"
+        set comment "Customizable deep inspection profile."
+        config https
+            set ports 443
+        end
+        config ftps
+            set ports 990
+        end
+        config imaps
+            set ports 993
+        end
+        config pop3s
+            set ports 995
+        end
+        config smtps
+            set ports 465
+        end
+        config ssh
+            set ports 22
+        end
+        config ssl-exempt
+            edit 1
+                set fortiguard-category 31
+            next
+            edit 2
+                set fortiguard-category 33
+            next
+            edit 3
+                set type wildcard-fqdn
+                set wildcard-fqdn "adobe"
+            next
+            edit 4
+                set type wildcard-fqdn
+                set wildcard-fqdn "Adobe Login"
+            next
+            edit 5
+                set type wildcard-fqdn
+                set wildcard-fqdn "android"
+            next
+            edit 6
+                set type wildcard-fqdn
+                set wildcard-fqdn "apple"
+            next
+            edit 7
+                set type wildcard-fqdn
+                set wildcard-fqdn "appstore"
+            next
+            edit 8
+                set type wildcard-fqdn
+                set wildcard-fqdn "auth.gfx.ms"
+            next
+            edit 9
+                set type wildcard-fqdn
+                set wildcard-fqdn "citrix"
+            next
+            edit 10
+                set type wildcard-fqdn
+                set wildcard-fqdn "dropbox.com"
+            next
+            edit 11
+                set type wildcard-fqdn
+                set wildcard-fqdn "eease"
+            next
+            edit 12
+                set type wildcard-fqdn
+                set wildcard-fqdn "firefox update server"
+            next
+            edit 13
+                set type wildcard-fqdn
+                set wildcard-fqdn "fortinet"
+            next
+            edit 14
+                set type wildcard-fqdn
+                set wildcard-fqdn "googleapis.com"
+            next
+            edit 15
+                set type wildcard-fqdn
+                set wildcard-fqdn "google-drive"
+            next
+            edit 16
+                set type wildcard-fqdn
+                set wildcard-fqdn "google-play2"
+            next
+            edit 17
+                set type wildcard-fqdn
+                set wildcard-fqdn "google-play3"
+            next
+            edit 18
+                set type wildcard-fqdn
+                set wildcard-fqdn "Gotomeeting"
+            next
+            edit 19
+                set type wildcard-fqdn
+                set wildcard-fqdn "icloud"
+            next
+            edit 20
+                set type wildcard-fqdn
+                set wildcard-fqdn "itunes"
+            next
+            edit 21
+                set type wildcard-fqdn
+                set wildcard-fqdn "microsoft"
+            next
+            edit 22
+                set type wildcard-fqdn
+                set wildcard-fqdn "skype"
+            next
+            edit 23
+                set type wildcard-fqdn
+                set wildcard-fqdn "softwareupdate.vmware.com"
+            next
+            edit 24
+                set type wildcard-fqdn
+                set wildcard-fqdn "verisign"
+            next
+            edit 25
+                set type wildcard-fqdn
+                set wildcard-fqdn "Windows update 2"
+            next
+            edit 26
+                set type wildcard-fqdn
+                set wildcard-fqdn "live.com"
+            next
+            edit 27
+                set type wildcard-fqdn
+                set wildcard-fqdn "google-play"
+            next
+            edit 28
+                set type wildcard-fqdn
+                set wildcard-fqdn "update.microsoft.com"
+            next
+            edit 29
+                set type wildcard-fqdn
+                set wildcard-fqdn "swscan.apple.com"
+            next
+            edit 30
+                set type wildcard-fqdn
+                set wildcard-fqdn "autoupdate.opera.com"
+            next
+        end
+    next
+    edit "certificate-inspection"
+        set comment "Read-only SSL handshake inspection profile."
+        config https
+            set ports 443
+            set status certificate-inspection
+        end
+        config ftps
+            set status disable
+        end
+        config imaps
+            set status disable
+        end
+        config pop3s
+            set status disable
+        end
+        config smtps
+            set status disable
+        end
+        config ssh
+            set ports 22
+            set status disable
+        end
+    next
+end
+config waf profile
+    edit "default"
+        config signature
+            config main-class 100000000
+                set action block
+                set severity high
+            end
+            config main-class 20000000
+            end
+            config main-class 30000000
+                set status enable
+                set action block
+                set severity high
+            end
+            config main-class 40000000
+            end
+            config main-class 50000000
+                set status enable
+                set action block
+                set severity high
+            end
+            config main-class 60000000
+            end
+            config main-class 70000000
+                set status enable
+                set action block
+                set severity high
+            end
+            config main-class 80000000
+                set status enable
+                set severity low
+            end
+            config main-class 110000000
+                set status enable
+                set severity high
+            end
+            config main-class 90000000
+                set status enable
+                set action block
+                set severity high
+            end
+            set disabled-signature 80080005 80200001 60030001 60120001 80080003 90410001 90410002
+        end
+        config constraint
+            config header-length
+                set status enable
+                set log enable
+                set severity low
+            end
+            config content-length
+                set status enable
+                set log enable
+                set severity low
+            end
+            config param-length
+                set status enable
+                set log enable
+                set severity low
+            end
+            config line-length
+                set status enable
+                set log enable
+                set severity low
+            end
+            config url-param-length
+                set status enable
+                set log enable
+                set severity low
+            end
+            config version
+                set log enable
+            end
+            config method
+                set action block
+                set log enable
+            end
+            config hostname
+                set action block
+                set log enable
+            end
+            config malformed
+                set log enable
+            end
+            config max-cookie
+                set status enable
+                set log enable
+                set severity low
+            end
+            config max-header-line
+                set status enable
+                set log enable
+                set severity low
+            end
+            config max-url-param
+                set status enable
+                set log enable
+                set severity low
+            end
+            config max-range-segment
+                set status enable
+                set log enable
+                set severity high
+            end
+        end
+    next
+end
+config firewall policy
+    edit 1
+        set uuid 6562b70e-e6d2-51e9-8b7b-46b802d80863
+        set srcintf "internal"
+        set dstintf "wan1"
+        set srcaddr "all"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "ALL"
+        set nat enable
+    next
+end
+config firewall ssh local-key
+    edit "Fortinet_SSH_RSA2048"
+        set password ENC iWYopW/Bbvz6iSCBHWWm1CoCpTDN0AttrzXj7YcM+750ymqVitPgLbH++vMQ2W4mM8/xBC0YSQCABpBun9HBFZ+koKu75UM9+0QPVWM1d3JoeMKzZOWTCEWJg4+L2eusurW0uoRh7uKj7Sqj+DviU894mlzizsji9Wvc3sxfajkDO0f3MQZsEOlyXr9krXFz9iSYiQ==
+        set private-key "-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABCFWymR4e
+juXkT8R/Fc+LzjAAAAEAAAAAEAAAEXAAAAB3NzaC1yc2EAAAADAQABAAABAQC1H2BoouXR
+CperCWTcyGjek07SS+AnYhfJgAfxcGodnKBME3/9CKXNidM612yzryZzGYYHHbEoFrY8ev
+kDd+vmbtwZhl9kF9uGVmb2tF2thYuNbmfaMlOtEpvcGOjDlGtm0ViweUwd/14NAcWay9UZ
+WQquhq0grIYsCIdTi76eFSztnvG84GgSlC6i6laFhI9tC9lo0xs89YjPjgVDHwasPpfK0p
+r1npQ4gyQk3+of9vwL7Ifbvb9Fl2ddBTB7jvC8aGUJLp/HkvPQgEJiGPAsB5bf+tyjVCGU
+YQ6X4j5Ri3aQiR6kP0RyJVuon4DPdjU7oCkKK//RwqVBZ+zBxJY3AAADwGJvj7FcIsFwnN
+XJoV1cM2OUYOFyUVbxGEs8g4N3QgIEc1P7w0Yqt3PkuCLquCfqid5NjRpSFcwA/xCMMmUk
+axy2XOm2J17dS6X9Fz2f/pbHaeucilgtE7qmNfWuTSgwVDNTS+ZecM6gu0O4LYoh24y3we
+nexX2shHWgLcoBFn6NAPI497wdtjIU0p+Ae73rAGKmxrzzYR6La4qqlUygBfi2vJoi2JBp
+Odi+A3OX6cAuEdZoelmsMP9q2Bbu5HTL3MaW5mpX8SkPff5dU3hm6ZKOHKqUJXes5jordE
+pVDcjQnTiPpTnqMJnU6wUXguYNeYJvshxrJZP8wn5jR9Huxbm3LKU3ibTGpwOsESqPe2yU
+q6R96JheM4eVN5UlE39YXmKIAXtBHbO7GsOPQuMQSDhzDVpk9s05sfQCyfJG/onLUCKz3F
+oxF8plGnrwsLnYvGs2GvWKtbHbO/lhLWbyGHFobUXvCM8E/naxDwY5xtxcCrZhYELCowY8
+iMv/41zhil7hgSBkR+zWXQPqE7KL3+Up3zx0Asqh1Bz8TtDyPGg3AiJbRuS/mgZWD4WxVn
+It8ngKhZ8w6uJcp1BTMQTP3E0HYu9/rcgKfoXPMXBIg3xCEAfJSrryJzdd/ZysSphS1Cho
+3Ryr+ChDjH8YJf7oOrrmjNital4nwwrflI09KXgQ3KGrBq9nuFwh6AHdGPDIKtTqqc02XW
+D+LdFe981QmThImBa4mTZp+Wpi3irNf/PYyqVUts29sqCq9YKyfDr/I07m/T5nQ0Ce/ZF5
+jyem5ktRJUWjjd9Q0qW8BYQfyvKy/0HxcdVGtpNX+sCL1TQ+EOoy+3xO1gODfMhQEZWxjz
+OXi4U6MvRrzfLywghWj4UT6aaBLrAs2v+cq5yRlTkxDgN9k5BVqFsw7fqbf7bo2eAVF8GW
+5wacKSsPvdzty3RES5w+8+jojR+R6EZ8Pxh2xsDjmP1b+Re2HhotFyRz6pbu3J6dU/iJ/Q
+rJf8HJMgODruZMHASKjfDU6YKlOgfoFi+NxKDersz1W7ZOvzZpkj9tWgV7Kbskb0aPXK9M
+wkxFTKXiNpmOvDi9oKg4LlzSjfDP+21olg7u8sZ2mrT7TTEyzw+d6XFqknZrV7OutCH1UR
+P0505ncIsklGhAQxuHTfNgmLK/X1r2ke2btYEsmXI4/4wSGnv0LSPlNqQJQTEq9rKbj3uv
+Za7FndcfsH9KOKFwc/AgoP5fCUmftTUha0NOU3ary0w7ZyVRdd4eFP2XUaSjyRcKZGQrpU
+fZlsMYxw==
+-----END OPENSSH PRIVATE KEY-----
+"
+        set public-key "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1H2BoouXRCperCWTcyGjek07SS+AnYhfJgAfxcGodnKBME3/9CKXNidM612yzryZzGYYHHbEoFrY8evkDd+vmbtwZhl9kF9uGVmb2tF2thYuNbmfaMlOtEpvcGOjDlGtm0ViweUwd/14NAcWay9UZWQquhq0grIYsCIdTi76eFSztnvG84GgSlC6i6laFhI9tC9lo0xs89YjPjgVDHwasPpfK0pr1npQ4gyQk3+of9vwL7Ifbvb9Fl2ddBTB7jvC8aGUJLp/HkvPQgEJiGPAsB5bf+tyjVCGUYQ6X4j5Ri3aQiR6kP0RyJVuon4DPdjU7oCkKK//RwqVBZ+zBxJY3"
+        set source built-in
+    next
+    edit "Fortinet_SSH_DSA1024"
+        set password ENC N7LttQ2h7EhMFponLyrKpW3iMv4eVxB2LdPYnHmmglgROqCNboCnOR6ZrrAxozXlWzXX39qkHAfI3sXcbeaqaNBkC1nf+ODvyWfwnv8V2DSeFMTP9/vs3/sdnKvgaNRn6KEYcB+DTOP/pYbgp5nmBssBJx7YaUSxuTJa5SGmT//3MeYB7rtbasCx9AigkH94EDsIAQ==
+        set private-key "-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABDgfXH8nM
+OlpsLmODMSgwQNAAAAEAAAAAEAAAGxAAAAB3NzaC1kc3MAAACBAJ6fAssX96EOXBCl/ae3
+oJObfWgqCGs0xiIuLZ+bSZShIyR7d2pZwwhHRABSzgI4X4jEpcxhSmELvVEUScfiPPXYRX
+AC8NXvmGzSUBLy/blkK75S2Qey1XJ2QHmnkLg20KHUOvThpXDBp2DfeWIbnB5RE7UyHRmE
+rsBAu3LthD1TAAAAFQCagD1L7QJQ/pXXOZ1TCYtiptU+WQAAAIBLASu3C+XOejLZhUU/ZF
+Tfgp5v+21/ev2f2DcZX6+srom7BEQOlLPklZZ2+2rF/QgA1LoH3c7ucn/pqx3P2Xd/yoc6
+jdjOETlpgycML6FIVh3Z5dGouk5/HeIj7V/agO1tHA4uGEqEJODFYBs61A64e5uu24N/lD
+HYdNixjA/ziQAAAIAckPNBBdeVEuMyXYHACVQuDno/VWO7hd7rF/6CHpxQQF1K2D6jJzfm
+up1Rb2dc+ZL8rwnfy5BxYZkazGKe7vmx5vkGkLWMJvIlhe4l5YpjIyOuMOHiqd61lJ+w9E
+svsnZrkI/V0cLi+yY/wl2V7vd1Xcr+XbzfwksyRT6EGPvgCwAAAeBQ6guOmQKFsskSzKD9
+hr3wUpiDFLvcPQBBnam9l+nErWeImdmVuJUe7Z2rK0CbAUD8QFxID2rVpZZkd29X/FD0qf
+jHPmMdFsYD/6vligo0GygNAmItx5Vbneli9OS/g7qyEEdHRfE42NxQjAlByQCoBBXgrkCU
+T3XVjF5OhTkyb9jfnUjLWYBBygNPYlYuOP9ov4U35NlhkG0VzqwjzWD50r4++GNDmPCmb9
+j8Ug2iyvd13GOnSIJ1RGsqKY2KL4Srh0P2NdR4Z/Q3xVuOLOrvpVLFEqjIRTkJO9uuHG3i
+GzJl6n3FhPnmWWQ2SUE5/M5EzmhK1X8MrXXCnQKBeCeRZFJAzGnIHng+rL+myL8J3k89nb
+4Q7v4c904kr9QlPBYeemo1wptGSKj8O6ZVESDnUP08+6/wa8tG4737Jqy8Fs4MrkS/3W/O
+dUwp7XeDaSeRr9EdqlzxnkVz9REbw+lzQw57cq1ZF6K+SBMTRyU8/5+re5T351EV9VtKsU
+REHoYZP1rI0qmpya7PIe/lrrKOqwQSCXe0qk6y2jhgxZTofnRgdglWvtQ9TibUkuSyDBBf
+bvNqA9S8tNy6qHMvtq7DXRteM60ZukeNkkgHlEyi2zCjkw/xdTCscVG5+6PFCH4=
+-----END OPENSSH PRIVATE KEY-----
+"
+        set public-key "ssh-dss AAAAB3NzaC1kc3MAAACBAJ6fAssX96EOXBCl/ae3oJObfWgqCGs0xiIuLZ+bSZShIyR7d2pZwwhHRABSzgI4X4jEpcxhSmELvVEUScfiPPXYRXAC8NXvmGzSUBLy/blkK75S2Qey1XJ2QHmnkLg20KHUOvThpXDBp2DfeWIbnB5RE7UyHRmErsBAu3LthD1TAAAAFQCagD1L7QJQ/pXXOZ1TCYtiptU+WQAAAIBLASu3C+XOejLZhUU/ZFTfgp5v+21/ev2f2DcZX6+srom7BEQOlLPklZZ2+2rF/QgA1LoH3c7ucn/pqx3P2Xd/yoc6jdjOETlpgycML6FIVh3Z5dGouk5/HeIj7V/agO1tHA4uGEqEJODFYBs61A64e5uu24N/lDHYdNixjA/ziQAAAIAckPNBBdeVEuMyXYHACVQuDno/VWO7hd7rF/6CHpxQQF1K2D6jJzfmup1Rb2dc+ZL8rwnfy5BxYZkazGKe7vmx5vkGkLWMJvIlhe4l5YpjIyOuMOHiqd61lJ+w9EsvsnZrkI/V0cLi+yY/wl2V7vd1Xcr+XbzfwksyRT6EGPvgCw=="
+        set source built-in
+    next
+    edit "Fortinet_SSH_ECDSA256"
+        set password ENC YHf4tJvu9MJrlJ8Wcqk9UzR9rsuMJYKQarAgmWz5FnvCpM8XrCjXyF1yI+HcUI5sZ6qrLU6+M5ptwqgbEy7kHf4kgT8MV2j8SsKpvCWmhhiHpoFUfCjGaAeqbZzQea6QSXOIse+o0PlXTsEB7LxTRu0pHZdzFIwB9k0PUrBfm3OtoDoqy4MfuS+yPEk4UXDFOV62Lw==
+        set private-key "-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABCHG8yFP6
+g7DcLLwhlZbRGfAAAAEAAAAAEAAABoAAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlz
+dHAyNTYAAABBBIAAWU5uaLM8FEVyUt0+a9wWT4gNwN7kIeLy7YvS33K99APFiHiaXNSrGH
+Vw6USutB+0AoZUuOykixKYx2O3GvMAAACg68mkkN4TbvJaksu/D7stLnxEZs42FdBPdMde
+s7IUp98FijQw3mP+KswWFvGLXc/lVJbsOkCFWOHEUHMtXnzO9HGNvlcSX9SxXvXzaDuoJd
+NEkBULjMbV6yfYK6+25l2HjyPJWceAlqPAp1tSlrQmiHcyeP5xkDrIt7xOH8Zl90GTfzyg
+kMD0ZgdIy/+/jkMTGBpY1e9J4gRT2ORcpAqL/g==
+-----END OPENSSH PRIVATE KEY-----
+"
+        set public-key "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIAAWU5uaLM8FEVyUt0+a9wWT4gNwN7kIeLy7YvS33K99APFiHiaXNSrGHVw6USutB+0AoZUuOykixKYx2O3GvM="
+        set source built-in
+    next
+    edit "Fortinet_SSH_ECDSA384"
+        set password ENC RwrBwO8CArV87uepgtPQry0KyRrXd/y4X5Cjgp1L0yXnJd9CHqJsL3Ru7mCX/oLYbWUbqmUxL0tNpD7BfcyVQJfX1hz3Xm9FSH0Ru42qAIHa0QVnYtmOD8cxvwy7GSkg58Oa+UVp5Jkm3kwZPOsUetCa5apPNaw5tobzlm3R5wHiUV11Ze5eGfw/kiqAn4X9LAM3jw==
+        set private-key "-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABDPN4f165
+CWuH0aIwt+DRgpAAAAEAAAAAEAAACIAAAAE2VjZHNhLXNoYTItbmlzdHAzODQAAAAIbmlz
+dHAzODQAAABhBBllIOO8EqjVoANih190ruECkM0BsC53yOTM5cJ/YIY+okIvHgsy8/RwlM
+DqZCKunrsnc2QeKtfUxu5ptjJ7OI0HRVgtNkoXPxadvu2iUa0MJsRb/+FduTw8DS1M1f4p
+VgAAANCDlnP+8+NTCcs0sHvWKq5cH046Zd6yfTNIB0kPcS9JK1FjPuoD0CpEe5fUVHiyWM
+Aw+wMrMjtnZIBGXQ5DpK0usH/V4fM4fjKj2tRiN/gy5fGPROgi/DYrn2jMTwspxnB/cHz7
+ynKKmkDV+4CazFTjQYYrZMpPVS7AaynfJwn8uoQfyIsu1jNqEMWzoiropn241RK4cc0GIZ
+3uqoefT7SO5WrEI7gJ93WmcxlJDXoR/l/R89T1uUWzTylMq3+0DfUM2ulfjxI4CLf5xkd/
+Zzuh
+-----END OPENSSH PRIVATE KEY-----
+"
+        set public-key "ecdsa-sha2-nistp384 AAAAE2VjZHNhLXNoYTItbmlzdHAzODQAAAAIbmlzdHAzODQAAABhBBllIOO8EqjVoANih190ruECkM0BsC53yOTM5cJ/YIY+okIvHgsy8/RwlMDqZCKunrsnc2QeKtfUxu5ptjJ7OI0HRVgtNkoXPxadvu2iUa0MJsRb/+FduTw8DS1M1f4pVg=="
+        set source built-in
+    next
+    edit "Fortinet_SSH_ECDSA521"
+        set password ENC e2Lj+/XqZz0uuip0Mnbs64L0Lh6mti/XbzlkbOkBcRDiIzwbcKscaOHPQd323Y9Pmvam5/vfCYTkOJduK7qgL7VhFgSHmKlOgpXrH8z6V1N/DVFfgb7X8wisFUApS1EQM+ziLK7Np+/mWW9g3a62HyMOD2hpictslkUt8+6dZSHLwxuMRPC0zwV2UNMN4V5ZP2vnUw==
+        set private-key "-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABC/q1RvdF
+JxQaHkR4V1lqYuAAAAEAAAAAEAAACsAAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlz
+dHA1MjEAAACFBAGIHqHJQhIPsG067xQV956UGCETsaqbYazsDU6Nk4tzDkr/YRYp1ztfer
+K7U84eBph9jQBGZn9N/oAl1nwcY0fC7wDy+ozGXGYy7+MPylF8cnFqm4tDbBDa7yvoUJyX
+rjh/eosVHcAkfk+wekaGvruItCZL5+0cjpvE7gg345WkPJwyVQAAAQASwlQVDKxuznBXf0
+2fwWpHeYwnKcuOwgCaot7773TUKu1F1jaTarO+C9E76rO12y2CPv3BoEsmMxemRVvqDq0o
+zNoVEP5K3OPWcRXU4rlXurAVTxFjdvvzXBMKhiH0Q0ixqClUoExziWLnghFdqfkFvlBhxw
+YwnmlHDyujG1MyGQf07qkEWlkR5yuRfyiIzdUmNJ2YPBar4CXi6FDEH1qtRKcMWVCd+YWj
+06jMhwWKtce51+Rq+0edqFLsKEGxpxUMO/VykJ+yJjrNTn0tMGCJ6wkmHtqU3GQjnmp208
+siSDRkdkCRYzDElc+LwenBWq0UgtK3bfrKQt6/Vt8nGxsk
+-----END OPENSSH PRIVATE KEY-----
+"
+        set public-key "ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBAGIHqHJQhIPsG067xQV956UGCETsaqbYazsDU6Nk4tzDkr/YRYp1ztferK7U84eBph9jQBGZn9N/oAl1nwcY0fC7wDy+ozGXGYy7+MPylF8cnFqm4tDbBDa7yvoUJyXrjh/eosVHcAkfk+wekaGvruItCZL5+0cjpvE7gg345WkPJwyVQ=="
+        set source built-in
+    next
+    edit "Fortinet_SSH_ED25519"
+        set password ENC WKIbSDY0nt9wsAAcoy89uEHlYkQ7au4Pn1xwx5h6ornCfkS2rkahSmG0RPOSLd4b7wqYTiNoyUP41PjEKu4c9ltxYdD3fwFUFKNVUG1HCpVGiNQRvq+Bzev6wbB6mlJPoCLInwJbvlA1StKG09LLaX0EPLUd/GjckgqFbISIyy0kok8UND5Y4np6rra77FGkileCDQ==
+        set private-key "-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABBXbJJEVO
+bLS/PHBlJXeVDbAAAAEAAAAAEAAAAzAAAAC3NzaC1lZDI1NTE5AAAAIJDh6DGBF7e3Qwh3
+X2VjyknqcG/dj4tV+4WCbaeK61TkAAAAkKdAxjUj2g07VSJubMw2zNmY7y8a/jZBpsnxXZ
+Y5aFOSSjlCEfj45y15icVmfr9qx5FUfBDRbHRA6FcC+8cQU7Nh6MGG1DWnjR7JAJQ9kF0z
+sW04jiJ9rf3qakDYvuI7GbvPE4FgtdS0cjhPBtTO5E0XuJWppXRrOIW+DHGlC8JYHoQ82C
+ytL8Whp49Cvw/Kcg==
+-----END OPENSSH PRIVATE KEY-----
+"
+        set public-key "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJDh6DGBF7e3Qwh3X2VjyknqcG/dj4tV+4WCbaeK61Tk"
+        set source built-in
+    next
+end
+config firewall ssh local-ca
+    edit "Fortinet_SSH_CA"
+        set password ENC qF3mO2tSzoBRL7Enp5HixcJ/IAV5AvsLWax00FHHkW6lnZ2kNS8V0MbrMsnv651kA94NBSzvwdNLjmtTZbklP4lliXPbvT+bapl10gW0R82db4hfMNDbfiPw74brSyiMDLZPN2dgd8kQ4p8rj75t9hOPu6F+sdR/VBemNCzRM5xBh3nHPYbnPD6azyW0XmzkTNKkIA==
+        set private-key "-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABBd+0MP2W
+JgeWiJkrtjBBA7AAAAEAAAAAEAAAEXAAAAB3NzaC1yc2EAAAADAQABAAABAQDDCe4kx1fy
+MznRN9WmRdKLg7ia6HhuVxk9vkhxvSUZ6TRZ9jbytvqpYM8GIJTlg6mN9/i5dp/ZTzsn4q
+ZTrT6JbxVB51RqxTeJNRNrEQEaaS4D36MOroD7w2XroQHbnlXMt7PAvoVPMQdoMB3svlNQ
+xI0vD5R5uZsSBOEj7QibvUBthfXWyGQc+klssT+uZMaQgzJsz/CO1cwEPzozWi4lsi6wwr
+5IWmIPeg09Um2Yf6BfbnC+aoEIziMuAQMoSz2r91quCY+ITZJxEjErIUcGp2x5q5KzXuPq
+Nqkc5ClTOzk+KgzAkdBt8whm94TEcIgSmhbRrjFHvVaKnFEbf7yZAAADwFt+zZbTSeUiIb
+ImdxovRAu0hPjZThffouxM0jD1Dima2HAx2WBdJf1rlCHtDYSFTd4fw50L2WFrIE54Ozgc
+IkfWTguJ1+7vZPtYP8JWMnQxb9iQ5Ab78pDsouT8dhpygfdG2snw1xiD2ZR7zhYDqHtZNs
+19CrroucL0CTQdVWw+9EbitNA6iGTtGgo1v6GXO0u8lRLGzrz7o4vgAfVOLr/5hq9YPq2S
+npBJIMa6nCXLfZPPHHBWkUO9vg82Y7bitikP8wMvRpmfOpL9XHXxU7twGI+gSYIgXz91wl
+OW4XzHjo62XkmaWh3/B2q2aljGFTPDF4NAkyX8oFoeG0D/5K/MhG1S7TmyJSsafgtrwpyB
+IE8xnn9q4HEkUsT44Ie9pcHwAh/KPJKgnPAYXpdGlEn6L1xTwI67So/ExUWIuMslXZZZm5
+hDOUEsFQYcPVqugqQrMRsDtLZREydTXQDpdNGsRhr53gdMxL2F2VfjVBokKBf7g7NThK4H
+0v3ANekN9bL48DNomA51480HVAf81mcjV92JlerR20qelnhuxBZPKOlYkNYtwAXWNHanQM
+XUZ+Kp8v1qgSVRLamB4wXOQjQSh+fqX/WqdxF/T3RF7DiEeGnOAOXqztmDPc2UhSeqW2gj
+eK2TcxRPCmmqBe80FSnLNi6UG/KBdyxq7cBHkHz8uus+wUP6UJNi1PrMSN8fAp80fwJEqN
+pb/aPYP2ciO18VHijYiz07QnhNatFuiemGUXx3toGPWXvEyoQiuZ2cX7RbvdyV/7zTSg8I
+k6y5t3Ooc7Dys5DynRMtyIHi/X42hTmr25OUO+KLNiqzSCxIuGNXbcJNtRNl473KmtN1aO
+TAgbkgtx/3XMqDCbY5c4OWj8aSGw0bMLjy0FtWo054MSvRO4QU5PAFlWZ5gSzKbRPHfMjU
+yqt7/0QgkNpuaL8goHMEfXjUdM56wXPNYPwiSmXY6QZB12NabgzCJbVGkdfqh4RAs/l+n5
+lsEYdxigFIGTgHGZhaQ/Oz/Q5xgx1i1E5oeXwP3GqRYlLOtiu1WSBLoGyeKfpKgdvYzRGF
+xI+frM4e+VmsIBLf3cuBzUPxcLrgJppKI+dxnVqOhQRcj9wY4Vozs0gkUPnjSUzM6n59vi
+9X22r3UGlO8dV0d5rHiUSlwZfF/AzcW3JIp6io5AXm0+YExxaS95UoYJCnrYPV5cdl4dqC
+R0hXJccEGhO9RUnXFHDBXnlPB/ZF2eJG1QbM/5e1E8D4K4CW0/tuKWx++Sj91gxVCA4Iw8
+u3DFoK6w==
+-----END OPENSSH PRIVATE KEY-----
+"
+        set public-key "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDCe4kx1fyMznRN9WmRdKLg7ia6HhuVxk9vkhxvSUZ6TRZ9jbytvqpYM8GIJTlg6mN9/i5dp/ZTzsn4qZTrT6JbxVB51RqxTeJNRNrEQEaaS4D36MOroD7w2XroQHbnlXMt7PAvoVPMQdoMB3svlNQxI0vD5R5uZsSBOEj7QibvUBthfXWyGQc+klssT+uZMaQgzJsz/CO1cwEPzozWi4lsi6wwr5IWmIPeg09Um2Yf6BfbnC+aoEIziMuAQMoSz2r91quCY+ITZJxEjErIUcGp2x5q5KzXuPqNqkc5ClTOzk+KgzAkdBt8whm94TEcIgSmhbRrjFHvVaKnFEbf7yZ"
+        set source built-in
+    next
+    edit "Fortinet_SSH_CA_Untrusted"
+        set password ENC 5Gb5ihh1dXOTirPtsck5JEWN9qZN5V2D+ii+qH4meGmU2n0SNRKVU9iQWaEy+n8SSPZ2Joki5G/EWDGmaHoHohs97eK/UuPxxcnqGRKVUN9VmNGd7logAAOBVIl9PsgACmvQx3NdEqBHfUbeRce9B42TZYXqNwt1XdEUM1hP8pXebKNa6jM+0CUfmXo1viOSFwGZCg==
+        set private-key "-----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABCyVseuy3
+Bp9eM0+SMs10oWAAAAEAAAAAEAAAEXAAAAB3NzaC1yc2EAAAADAQABAAABAQDib6aSyO65
+gDw65RQQfkm/7QXra1C5SXc9HXYvIFevuDhbKEdq1DI9mukqXZk/CBsBJYz1i2bSGucIw4
+otVkrd2wlRlwiNmdcKZlfFVg2iyqF4jUM2b60S+huraoLnosAcJfJiHXlUfWIMy3DmgiTS
+CurJ8N6ycs2c/KvfZ7qSSki6p2ru4Ch3rsJusJpRk2nqE7PL0HmCWZN7KKbitV6RRScon/
+cKam5uCp4jx/2Lgk14kggFHAPY6aMZj00C/YsHa5L3eBdbbgBFBImTBFFStgT2+dPoSim7
+Cwjs4E4W8CcC/3DRmafhmMpgxZLL6cvX38h4kATR2CgpxfyDtExPAAADwL3rLi5amVNBQB
+CEG8Y93lSVb5X//U+nBavkhe57H//AuPOTvknWj+XDChrsdSRTa1ekA+POZsSDH3frfTLr
+Kvx0R1NSMyDpNBnZN2bn3x8zkYQiKtlrwrAl69zVghTmzVfD0xsz43w7BeqB1H9hT8H6vz
+T5oA0ZoVSQW7ilQWRVb5oT9lTQDKZawwai7BisGP1MraVRxMO+ClCvE6jjuuiFzgnT98pd
+v89ErSdGfa6t81jBmjYV27HFwCd7sSpz5TbwKgPHlNrFFfnOh8I8nltNm1sdL79uhKFaYi
+foBwrcxrJ0rpA+lQDvheaFSlbytAzrDril8ImdqU8ypdS1IBzCnvtN05aUg3qlcozNdB1W
+XymiO90jyH9lgW+9fpJYaAscL+2cE+brqTVTf3Bi/S1um4E+s0WoR4PcX6pAv+133fnneq
+M9CudHXdRvlLZrJU01Vna7xEdV5kdJaa170xeTnGIKR/2echDD6LOXb2ZGHADPt5jXH1/X
+pif/XT0uumHvYGFPjEXzzkT5kP/4+OceJ7wFxs36CrOWkiB/Wu4DgdVcxpCLw/YV+P+Ts5
+GXiwtwWMNyqVOHVch1z68uB5JgjDOgrvogONfYW+bsyIwPwvG1tJjG0cfTBpYREhhEZsUB
+XpZl888uAHeMnQC3Ub3HaF8qwqx7unhyC6NfJxgoG64eHfcbqw6sgQeLCZOv/A8mtOmbwb
+i1JOHLa7hCbwLiToU3rrjN8auHIP0ShONLpbvUOyWcXVhtAYQF2zcAYidwIP2XVSEgHaSu
+bG7dnLm7tF6B8+m6EzuZvzwMzD3VjflwffSqWz/xDPKhxOxnbqgTkzYw/WGytacc8bQKIY
+zHnrQhuBFjU32fGaFwcJuLLnOiwatb2iAR2pep6RyIavy86F6aj2tpjPSp7QLUqlw8hjex
+adM6Im+sNGBCQXYMwZ6G17XWxMltJrCG18x0zyv/mwhFLBv3I5R6W92BUA2Jev+Bmkr7Fc
+6E5PsORp4k73CTMZX2wMde7mwghr6v0dG1JuaCWTk/8Jf/7l5qLeuZgg1717/gJKDzNi9s
+n6z8JC1sTc/JiTIrgO1uZauhuGRdTQFVC99JjzjsFQ4FVgOs3gozDPpiKqVXvnOFF6LOs9
+CYnXT7IQBmjihBKUHK/2yMQp0v1kpL5AZlJlph655bQkMluFmBV0M5aFaoNsbrAUcyH6Xz
+DaStj0t7in0gbl7ttWSaIctP6TV5DwlP5PagwGHqfWmY847kzXUSPaCXS0vYdhnF+rEqOR
+bb/yOHxQ==
+-----END OPENSSH PRIVATE KEY-----
+"
+        set public-key "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDib6aSyO65gDw65RQQfkm/7QXra1C5SXc9HXYvIFevuDhbKEdq1DI9mukqXZk/CBsBJYz1i2bSGucIw4otVkrd2wlRlwiNmdcKZlfFVg2iyqF4jUM2b60S+huraoLnosAcJfJiHXlUfWIMy3DmgiTSCurJ8N6ycs2c/KvfZ7qSSki6p2ru4Ch3rsJusJpRk2nqE7PL0HmCWZN7KKbitV6RRScon/cKam5uCp4jx/2Lgk14kggFHAPY6aMZj00C/YsHa5L3eBdbbgBFBImTBFFStgT2+dPoSim7Cwjs4E4W8CcC/3DRmafhmMpgxZLL6cvX38h4kATR2CgpxfyDtExP"
+        set source built-in
+    next
+end
+config firewall ssh setting
+    set caname "Fortinet_SSH_CA"
+    set untrusted-caname "Fortinet_SSH_CA_Untrusted"
+    set hostkey-rsa2048 "Fortinet_SSH_RSA2048"
+    set hostkey-dsa1024 "Fortinet_SSH_DSA1024"
+    set hostkey-ecdsa256 "Fortinet_SSH_ECDSA256"
+    set hostkey-ecdsa384 "Fortinet_SSH_ECDSA384"
+    set hostkey-ecdsa521 "Fortinet_SSH_ECDSA521"
+    set hostkey-ed25519 "Fortinet_SSH_ED25519"
+end
+config switch-controller security-policy 802-1X
+    edit "802-1X-policy-default"
+        set user-group "SSO_Guest_Users"
+        set mac-auth-bypass disable
+        set open-auth disable
+        set eap-passthru enable
+        set guest-vlan disable
+        set auth-fail-vlan disable
+        set radius-timeout-overwrite disable
+    next
+end
+config switch-controller lldp-profile
+    edit "default"
+        set med-tlvs inventory-management network-policy
+        set auto-isl disable
+        config med-network-policy
+            edit "voice"
+            next
+            edit "voice-signaling"
+            next
+            edit "guest-voice"
+            next
+            edit "guest-voice-signaling"
+            next
+            edit "softphone-voice"
+            next
+            edit "video-conferencing"
+            next
+            edit "streaming-video"
+            next
+            edit "video-signaling"
+            next
+        end
+    next
+    edit "default-auto-isl"
+    next
+end
+config switch-controller qos dot1p-map
+    edit "voice-dot1p"
+        set priority-0 queue-4
+        set priority-1 queue-4
+        set priority-2 queue-3
+        set priority-3 queue-2
+        set priority-4 queue-3
+        set priority-5 queue-1
+        set priority-6 queue-2
+        set priority-7 queue-2
+    next
+end
+config switch-controller qos ip-dscp-map
+    edit "voice-dscp"
+        config map
+            edit "1"
+                set cos-queue 1
+                set value 46
+            next
+            edit "2"
+                set cos-queue 2
+                set value 24,26,48,56
+            next
+            edit "5"
+                set cos-queue 3
+                set value 34
+            next
+        end
+    next
+end
+config switch-controller qos queue-policy
+    edit "default"
+        set schedule round-robin
+        config cos-queue
+            edit "queue-0"
+            next
+            edit "queue-1"
+            next
+            edit "queue-2"
+            next
+            edit "queue-3"
+            next
+            edit "queue-4"
+            next
+            edit "queue-5"
+            next
+            edit "queue-6"
+            next
+            edit "queue-7"
+            next
+        end
+    next
+    edit "voice-egress"
+        set schedule weighted
+        config cos-queue
+            edit "queue-0"
+            next
+            edit "queue-1"
+                set weight 0
+            next
+            edit "queue-2"
+                set weight 6
+            next
+            edit "queue-3"
+                set weight 37
+            next
+            edit "queue-4"
+                set weight 12
+            next
+            edit "queue-5"
+            next
+            edit "queue-6"
+            next
+            edit "queue-7"
+            next
+        end
+    next
+end
+config switch-controller qos qos-policy
+    edit "default"
+    next
+    edit "voice-qos"
+        set trust-dot1p-map "voice-dot1p"
+        set trust-ip-dscp-map "voice-dscp"
+        set queue-policy "voice-egress"
+    next
+end
+config switch-controller switch-profile
+    edit "default"
+    next
+end
+config endpoint-control profile
+    edit "default"
+        config forticlient-winmac-settings
+        end
+        config forticlient-android-settings
+        end
+        config forticlient-ios-settings
+        end
+    next
+end
+config wireless-controller wids-profile
+    edit "default"
+        set comment "Default WIDS profile."
+        set ap-scan enable
+        set wireless-bridge enable
+        set deauth-broadcast enable
+        set null-ssid-probe-resp enable
+        set long-duration-attack enable
+        set invalid-mac-oui enable
+        set weak-wep-iv enable
+        set auth-frame-flood enable
+        set assoc-frame-flood enable
+        set spoofed-deauth enable
+        set asleap-attack enable
+        set eapol-start-flood enable
+        set eapol-logoff-flood enable
+        set eapol-succ-flood enable
+        set eapol-fail-flood enable
+        set eapol-pre-succ-flood enable
+        set eapol-pre-fail-flood enable
+    next
+    edit "default-wids-apscan-enabled"
+        set ap-scan enable
+    next
+end
+config wireless-controller wtp-profile
+    edit "AP-11N-default"
+        config platform
+            set type AP-11N
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+    next
+    edit "FAP112B-default"
+        config platform
+            set type 112B
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+    next
+    edit "FAP220B-default"
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n-5G
+        end
+        config radio-2
+            set band 802.11n,g-only
+        end
+    next
+    edit "FAP223B-default"
+        config platform
+            set type 223B
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n-5G
+        end
+        config radio-2
+            set band 802.11n,g-only
+        end
+    next
+    edit "FAP210B-default"
+        config platform
+            set type 210B
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+    next
+    edit "FAP222B-default"
+        config platform
+            set type 222B
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+        config radio-2
+            set band 802.11n-5G
+        end
+    next
+    edit "FAP320B-default"
+        config platform
+            set type 320B
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n-5G
+        end
+        config radio-2
+            set band 802.11n,g-only
+        end
+    next
+    edit "FAP11C-default"
+        config platform
+            set type 11C
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+    next
+    edit "FAP14C-default"
+        config platform
+            set type 14C
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+    next
+    edit "FAP28C-default"
+        config platform
+            set type 28C
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+    next
+    edit "FAP320C-default"
+        config platform
+            set type 320C
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAP221C-default"
+        config platform
+            set type 221C
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAP25D-default"
+        config platform
+            set type 25D
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+    next
+    edit "FAP222C-default"
+        config platform
+            set type 222C
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAP224D-default"
+        config platform
+            set type 224D
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n-5G
+        end
+        config radio-2
+            set band 802.11n,g-only
+        end
+    next
+    edit "FK214B-default"
+        config platform
+            set type 214B
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+    next
+    edit "FAP21D-default"
+        config platform
+            set type 21D
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+    next
+    edit "FAP24D-default"
+        config platform
+            set type 24D
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+    next
+    edit "FAP112D-default"
+        config platform
+            set type 112D
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+    next
+    edit "FAP223C-default"
+        config platform
+            set type 223C
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAP321C-default"
+        config platform
+            set type 321C
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAPS321C-default"
+        config platform
+            set type S321C
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAPS322C-default"
+        config platform
+            set type S322C
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAPS323C-default"
+        config platform
+            set type S323C
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAPS311C-default"
+        config platform
+            set type S311C
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11ac
+        end
+    next
+    edit "FAPS313C-default"
+        config platform
+            set type S313C
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11ac
+        end
+    next
+    edit "FAPS321CR-default"
+        config platform
+            set type S321CR
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAPS322CR-default"
+        config platform
+            set type S322CR
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAPS323CR-default"
+        config platform
+            set type S323CR
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAPS421E-default"
+        config platform
+            set type S421E
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAPS422E-default"
+        config platform
+            set type S422E
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAPS423E-default"
+        config platform
+            set type S423E
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAP421E-default"
+        config platform
+            set type 421E
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAP423E-default"
+        config platform
+            set type 423E
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAPU421E-default"
+        config platform
+            set type U421E
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAPU422EV-default"
+        config platform
+            set type U422EV
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAPU423E-default"
+        config platform
+            set type U423E
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAP221E-default"
+        config platform
+            set type 221E
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAP222E-default"
+        config platform
+            set type 222E
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAP223E-default"
+        config platform
+            set type 223E
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAP224E-default"
+        config platform
+            set type 224E
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAPS221E-default"
+        config platform
+            set type S221E
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAPS223E-default"
+        config platform
+            set type S223E
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n,g-only
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAPU221EV-default"
+        config platform
+            set type U221EV
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAPU223EV-default"
+        config platform
+            set type U223EV
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAPU24JEV-default"
+        config platform
+            set type U24JEV
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAPU321EV-default"
+        config platform
+            set type U321EV
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+    edit "FAPU323EV-default"
+        config platform
+            set type U323EV
+        end
+        set handoff-sta-thresh 30
+        config radio-1
+            set band 802.11n
+        end
+        config radio-2
+            set band 802.11ac
+        end
+    next
+end
+config wireless-controller utm-profile
+    edit "wifi-default"
+        set comment "Default configuration for offloading WiFi traffic."
+        set ips-sensor "wifi-default"
+        set application-list "wifi-default"
+        set antivirus-profile "wifi-default"
+        set webfilter-profile "wifi-default"
+    next
+end
+config log memory setting
+    set status enable
+end
+config log null-device setting
+    set status disable
+end
+config router rip
+    config redistribute "connected"
+    end
+    config redistribute "static"
+    end
+    config redistribute "ospf"
+    end
+    config redistribute "bgp"
+    end
+    config redistribute "isis"
+    end
+end
+config router ripng
+    config redistribute "connected"
+    end
+    config redistribute "static"
+    end
+    config redistribute "ospf"
+    end
+    config redistribute "bgp"
+    end
+    config redistribute "isis"
+    end
+end
+config router ospf
+    config redistribute "connected"
+    end
+    config redistribute "static"
+    end
+    config redistribute "rip"
+    end
+    config redistribute "bgp"
+    end
+    config redistribute "isis"
+    end
+end
+config router ospf6
+    config redistribute "connected"
+    end
+    config redistribute "static"
+    end
+    config redistribute "rip"
+    end
+    config redistribute "bgp"
+    end
+    config redistribute "isis"
+    end
+end
+config router bgp
+    config redistribute "connected"
+    end
+    config redistribute "rip"
+    end
+    config redistribute "ospf"
+    end
+    config redistribute "static"
+    end
+    config redistribute "isis"
+    end
+    config redistribute6 "connected"
+    end
+    config redistribute6 "rip"
+    end
+    config redistribute6 "ospf"
+    end
+    config redistribute6 "static"
+    end
+    config redistribute6 "isis"
+    end
+end
+config router isis
+    config redistribute "connected"
+    end
+    config redistribute "rip"
+    end
+    config redistribute "ospf"
+    end
+    config redistribute "bgp"
+    end
+    config redistribute "static"
+    end
+    config redistribute6 "connected"
+    end
+    config redistribute6 "rip"
+    end
+    config redistribute6 "ospf"
+    end
+    config redistribute6 "bgp"
+    end
+    config redistribute6 "static"
+    end
+end
+config router multicast
+end

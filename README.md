@@ -2,12 +2,12 @@
 
 ## Introduction
 
-In one of my previous projects, I needed to compare the default configuration of a FortiGate with it's current one in order to identify quickly what were the changes made on the FortiGate.
+In one of my previous projects, I needed to compare the default configuration of a FortiGate with its current one in order to identify quickly what were the changes made on the FortiGate.
 Since I add about 100 FortiGate to compare directly from a FortiManager with multiple models and different version, I wanted a quick way to get all the default configuration of the ForitGate depending on the model and major release.
 
-In this process, I tried to "reverse engineer" the OVA file of the FortiManager expecting to find something interesting and it was the case.
+In this process, I tried to "reverse engineer" the OVA file of the FortiManager expecting to find something interesting, and it was the case.
 
-After extracting all the files from the FortiManager's OVA, you can uncompress the file `syntax.tar.xz` and just search for all default configuration of FortiGate and FortiProxy under the directory `sysconfdef`.
+After extracting all the files from the FortiManager's OVA, you can decompress the file `syntax.tar.xz` and just search for all default configuration of FortiGate and FortiProxy under the directory `sysconfdef`.
 
 ## How it works
 
